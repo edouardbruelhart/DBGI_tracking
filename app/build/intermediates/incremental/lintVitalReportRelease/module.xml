@@ -3,7 +3,7 @@
     dir="C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app"
     name=":app"
     type="APP"
-    maven="DBGI tracking:app:"
+    maven="DBGI:app:"
     agpVersion="8.1.1"
     buildFolder="build"
     bootClassPath="C:\Users\edoua\AppData\Local\Android\Sdk\platforms\android-33\android.jar;C:\Users\edoua\AppData\Local\Android\Sdk\build-tools\33.0.1\core-lambda-stubs.jar"

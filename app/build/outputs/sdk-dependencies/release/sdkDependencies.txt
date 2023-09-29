@@ -824,6 +824,18 @@ library {
     value: 1
   }
 }
+library {
+  maven_library {
+    groupId: "com.android.support"
+    artifactId: "support-annotations"
+    version: "28.0.0"
+  }
+  digests {
+    sha256: "][\224\024\360-?\240\356u&\270\325\335\256\r\246|\216\314\214Mc\377\246\317\221H\212\223\271\'"
+  }
+  repo_index {
+  }
+}
 library_dependencies {
   library_dep_index: 1
   library_dep_index: 4
@@ -1231,6 +1243,7 @@ module_dependencies {
   dependency_index: 48
   dependency_index: 58
   dependency_index: 66
+  dependency_index: 68
 }
 repositories {
   maven_repo {
