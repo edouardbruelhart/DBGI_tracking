@@ -1,0 +1,211 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.example.dbgitracking"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="29"
+9        android:targetSdkVersion="33" />
+10
+11    <uses-feature
+11-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:6:5-8:36
+12        android:name="android.hardware.camera"
+12-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:7:9-47
+13        android:required="false" />
+13-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:8:9-33
+14
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:10:5-67
+15-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:10:22-64
+16    <uses-permission android:name="android.permission.CAMERA" />
+16-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:11:5-65
+16-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:11:22-62
+17
+18    <permission
+18-->[androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\738147d0f85917708540e295877f94a3\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+19        android:name="org.example.dbgitracking.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+19-->[androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\738147d0f85917708540e295877f94a3\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+20        android:protectionLevel="signature" />
+20-->[androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\738147d0f85917708540e295877f94a3\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+21
+22    <uses-permission android:name="org.example.dbgitracking.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+22-->[androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\738147d0f85917708540e295877f94a3\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+22-->[androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\738147d0f85917708540e295877f94a3\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+23
+24    <uses-feature
+24-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:28:5-30:36
+25        android:name="android.hardware.camera.front"
+25-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:29:9-53
+26        android:required="false" /> <!-- TODO replace above two with next line after Android 4.2 -->
+26-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:30:9-33
+27    <!-- <uses-feature android:name="android.hardware.camera.any"/> -->
+28    <uses-feature
+28-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:33:5-35:36
+29        android:name="android.hardware.camera.autofocus"
+29-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:34:9-57
+30        android:required="false" />
+30-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:35:9-33
+31    <uses-feature
+31-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:36:5-38:36
+32        android:name="android.hardware.camera.flash"
+32-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:37:9-53
+33        android:required="false" />
+33-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:38:9-33
+34    <uses-feature
+34-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:39:5-41:36
+35        android:name="android.hardware.screen.landscape"
+35-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:40:9-57
+36        android:required="false" />
+36-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:41:9-33
+37    <uses-feature
+37-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:42:5-44:36
+38        android:name="android.hardware.wifi"
+38-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:43:9-45
+39        android:required="false" />
+39-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:44:9-33
+40
+41    <application
+41-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:13:5-61:19
+42        android:allowBackup="true"
+42-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:14:9-35
+43        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+43-->[androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\738147d0f85917708540e295877f94a3\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+44        android:dataExtractionRules="@xml/data_extraction_rules"
+44-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:15:9-65
+45        android:debuggable="true"
+46        android:extractNativeLibs="false"
+47        android:fullBackupContent="@xml/backup_rules"
+47-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:16:9-54
+48        android:icon="@mipmap/ic_launcher"
+48-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:17:9-43
+49        android:label="@string/app_name"
+49-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:18:9-41
+50        android:networkSecurityConfig="@xml/network_security_config"
+50-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:19:9-69
+51        android:roundIcon="@mipmap/ic_launcher_round"
+51-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:20:9-54
+52        android:supportsRtl="true"
+52-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:21:9-35
+53        android:testOnly="true"
+54        android:theme="@style/Theme.DBGITracking" >
+54-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:22:9-50
+55        <activity
+55-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:24:9-26:40
+56            android:name="org.example.dbgitracking.AliquotsActivity"
+56-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:25:13-45
+57            android:exported="false" />
+57-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:26:13-37
+58        <activity
+58-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:27:9-29:40
+59            android:name="org.example.dbgitracking.SignalingActivity"
+59-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:28:13-46
+60            android:exported="false" />
+60-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:29:13-37
+61        <activity
+61-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:30:9-33:49
+62            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+62-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:31:13-74
+63            android:clearTaskOnLaunch="true"
+63-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:49:13-45
+64            android:screenOrientation="fullSensor"
+64-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:32:13-51
+65            android:stateNotNeeded="true"
+65-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:51:13-42
+66            android:theme="@style/zxing_CaptureTheme"
+66-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:52:13-54
+67            android:windowSoftInputMode="stateAlwaysHidden" />
+67-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:53:13-60
+68        <activity
+68-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:34:9-36:40
+69            android:name="org.example.dbgitracking.SampleActivity"
+69-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:35:13-43
+70            android:exported="false" />
+70-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:36:13-37
+71        <activity
+71-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:37:9-39:40
+72            android:name="org.example.dbgitracking.WeightingActivity"
+72-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:38:13-46
+73            android:exported="false" />
+73-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:39:13-37
+74        <activity
+74-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:40:9-42:40
+75            android:name="org.example.dbgitracking.FindActivity"
+75-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:41:13-41
+76            android:exported="false" />
+76-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:42:13-37
+77        <activity
+77-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:43:9-45:40
+78            android:name="org.example.dbgitracking.InjectionActivity"
+78-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:44:13-46
+79            android:exported="false" />
+79-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:45:13-37
+80        <activity
+80-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:46:9-48:40
+81            android:name="org.example.dbgitracking.ExtractionActivity"
+81-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:47:13-47
+82            android:exported="false" />
+82-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:48:13-37
+83        <activity
+83-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:49:9-51:40
+84            android:name="org.example.dbgitracking.HomePageActivity"
+84-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:50:13-45
+85            android:exported="false" />
+85-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:51:13-37
+86        <activity
+86-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:52:9-60:20
+87            android:name="org.example.dbgitracking.MainActivity"
+87-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:53:13-41
+88            android:exported="true" >
+88-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:54:13-36
+89            <intent-filter>
+89-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:55:13-59:29
+90                <action android:name="android.intent.action.MAIN" />
+90-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:56:17-69
+90-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:56:25-66
+91
+92                <category android:name="android.intent.category.LAUNCHER" />
+92-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:58:17-77
+92-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:58:27-74
+93            </intent-filter>
+94        </activity>
+95        <activity
+95-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:23:9-26:75
+96            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+96-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:24:13-79
+97            android:exported="false"
+97-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:25:13-37
+98            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+98-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:26:13-72
+99
+100        <meta-data
+100-->[com.google.android.gms:play-services-basement:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\5fa5fd2e196349bc6d38b2e601e418b9\transformed\play-services-basement-17.4.0\AndroidManifest.xml:23:9-25:69
+101            android:name="com.google.android.gms.version"
+101-->[com.google.android.gms:play-services-basement:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\5fa5fd2e196349bc6d38b2e601e418b9\transformed\play-services-basement-17.4.0\AndroidManifest.xml:24:13-58
+102            android:value="@integer/google_play_services_version" />
+102-->[com.google.android.gms:play-services-basement:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\5fa5fd2e196349bc6d38b2e601e418b9\transformed\play-services-basement-17.4.0\AndroidManifest.xml:25:13-66
+103
+104        <provider
+104-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+105            android:name="androidx.startup.InitializationProvider"
+105-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+106            android:authorities="org.example.dbgitracking.androidx-startup"
+106-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+107            android:exported="false" >
+107-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+108            <meta-data
+108-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+109                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+109-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+110                android:value="androidx.startup" />
+110-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+111            <meta-data
+111-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\2fedbf8c74c9edc50a1bd4976a1d5f3e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+112                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+112-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\2fedbf8c74c9edc50a1bd4976a1d5f3e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+113                android:value="androidx.startup" />
+113-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\2fedbf8c74c9edc50a1bd4976a1d5f3e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+114        </provider>
+115    </application>
+116
+117</manifest>

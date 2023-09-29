@@ -1,0 +1,7 @@
+#Fri Sep 29 13:19:27 CEST 2023
+base.0=C\:\\Users\\edoua\\Desktop\\DBGI_project\\DBGI_tracking_android\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+base.1=C\:\\Users\\edoua\\Desktop\\DBGI_project\\DBGI_tracking_android\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes2.dex
+path.0=classes.dex
+path.1=classes2.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex
