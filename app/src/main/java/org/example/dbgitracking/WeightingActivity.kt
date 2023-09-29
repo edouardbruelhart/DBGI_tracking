@@ -1,7 +1,11 @@
+// QR code reader is deprecated, this avoid warnings.
+// Maybe a good point to change the QR code reader to a not deprecated one in the future.
 @file:Suppress("DEPRECATION")
 
+// Links the screen to the application
 package org.example.dbgitracking
 
+// Imports
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -29,8 +33,10 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
+// Create the class for the actual screen
 class WeightingActivity : AppCompatActivity() {
 
+    // Initiate the displayed objects
     private lateinit var extractionMethodLabel: TextView
     private lateinit var scanButtonSample: Button
     private var isObjectScanActive = false
@@ -41,12 +47,14 @@ class WeightingActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Create the connection with the XML file to add the displayed objects
         setContentView(R.layout.activity_weighting)
 
+        // Add the back arrow to this screen
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
-        // Initialize views
+        // Initialize objects views
         extractionMethodLabel = findViewById(R.id.extractionMethodLabel)
         scanButtonSample = findViewById(R.id.scanButtonSample)
         scannedInfoTextView = findViewById(R.id.scannedInfoTextView)
@@ -59,7 +67,7 @@ class WeightingActivity : AppCompatActivity() {
             startQRScan("Scan object's QR")
         }
 
-        // Add a TextWatcher to the numberInput for real-time validation
+        // Add a TextWatcher to the numberInput for real-time validation. Permits to constrain the user entry from 47.5 to 52.5
         numberInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -161,7 +169,7 @@ class WeightingActivity : AppCompatActivity() {
                                 }
                                 // Start a coroutine to delay the next scan by 5 seconds
                                 CoroutineScope(Dispatchers.Main).launch {
-                                    delay(500)
+                                    delay(1500)
                                     startQRScan("Scan object's QR")
                                 }
                             } else {
@@ -224,6 +232,7 @@ class WeightingActivity : AppCompatActivity() {
         }
     }
 
+    // Function that permits to control which extracts are already in the database and increment by one to create a unique one
     suspend fun checkExistenceInDirectus(access_token: String, sampleId: String): String? {
         for (i in 1..99) {
             val testId = "${sampleId}_${String.format("%02d", i)}"

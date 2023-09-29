@@ -35,6 +35,7 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
+@Suppress("NAME_SHADOWING")
 class ExtractionActivity : AppCompatActivity() {
 
     private lateinit var newExtractionMethod: TextView
@@ -141,7 +142,7 @@ class ExtractionActivity : AppCompatActivity() {
                             urlConnection.setRequestProperty("Authorization", "Bearer $access_token")
 
                             val data = JSONObject().apply {
-                                put("box_id", boxId)
+                                put("container_9x9_id", boxId)
                                 put("extraction_method", extractionMethod)
                             }
 
@@ -194,7 +195,7 @@ class ExtractionActivity : AppCompatActivity() {
                                 }
                                 // Start a coroutine to delay the next scan by 5 seconds
                                 CoroutineScope(Dispatchers.Main).launch {
-                                    delay(500)
+                                    delay(1500)
                                     startQRScan("Scan object's QR")
                                 }
                             } else {

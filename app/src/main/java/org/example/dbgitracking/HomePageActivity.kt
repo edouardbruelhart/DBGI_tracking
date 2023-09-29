@@ -1,3 +1,5 @@
+// Homepage screen that redirects to other screens when user chooses an action to perform
+
 package org.example.dbgitracking
 
 import android.content.Intent

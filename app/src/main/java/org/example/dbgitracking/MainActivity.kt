@@ -1,3 +1,7 @@
+// Connection page of the application. Permits to extract the directus token to perform further actions
+// and to be sure that user is connected to the database before adding some informations on the database.
+// After connection performed and verified, user is redirected to home page to select the action he wants to perform.
+
 package org.example.dbgitracking
 
 import android.annotation.SuppressLint

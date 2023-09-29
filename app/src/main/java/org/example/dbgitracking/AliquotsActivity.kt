@@ -31,8 +31,11 @@ import java.net.URL
 
 class AliquotsActivity : AppCompatActivity() {
 
+    private lateinit var scanBoxLabel: TextView
+    private lateinit var scanButtonBox: Button
     private lateinit var aliquotsMethodLabel: TextView
     private lateinit var scanButtonExtract: Button
+    private var isBoxScanActive = false
     private var isObjectScanActive = false
     private lateinit var scannedInfoTextView: TextView
     private lateinit var volumeInput: EditText
@@ -47,14 +50,24 @@ class AliquotsActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
         // Initialize views
+        scanBoxLabel = findViewById(R.id.scanBoxLabel)
+        scanButtonBox = findViewById(R.id.scanButtonBox)
         aliquotsMethodLabel = findViewById(R.id.aliquotsMethodLabel)
         scanButtonExtract = findViewById(R.id.scanButtonExtract)
         scannedInfoTextView = findViewById(R.id.scannedInfoTextView)
         volumeInput = findViewById(R.id.volumeInput)
         actionButton = findViewById(R.id.actionButton)
 
+        // Set up button click listener for Box QR Scanner
+        scanButtonBox.setOnClickListener {
+            isBoxScanActive = true
+            isObjectScanActive = false
+            startQRScan("Scan box's QR")
+        }
+
         // Set up button click listener for Object QR Scanner
         scanButtonExtract.setOnClickListener {
+            isBoxScanActive = false
             isObjectScanActive = true
             startQRScan("Scan object's QR")
         }
@@ -89,7 +102,8 @@ class AliquotsActivity : AppCompatActivity() {
                 val collection_url = "http://directus.dbgi.org/items/Aliquots"
 
                 // Function to send data to Directus
-                suspend fun sendDataToDirectus(access_token: String, extractId: String, weight: String) {
+                suspend fun sendDataToDirectus(access_token: String, extractId: String, volume: String, boxId: String) {
+
                     val url = URL(collection_url)
 
                     val injectId = checkExistenceInDirectus(access_token, extractId)
@@ -110,7 +124,8 @@ class AliquotsActivity : AppCompatActivity() {
                             val data = JSONObject().apply {
                                 put("aliquot_id", injectId)
                                 put("lab_extract_id", extractId)
-                                put("aliquot_volume", weight)
+                                put("aliquot_volume_microliter", volume)
+                                put("container_9x9_id", boxId)
                             }
 
                             val outputStream: OutputStream = urlConnection.outputStream
@@ -161,7 +176,7 @@ class AliquotsActivity : AppCompatActivity() {
                                 }
                                 // Start a coroutine to delay the next scan by 5 seconds
                                 CoroutineScope(Dispatchers.Main).launch {
-                                    delay(500)
+                                    delay(1500)
                                     startQRScan("Scan object's QR")
                                 }
                             } else {
@@ -196,7 +211,7 @@ class AliquotsActivity : AppCompatActivity() {
                     val access_token = intent.getStringExtra("ACCESS_TOKEN")
                     if (access_token != null) {
                         // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
-                        sendDataToDirectus(access_token, scanButtonExtract.text.toString(), inputNumber.toString())
+                        sendDataToDirectus(access_token, scanButtonExtract.text.toString(), inputNumber.toInt().toString(), scanButtonBox.text.toString())
                     } else {
                         Toast.makeText(
                             this@AliquotsActivity,
@@ -216,7 +231,10 @@ class AliquotsActivity : AppCompatActivity() {
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
             val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
             if (result != null && result.contents != null) {
-                if (isObjectScanActive) {
+                if (isBoxScanActive) {
+                    scanButtonBox.text = result.contents // Update the button text
+                    scanButtonExtract.visibility = View.VISIBLE // Show actionButton if valid
+                } else if (isObjectScanActive) {
                     scanButtonExtract.text = result.contents // Update the button text
                     volumeInput.visibility = View.VISIBLE
                 }

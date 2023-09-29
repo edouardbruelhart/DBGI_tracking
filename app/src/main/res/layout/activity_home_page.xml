@@ -11,7 +11,7 @@
         android:id="@+id/SampleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="samples mode"
+        android:text="falcon mode"
         android:textSize="18sp"
         android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText" />

@@ -1,7 +1,11 @@
+// QR code reader is deprecated, this avoid warnings.
+// Maybe a good point to change the QR code reader to a not deprecated one in the future.
 @file:Suppress("DEPRECATION")
 
+// Links the screen to the application
 package org.example.dbgitracking
 
+// Imports
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
@@ -27,8 +31,10 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
+// Create the class for the actual screen
 class SampleActivity : AppCompatActivity() {
 
+    // Initiate the displayed objects
     private lateinit var sampleMethodRack: TextView
     private lateinit var scanButtonRack: Button
     private lateinit var emptyPlace: TextView
@@ -38,13 +44,15 @@ class SampleActivity : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Create the connection with the XML file to add the displayed objects
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
 
+        // Add the back arrow to this screen
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
-        // Initialize views
+        // Initialize objects views
         sampleMethodRack = findViewById(R.id.sampleMethodRack)
         scanButtonRack = findViewById(R.id.scanButtonRack)
         emptyPlace = findViewById(R.id.emptyPlace)
@@ -71,6 +79,7 @@ class SampleActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        // Counts the spaces left in the rack
         CoroutineScope(Dispatchers.IO).launch {
             val rackValue = checkRackLoad()
             val EmptyPlace = 24 - rackValue
@@ -79,6 +88,7 @@ class SampleActivity : AppCompatActivity() {
                 if (requestCode == IntentIntegrator.REQUEST_CODE) {
                     val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
+                    // Initiate the activity when a QR is scanned
                     if (result != null && result.contents != null) {
                         if (rackValue >= 0 && EmptyPlace > 0) {
                             if (isRackScanActive) {
@@ -116,6 +126,7 @@ class SampleActivity : AppCompatActivity() {
         val url = URL(collection_url)
         val urlConnection = withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
 
+        // Perform the POST request to add the values on directus
         try {
             urlConnection.requestMethod = "POST"
             urlConnection.setRequestProperty(
@@ -146,6 +157,7 @@ class SampleActivity : AppCompatActivity() {
                 writer.close()
             }
 
+            // Capture the response code and control if it's successful
             val responseCode = urlConnection.responseCode
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 val inputStream = urlConnection.inputStream
@@ -169,7 +181,6 @@ class SampleActivity : AppCompatActivity() {
                     inputStream.close()
                 }
 
-                // 'response' contains the response from the server
                 withContext(Dispatchers.Main) {
                     // Display a Toast with the response message
                     Toast.makeText(
@@ -179,6 +190,7 @@ class SampleActivity : AppCompatActivity() {
                     ).show()
                 }
 
+                // Check if there is still enough place in the rack before initiating the QR code reader
                 CoroutineScope(Dispatchers.IO).launch {
                     val upRackValue = checkRackLoad()
                     val upEmptyPlace = 24 - upRackValue
@@ -186,9 +198,10 @@ class SampleActivity : AppCompatActivity() {
                     withContext(Dispatchers.Main) {
 
                         if(upEmptyPlace > 0){
+                            // Automatically launch the QR scanning when last sample correctly added to the database
                             emptyPlace.visibility = View.VISIBLE
                             emptyPlace.text = "This rack should still contain $upEmptyPlace empty places"
-                            delay(500)
+                            delay(1500)
                             startQRScan("Scan object's QR")
                         } else {
                             emptyPlace.text = "Rack is full, scan another one to continue"
@@ -213,6 +226,7 @@ class SampleActivity : AppCompatActivity() {
         }
     }
 
+    // Manage errors information to guide the user
     @SuppressLint("SetTextI18n")
     private fun handleInvalidScanResult(EmptyPlace: Int, rackValue: Int) {
         emptyPlace.visibility = View.VISIBLE
@@ -227,6 +241,7 @@ class SampleActivity : AppCompatActivity() {
         emptyPlace.setTextColor(Color.RED)
     }
 
+    // Function to initiate the QR scan page
     private fun startQRScan(prompt: String) {
         val integrator = IntentIntegrator(this)
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
@@ -238,6 +253,7 @@ class SampleActivity : AppCompatActivity() {
         integrator.initiateScan()
     }
 
+    // Connect the back arrow to the action to go back to home page
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -248,6 +264,7 @@ class SampleActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // Function to ask how many samples are already present in the rack to directus
     private suspend fun checkRackLoad(): Int {
         val access_token = intent.getStringExtra("ACCESS_TOKEN")
         val rackId = scanButtonRack.text
@@ -287,6 +304,7 @@ class SampleActivity : AppCompatActivity() {
                 val jsonObject = JSONObject(response.toString())
                 val dataArray = jsonObject.getJSONArray("data")
 
+                // Return the number of sorted elements
                 return dataArray.length()
                 }
         } finally {
