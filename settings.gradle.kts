@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DBGI tracking"
+rootProject.name = "DBGI"
 include(":app")

@@ -4,6 +4,15 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            keyAlias = "dbgikey"
+            keyPassword = "dbgi_dbgi"
+            storePassword = "dbgi_dbgi"
+            storeFile =
+                file("C:\\Users\\edoua\\Desktop\\DBGI_project\\DBGI_tracking_android\\dbgikey.kts")
+        }
+    }
     namespace = "org.example.dbgitracking"
     compileSdk = 33
 
@@ -13,7 +22,7 @@ android {
         //noinspection OldTargetApi
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,6 +53,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-vision:20.1.3")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.android.support:support-annotations:28.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
