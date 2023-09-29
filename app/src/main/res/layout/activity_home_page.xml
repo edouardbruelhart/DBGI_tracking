@@ -29,7 +29,7 @@
         android:id="@+id/ExtractionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Extraction mode"
+        android:text="Extraction mode (available soon)"
         android:textSize="18sp"
         android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText" />
@@ -38,7 +38,7 @@
         android:id="@+id/AliquotsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="aliquots mode"
+        android:text="aliquots mode (Available soon)"
         android:textSize="18sp"
         android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText" />
@@ -47,7 +47,7 @@
         android:id="@+id/InjectionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="injection mode"
+        android:text="injection mode (Available soon)"
         android:textSize="18sp"
         android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText" />
@@ -56,7 +56,7 @@
         android:id="@+id/SignalingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="signaling mode"
+        android:text="signaling mode (available soon)"
         android:textSize="18sp"
         android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText" />
@@ -65,7 +65,7 @@
         android:id="@+id/FindButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Find mode"
+        android:text="Find mode (available soon)"
         android:textSize="18sp"
         tools:ignore="HardcodedText" />
 
