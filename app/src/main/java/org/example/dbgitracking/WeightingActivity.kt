@@ -177,7 +177,6 @@ class WeightingActivity : AppCompatActivity() {
                                 val isPrinterConnected = intent.getStringExtra("ISPRINTERCONNECTED")
                                 if (isPrinterConnected == "yes") {
                                     val printerDetails = PrinterDetailsSingleton.printerDetails
-
                                     // Specify the name of the template file you want to use.
                                     val selectedFileName = "template_dbgi"
 
