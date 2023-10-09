@@ -91,9 +91,11 @@ class MainActivity : AppCompatActivity() {
                         //val refresh_token = data.getString("refresh_token")
 
                         // Pass access_token to HomePageActivity
-                        val homeIntent = Intent(this@MainActivity, HomePageActivity::class.java)
-                        homeIntent.putExtra("ACCESS_TOKEN", access_token)
-                        startActivity(homeIntent)
+                        val Intent = Intent(this@MainActivity, PrinterConnectActivity::class.java)
+                        Intent.putExtra("USERNAME", username)
+                        Intent.putExtra("PASSWORD", password)
+                        Intent.putExtra("ACCESS_TOKEN", access_token)
+                        startActivity(Intent)
 
                         finish()
 

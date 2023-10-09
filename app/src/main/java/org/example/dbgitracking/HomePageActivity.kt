@@ -6,7 +6,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.bradysdk.api.printerconnection.PrinterDetails
 
+@Suppress("KotlinConstantConditions")
 class HomePageActivity : AppCompatActivity() {
 
     private lateinit var button1: Button
@@ -16,6 +18,7 @@ class HomePageActivity : AppCompatActivity() {
     //private lateinit var button5: Button
     //private lateinit var button6: Button
     //private lateinit var button7: Button
+    private lateinit var printerDetails: PrinterDetails
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,16 +33,24 @@ class HomePageActivity : AppCompatActivity() {
         //button7 = findViewById(R.id.FindButton)
 
         val access_token = intent.getStringExtra("ACCESS_TOKEN")
+        val username = intent.getStringExtra("USERNAME")
+        val password = intent.getStringExtra("PASSWORD")
+        val isPrinterConnected = intent.getStringExtra("ISPRINTERCONNECTED")
 
         // Set up button click listeners here
         button1.setOnClickListener {
             val intent = Intent(this, SampleActivity::class.java)
             intent.putExtra("ACCESS_TOKEN", access_token)
+            intent.putExtra("USERNAME", username)
+            intent.putExtra("PASSWORD", password)
             startActivity(intent)
         }
         button2.setOnClickListener {
             val intent = Intent(this, WeightingActivity::class.java)
             intent.putExtra("ACCESS_TOKEN", access_token)
+            intent.putExtra("USERNAME", username)
+            intent.putExtra("PASSWORD", password)
+            intent.putExtra("ISPRINTERCONNECTED", isPrinterConnected)
             startActivity(intent)
         }
 

@@ -6,6 +6,7 @@
 package org.example.dbgitracking
 
 // Imports
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -18,6 +19,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bradysdk.api.printerconnection.CutOption
+import com.bradysdk.api.printerconnection.PrintingOptions
+import com.bradysdk.printengine.templateinterface.TemplateFactory
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +37,7 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
+
 // Create the class for the actual screen
 class WeightingActivity : AppCompatActivity() {
 
@@ -44,7 +49,7 @@ class WeightingActivity : AppCompatActivity() {
     private lateinit var numberInput: EditText
     private lateinit var actionButton: Button
 
-    @SuppressLint("MissingInflatedId")
+@SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Create the connection with the XML file to add the displayed objects
@@ -97,6 +102,7 @@ class WeightingActivity : AppCompatActivity() {
                 val collection_url = "http://directus.dbgi.org/items/Lab_Extracts"
 
                 // Function to send data to Directus
+                @SuppressLint("DiscouragedApi")
                 suspend fun sendDataToDirectus(access_token: String, sampleId: String, weight: String) {
                     val url = URL(collection_url)
 
@@ -167,6 +173,61 @@ class WeightingActivity : AppCompatActivity() {
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
+                                // print label here
+                                val isPrinterConnected = intent.getStringExtra("ISPRINTERCONNECTED")
+                                if (isPrinterConnected == "yes") {
+                                    val printerDetails = PrinterDetailsSingleton.printerDetails
+
+                                    // Specify the name of the template file you want to use.
+                                    val selectedFileName = "template_dbgi"
+
+                                    // Initialize an input stream by opening the specified file.
+                                    val iStream = resources.openRawResource(
+                                        resources.getIdentifier(
+                                            selectedFileName, "raw",
+                                            packageName
+                                        )
+                                    )
+                                    val parts = extractId.split("_")
+                                    val sample = "_" + parts[1]
+                                    val extract = "_" + parts[2]
+                                    val injetemp = "_tmp"
+                                    val weightId = extractId + "_tmp"
+
+                                    // Call the SDK method ".getTemplate()" to retrieve its Template Object
+                                    val template =
+                                        TemplateFactory.getTemplate(iStream, this@WeightingActivity)
+                                    // Simple way to iterate through any placeholders to set desired values.
+                                    for (placeholder in template.templateData) {
+                                        if (placeholder.name == "QR") {
+                                            placeholder.value = weightId
+                                        } else if (placeholder.name == "sample") {
+                                            placeholder.value = sample
+                                        } else if (placeholder.name == "extract") {
+                                            placeholder.value = extract
+                                        } else if (placeholder.name == "injection/temp") {
+                                            placeholder.value = injetemp
+                                        }
+                                    }
+
+                                    val printingOptions = PrintingOptions()
+                                    printingOptions.cutOption = CutOption.EndOfJob
+                                    printingOptions.numberOfCopies = 1
+                                    val r = Runnable {
+                                        runOnUiThread {
+                                            printerDetails?.print(
+                                                this,
+                                                template,
+                                                printingOptions,
+                                                null
+                                            )
+                                        }
+                                    }
+                                    val printThread = Thread(r)
+                                    printThread.start()
+                                }
+
+
                                 // Start a coroutine to delay the next scan by 5 seconds
                                 CoroutineScope(Dispatchers.Main).launch {
                                     delay(1500)
@@ -206,11 +267,7 @@ class WeightingActivity : AppCompatActivity() {
                         // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
                         sendDataToDirectus(access_token, scanButtonSample.text.toString(), inputNumber.toString())
                     } else {
-                        Toast.makeText(
-                            this@WeightingActivity,
-                            "Token error, please close the application and reconnect",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast("Token error, please verify your connection")
                     }
                 }
             }
@@ -233,7 +290,7 @@ class WeightingActivity : AppCompatActivity() {
     }
 
     // Function that permits to control which extracts are already in the database and increment by one to create a unique one
-    suspend fun checkExistenceInDirectus(access_token: String, sampleId: String): String? {
+    private suspend fun checkExistenceInDirectus(access_token: String, sampleId: String): String? {
         for (i in 1..99) {
             val testId = "${sampleId}_${String.format("%02d", i)}"
             val url = URL("http://directus.dbgi.org/items/Lab_Extracts?filter[lab_extract_id][_eq]=$testId")
@@ -248,14 +305,22 @@ class WeightingActivity : AppCompatActivity() {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     // Read the response body
                     val inputStream = urlConnection.inputStream
-                    val bufferedReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
+                    val bufferedReader = BufferedReader(withContext(Dispatchers.IO) {
+                        InputStreamReader(inputStream, "UTF-8")
+                    })
                     val response = StringBuilder()
                     var line: String?
-                    while (bufferedReader.readLine().also { line = it } != null) {
+                    while (withContext(Dispatchers.IO) {
+                            bufferedReader.readLine()
+                        }.also { line = it } != null) {
                         response.append(line)
                     }
-                    bufferedReader.close()
-                    inputStream.close()
+                    withContext(Dispatchers.IO) {
+                        bufferedReader.close()
+                    }
+                    withContext(Dispatchers.IO) {
+                        inputStream.close()
+                    }
 
                     // Check if the response is empty
                     if (response.toString() == "{\"data\":[]}") {
@@ -292,4 +357,9 @@ class WeightingActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun showToast(toast: String?) {
+        runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_LONG).show() }
+    }
+
 }

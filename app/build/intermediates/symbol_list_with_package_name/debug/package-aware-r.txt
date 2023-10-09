@@ -3190,6 +3190,7 @@ id chain2
 id chains
 id checkbox
 id checked
+id choosePrinter
 id chronometer
 id circle_center
 id clear_text
@@ -3200,6 +3201,8 @@ id closest
 id collapseActionView
 id compress
 id confirm_button
+id connectButton
+id connectText
 id connectionStatusTextView
 id constraint
 id container
@@ -3302,6 +3305,7 @@ id icon_group
 id icon_only
 id ifRoom
 id ignore
+id ignoreButton
 id ignoreRequest
 id image
 id immediateStop
@@ -3430,6 +3434,8 @@ id pin
 id position
 id postLayout
 id pressed
+id printerListView
+id printerNameTextView
 id progress_circular
 id progress_horizontal
 id radio
@@ -3729,6 +3735,8 @@ layout activity_find
 layout activity_home_page
 layout activity_injection
 layout activity_main
+layout activity_manage_printer
+layout activity_printer_connect
 layout activity_sample
 layout activity_signaling
 layout activity_weighting
@@ -3805,6 +3813,7 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout printer_list_item
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
@@ -3815,6 +3824,7 @@ mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
+raw template_dbgi
 raw zxing_beep
 string abc_action_bar_home_description
 string abc_action_bar_up_description
@@ -3881,6 +3891,7 @@ string error_icon_content_description
 string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
+string gcm_fallback_notification_channel_label
 string hide_bottom_view_on_scroll_behavior
 string icon_content_description
 string item_view_role_description
@@ -4736,6 +4747,8 @@ style ThemeOverlay_MaterialComponents_TimePicker_Display_TextInputEditText
 style ThemeOverlay_MaterialComponents_Toolbar_Popup_Primary
 style ThemeOverlay_MaterialComponents_Toolbar_Primary
 style ThemeOverlay_MaterialComponents_Toolbar_Surface
+style WhiteBackgroundDialogTheme
+style WhiteBackgroundTheme
 style Widget_AppCompat_ActionBar
 style Widget_AppCompat_ActionBar_Solid
 style Widget_AppCompat_ActionBar_TabBar
