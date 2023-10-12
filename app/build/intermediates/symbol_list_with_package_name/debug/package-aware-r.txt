@@ -3736,9 +3736,11 @@ layout activity_home_page
 layout activity_injection
 layout activity_main
 layout activity_manage_printer
+layout activity_permissions
 layout activity_printer_connect
 layout activity_sample
 layout activity_signaling
+layout activity_wait_connection
 layout activity_weighting
 layout custom_dialog
 layout design_bottom_navigation_item

@@ -23,6 +23,7 @@ import com.bradysdk.api.printerconnection.CutOption
 import com.bradysdk.api.printerconnection.PrintingOptions
 import com.bradysdk.printengine.templateinterface.TemplateFactory
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -48,6 +49,8 @@ class WeightingActivity : AppCompatActivity() {
     private lateinit var scannedInfoTextView: TextView
     private lateinit var numberInput: EditText
     private lateinit var actionButton: Button
+    private lateinit var emptyPlace: TextView
+    var hasTriedAgain = false
 
 @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +68,8 @@ class WeightingActivity : AppCompatActivity() {
         scannedInfoTextView = findViewById(R.id.scannedInfoTextView)
         numberInput = findViewById(R.id.numberInput)
         actionButton = findViewById(R.id.actionButton)
+        emptyPlace = findViewById(R.id.emptyPlace)
+
 
         // Set up button click listener for Object QR Scanner
         scanButtonSample.setOnClickListener {
@@ -143,6 +148,7 @@ class WeightingActivity : AppCompatActivity() {
 
                             val responseCode = urlConnection.responseCode
                             if (responseCode == HttpURLConnection.HTTP_OK) {
+                                hasTriedAgain = false
                                 val inputStream = urlConnection.inputStream
                                 val bufferedReader = BufferedReader(
                                     withContext(
@@ -214,7 +220,7 @@ class WeightingActivity : AppCompatActivity() {
                                     printingOptions.numberOfCopies = 1
                                     val r = Runnable {
                                         runOnUiThread {
-                                            printerDetails?.print(
+                                            printerDetails.print(
                                                 this,
                                                 template,
                                                 printingOptions,
@@ -233,14 +239,18 @@ class WeightingActivity : AppCompatActivity() {
                                     startQRScan("Scan object's QR")
                                 }
                             } else {
-                                // Request failed
-                                withContext(Dispatchers.Main) {
-                                    // Display a Toast with an error message
-                                    Toast.makeText(
-                                        this@WeightingActivity,
-                                        "Request failed, check if code is correct",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                if (hasTriedAgain == false) {
+                                    hasTriedAgain = true
+                                    val new_access_token = getNewAccessToken()
+
+                                    if (new_access_token != null) {
+                                        // Retry the operation with the new access token
+                                        return sendDataToDirectus(
+                                            new_access_token,
+                                            sampleId,
+                                            weight
+                                        )
+                                    }
                                 }
                             }
                         } finally {
@@ -325,6 +335,16 @@ class WeightingActivity : AppCompatActivity() {
                     if (response.toString() == "{\"data\":[]}") {
                         return testId
                     }
+                } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    // Access token is invalid, attempt to reconnect
+                    // This is a simplified example, you should implement the logic to obtain a new access token
+
+                    val new_access_token = getNewAccessToken()
+
+                    if (new_access_token != null) {
+                        // Retry the operation with the new access token
+                        return checkExistenceInDirectus(new_access_token, sampleId)
+                    }
                 }
             } finally {
                 urlConnection.disconnect()
@@ -359,6 +379,69 @@ class WeightingActivity : AppCompatActivity() {
 
     private fun showToast(toast: String?) {
         runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_LONG).show() }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private suspend fun getNewAccessToken(): String? {
+        // Start a coroutine to perform the network operation
+        val deferred = CompletableDeferred<String?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val username = intent.getStringExtra("USERNAME")
+                val password = intent.getStringExtra("PASSWORD")
+                val base_url = "http://directus.dbgi.org"
+                val login_url = "$base_url/auth/login"
+                val url = URL(login_url)
+                val connection =
+                    withContext(Dispatchers.IO) {
+                        url.openConnection()
+                    } as HttpURLConnection
+                connection.requestMethod = "POST"
+                connection.setRequestProperty("Content-Type", "application/json")
+                connection.doOutput = true
+
+                val requestBody = "{\"email\":\"$username\",\"password\":\"$password\"}"
+
+                val outputStream: OutputStream = connection.outputStream
+                withContext(Dispatchers.IO) {
+                    outputStream.write(requestBody.toByteArray())
+                }
+                withContext(Dispatchers.IO) {
+                    outputStream.close()
+                }
+
+                val responseCode = connection.responseCode
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    val `in` = BufferedReader(InputStreamReader(connection.inputStream))
+                    val content = StringBuilder()
+                    var inputLine: String?
+                    while (withContext(Dispatchers.IO) {
+                            `in`.readLine()
+                        }.also { inputLine = it } != null) {
+                        content.append(inputLine)
+                    }
+                    withContext(Dispatchers.IO) {
+                        `in`.close()
+                    }
+
+                    val jsonData = content.toString()
+                    val jsonResponse = JSONObject(jsonData)
+                    val data = jsonResponse.getJSONObject("data")
+                    val access_token = data.getString("access_token")
+                    deferred.complete(access_token)
+                } else {
+                    emptyPlace.text = "Database error, please check your connection."
+                    deferred.complete(null)
+                }
+            }catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    emptyPlace.text = "Database error, please check your connection."
+                    deferred.complete(null)
+                }
+            }
+        }
+        return deferred.await()
     }
 
 }

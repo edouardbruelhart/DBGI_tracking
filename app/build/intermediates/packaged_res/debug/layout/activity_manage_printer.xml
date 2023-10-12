@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/choosePrinter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click on your printer (if you just accepted the permissions, kill and relaunch the app to see your printer)"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        tools:ignore="HardcodedText,MissingConstraints" />
 
     <ListView
         android:id="@+id/printerListView"
@@ -30,5 +19,19 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/choosePrinter"
+        android:layout_width="353dp"
+        android:layout_height="131dp"
+        android:text="Actually only available for brady m211. Make sure your printer is on and bluetooth blue light is blinking, then press the connection button."
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+    android:gravity="center"
+    tools:ignore="HardcodedText,MissingConstraints,TextSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,5 @@
 // Connection page of the application. Permits to extract the directus token to perform further actions
-// and to be sure that user is connected to the database before adding some informations on the database.
+// and to be sure that user is connected to the database before adding some information's on the database.
 // After connection performed and verified, user is redirected to home page to select the action he wants to perform.
 
 package org.example.dbgitracking
@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
             // Start a coroutine to perform the network operation
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    val base_url = "http://directus.dbgi.org"
-                    val login_url = "$base_url/auth/login"
-                    val url = URL(login_url)
+                    val baseUrl = "http://directus.dbgi.org"
+                    val loginUrl = "$baseUrl/auth/login"
+                    val url = URL(loginUrl)
                     val connection =
                         withContext(Dispatchers.IO) {
                             url.openConnection()
@@ -87,15 +87,14 @@ class MainActivity : AppCompatActivity() {
                         val jsonResponse = JSONObject(jsonData)
                         val data = jsonResponse.getJSONObject("data")
 
-                        val access_token = data.getString("access_token")
-                        //val refresh_token = data.getString("refresh_token")
+                        val accessToken = data.getString("access_token")
 
                         // Pass access_token to HomePageActivity
-                        val Intent = Intent(this@MainActivity, PrinterConnectActivity::class.java)
-                        Intent.putExtra("USERNAME", username)
-                        Intent.putExtra("PASSWORD", password)
-                        Intent.putExtra("ACCESS_TOKEN", access_token)
-                        startActivity(Intent)
+                        val intent = Intent(this@MainActivity, PrinterConnectActivity::class.java)
+                        intent.putExtra("USERNAME", username)
+                        intent.putExtra("PASSWORD", password)
+                        intent.putExtra("ACCESS_TOKEN", accessToken)
+                        startActivity(intent)
 
                         finish()
 

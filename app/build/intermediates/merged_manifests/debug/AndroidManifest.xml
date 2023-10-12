@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.example.dbgitracking"
     android:versionCode="1"
-    android:versionName="0.2" >
+    android:versionName="0.3" >
 
     <uses-sdk
         android:minSdkVersion="29"
@@ -89,6 +89,12 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.DBGITracking" >
+        <activity
+            android:name="org.example.dbgitracking.WaitConnectionActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.example.dbgitracking.PermissionsActivity"
+            android:exported="false" />
         <activity
             android:name="org.example.dbgitracking.ManagePrinterActivity"
             android:exported="false" />

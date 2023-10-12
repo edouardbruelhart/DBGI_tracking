@@ -1,3 +1,5 @@
+@file:Suppress("ControlFlowWithEmptyBody")
+
 package org.example.dbgitracking
 
 import android.annotation.SuppressLint
@@ -13,7 +15,7 @@ object PrinterDetailsSingleton : AppCompatActivity() {
 
     lateinit var printerDiscovery: PrinterDiscovery
     lateinit var printerDetails: PrinterDetails
-    var value: Int = -1
+    private var value: Int = -1
 
 
     fun connectToPrinter(
@@ -29,23 +31,14 @@ object PrinterDetailsSingleton : AppCompatActivity() {
                     printerSelected,
                     listOf(pul)
                 )!!
-                println("printerDetails1: $this.printerDetails")
-                this.value = -1
 
                 if (printerDiscovery.haveOwnership != null) {
                     // Handle successful connection
-                    println("Succeeded!")
-                    this.value = 1
                 } else {
-                    println("failed...")
-                    this.value = 0
                 }
-            } catch (ex: NullPointerException) {
-                println("Error1: ${ex.message}")
-                this.value = 0
-            } catch (ex: Exception) {
-                println("Error2: ${ex.message}")
-                this.value = 0
+            } catch (_: NullPointerException) {
+
+            } catch (_: Exception) {
             }
         }
         val connectThread = Thread(r)

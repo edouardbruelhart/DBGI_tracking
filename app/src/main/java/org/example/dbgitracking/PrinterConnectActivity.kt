@@ -24,15 +24,15 @@ class PrinterConnectActivity : AppCompatActivity() {
         connectButton = findViewById(R.id.connectButton)
         ignoreButton = findViewById(R.id.ignoreButton)
 
-        val access_token = intent.getStringExtra("ACCESS_TOKEN")
+        val accessToken = intent.getStringExtra("ACCESS_TOKEN")
         val username = intent.getStringExtra("USERNAME")
         val password = intent.getStringExtra("PASSWORD")
         val isPrinterConnected = "no"
 
         // Set up button click listeners here
         connectButton.setOnClickListener {
-            val intent = Intent(this, ManagePrinterActivity::class.java)
-            intent.putExtra("ACCESS_TOKEN", access_token)
+            val intent = Intent(this, PermissionsActivity::class.java)
+            intent.putExtra("ACCESS_TOKEN", accessToken)
             intent.putExtra("USERNAME", username)
             intent.putExtra("PASSWORD", password)
             startActivity(intent)
@@ -40,10 +40,10 @@ class PrinterConnectActivity : AppCompatActivity() {
         }
         ignoreButton.setOnClickListener {
             val intent = Intent(this, HomePageActivity::class.java)
-            intent.putExtra("ACCESS_TOKEN", access_token)
+            intent.putExtra("ACCESS_TOKEN", accessToken)
             intent.putExtra("USERNAME", username)
             intent.putExtra("PASSWORD", password)
-            intent.putExtra("ISPRINTERCONNECTED", isPrinterConnected)
+            intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
             startActivity(intent)
             finish()
         }

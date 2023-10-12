@@ -43,12 +43,12 @@ class SampleActivity : AppCompatActivity() {
     private lateinit var scanButtonSample: Button
     private var isRackScanActive = false
     private var isObjectScanActive = false
-    var hasTriedAgain = false
+    private var hasTriedAgain = false
 
     @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Create the connection with the XML file to add the displayed objects
         super.onCreate(savedInstanceState)
+        // Create the connection with the XML file to add the displayed objects
         setContentView(R.layout.activity_sample)
 
         // Add the back arrow to this screen
@@ -74,7 +74,18 @@ class SampleActivity : AppCompatActivity() {
             isObjectScanActive = true
             startQRScan("Scan object's QR")
         }
+    }
 
+    // Function to initiate the QR scan page
+    private fun startQRScan(prompt: String) {
+        val integrator = IntentIntegrator(this)
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+        integrator.setPrompt(prompt)
+        integrator.setCameraId(0)
+        integrator.setOrientationLocked(false)
+        integrator.setBeepEnabled(false)
+        integrator.setBarcodeImageEnabled(true)
+        integrator.initiateScan()
     }
 
     @SuppressLint("SetTextI18n")
@@ -84,34 +95,40 @@ class SampleActivity : AppCompatActivity() {
 
         // Counts the spaces left in the rack
         CoroutineScope(Dispatchers.IO).launch {
-            val access_token = intent.getStringExtra("ACCESS_TOKEN").toString()
-            val rackValue = checkRackLoad(access_token)
-            val EmptyPlace = 24 - rackValue
-
             withContext(Dispatchers.Main) {
                 if (requestCode == IntentIntegrator.REQUEST_CODE) {
                     val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
                     // Initiate the activity when a QR is scanned
                     if (result != null && result.contents != null) {
-                        if (rackValue >= 0 && EmptyPlace > 0) {
-                            if (isRackScanActive) {
-                                scanButtonRack.text = "Value"
+                        if (isRackScanActive) {
+                            val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
+                            val rack = result.contents
+                            val rackValue = checkRackLoad(accessToken, rack)
+                            val stillPlace = 24 - rackValue
+                            if (rackValue >= 0 && stillPlace > 0){
                                 scanButtonRack.text = result.contents
                                 scanButtonSample.visibility = View.VISIBLE
                                 emptyPlace.visibility = View.VISIBLE
-                                emptyPlace.text = "This rack should still contain $EmptyPlace empty places"
-                            } else if (isObjectScanActive) {
-                                scanButtonSample.text = result.contents
-                                val access_token = intent.getStringExtra("ACCESS_TOKEN")
-                                val rackId = scanButtonRack.text.toString()
-                                val sampleId = scanButtonSample.text.toString()
-                                if (access_token != null) {
-                                    withContext(Dispatchers.IO) {sendDataToDirectus(access_token, sampleId, rackId)}
+                                emptyPlace.setTextColor(Color.GRAY)
+                                emptyPlace.text = "This rack should still contain $stillPlace empty places"
+                            } else {
+                                handleInvalidScanResult(stillPlace, rackValue)
+                            }
+                        } else if (isObjectScanActive) {
+                            scanButtonSample.text = result.contents
+                            val accessToken = intent.getStringExtra("ACCESS_TOKEN")
+                            val rackId = scanButtonRack.text.toString()
+                            val sampleId = scanButtonSample.text.toString()
+                            if (accessToken != null) {
+                                withContext(Dispatchers.IO) {
+                                    sendDataToDirectus(
+                                        accessToken,
+                                        sampleId,
+                                        rackId
+                                    )
                                 }
                             }
-                        } else {
-                            handleInvalidScanResult(EmptyPlace, rackValue)
                         }
                     }
                 }
@@ -119,16 +136,53 @@ class SampleActivity : AppCompatActivity() {
         }
     }
 
+    // Function to ask how many samples are already present in the rack to directus
+    private suspend fun checkRackLoad(accessToken: String, rackId: String): Int {
+
+        return withContext(Dispatchers.IO) {
+            val url = URL("http://directus.dbgi.org/items/Field_Samples/?filter[container_8x3_id][_eq]=$rackId")
+            val urlConnection = url.openConnection() as HttpURLConnection
+
+            try {
+                urlConnection.requestMethod = "GET"
+                urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
+
+                val responseCode = urlConnection.responseCode
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Read the response body
+                    val inputStream = urlConnection.inputStream
+                    val bufferedReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
+                    val response = StringBuilder()
+                    var line: String?
+                    while (bufferedReader.readLine().also { line = it } != null) {
+                        response.append(line)
+                    }
+
+                    // Parse the response JSON to get the count
+                    val jsonObject = JSONObject(response.toString())
+                    val dataArray = jsonObject.getJSONArray("data")
+
+                    // Return the number of sorted elements
+                    dataArray.length()
+                } else {
+                    -1 // Return a value indicating an error
+                }
+            } finally {
+                urlConnection.disconnect()
+            }
+        }
+    }
+
     // Function to send data to Directus
     @SuppressLint("SetTextI18n")
     private suspend fun sendDataToDirectus(
-        access_token: String,
+        accessToken: String,
         sampleId: String,
         rackId: String
     ) {
         // Define the table url
-        val collection_url = "http://directus.dbgi.org/items/Field_Samples"
-        val url = URL(collection_url)
+        val collectionUrl = "http://directus.dbgi.org/items/Field_Samples"
+        val url = URL(collectionUrl)
         val urlConnection = withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
 
         // Perform the POST request to add the values on directus
@@ -140,13 +194,14 @@ class SampleActivity : AppCompatActivity() {
             )
             urlConnection.setRequestProperty(
                 "Authorization",
-                "Bearer $access_token"
+                "Bearer $accessToken"
             )
 
             val data = JSONObject().apply {
                 put("field_sample_id", sampleId)
                 put("container_8x3_id", rackId)
             }
+            showToast("$data")
 
             val outputStream: OutputStream = urlConnection.outputStream
             val writer = BufferedWriter(withContext(Dispatchers.IO) {
@@ -186,34 +241,28 @@ class SampleActivity : AppCompatActivity() {
                 withContext(Dispatchers.IO) {
                     inputStream.close()
                 }
-
-                withContext(Dispatchers.Main) {
-                    // Display a Toast with the response message
-                    Toast.makeText(
-                        this@SampleActivity,
-                        "$sampleId correctly added to database",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                // Display a Toast with the response message
+                showToast("$sampleId correctly added to database")
 
                 // Check if there is still enough place in the rack before initiating the QR code reader
                 CoroutineScope(Dispatchers.IO).launch {
-                    val access_token = intent.getStringExtra("ACCESS_TOKEN").toString()
-                    val upRackValue = checkRackLoad(access_token)
-                    val upEmptyPlace = 24 - upRackValue
+                    val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
+                    val rack = emptyPlace.text.toString()
+                    val upRackValue = checkRackLoad(accessToken, rack)
+                    val upStillPlace = 24 - upRackValue
 
                     withContext(Dispatchers.Main) {
 
-                        if(upEmptyPlace > 0){
+                        if(upStillPlace > 0){
                             // Automatically launch the QR scanning when last sample correctly added to the database
                             emptyPlace.visibility = View.VISIBLE
-                            emptyPlace.text = "This rack should still contain $upEmptyPlace empty places"
+                            emptyPlace.text = "This rack should still contain $upStillPlace empty places"
                             hasTriedAgain = false
                             delay(1500)
                             startQRScan("Scan object's QR")
                         } else {
                             emptyPlace.text = "Rack is full, scan another one to continue"
-                            scanButtonRack.text = "Value"
+                            scanButtonRack.text = "scan another rack"
                             scanButtonSample.text = "Begin to scan samples"
                             scanButtonSample.visibility = View.INVISIBLE
 
@@ -222,25 +271,18 @@ class SampleActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                if (hasTriedAgain == false) {
+                if (!hasTriedAgain) {
                     hasTriedAgain = true
-                    val new_access_token = getNewAccessToken()
+                    val newAccessToken = getNewAccessToken()
 
-                    if (new_access_token != null) {
+                    if (newAccessToken != null) {
                         // Retry the operation with the new access token
-                        return sendDataToDirectus(new_access_token, sampleId, rackId)
+                        return sendDataToDirectus(newAccessToken, sampleId, rackId)
                     }
 
                 }
                 // Request failed
-                withContext(Dispatchers.Main) {
-                    // Display a Toast with an error message
-                    Toast.makeText(
-                        this@SampleActivity,
-                        "Request failed, sample is already in the database",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                showToast("Error: $responseCode")
             }
         } finally {
             urlConnection.disconnect()
@@ -249,11 +291,12 @@ class SampleActivity : AppCompatActivity() {
 
     // Manage errors information to guide the user
     @SuppressLint("SetTextI18n")
-    private fun handleInvalidScanResult(EmptyPlace: Int, rackValue: Int) {
+    private fun handleInvalidScanResult(stillPlace: Int, rackValue: Int) {
         emptyPlace.visibility = View.VISIBLE
         when {
-            EmptyPlace < 1 -> {
+            stillPlace < 1 -> {
                 emptyPlace.text = "This rack is full, please scan another one"
+                scanButtonRack.text = "Value"
                 scanButtonSample.text = "Begin to scan samples"
             }
             rackValue < 0 -> {
@@ -263,17 +306,7 @@ class SampleActivity : AppCompatActivity() {
         emptyPlace.setTextColor(Color.RED)
     }
 
-    // Function to initiate the QR scan page
-    private fun startQRScan(prompt: String) {
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setPrompt(prompt)
-        integrator.setCameraId(0)
-        integrator.setOrientationLocked(false)
-        integrator.setBeepEnabled(false)
-        integrator.setBarcodeImageEnabled(true)
-        integrator.initiateScan()
-    }
+
 
     // Connect the back arrow to the action to go back to home page
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -286,65 +319,6 @@ class SampleActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // Function to ask how many samples are already present in the rack to directus
-    private suspend fun checkRackLoad(access_token: String): Int {
-        val rackId = scanButtonRack.text
-
-        val url =
-            URL("http://directus.dbgi.org/items/Field_Samples/?filter[container_8x3_id][_eq]=$rackId")
-
-        val urlConnection =
-            withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
-
-        try {
-            urlConnection.requestMethod = "GET"
-            urlConnection.setRequestProperty("Authorization", "Bearer $access_token")
-
-            val responseCode = urlConnection.responseCode
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Read the response body
-                val inputStream = urlConnection.inputStream
-                val bufferedReader = BufferedReader(withContext(Dispatchers.IO) {
-                    InputStreamReader(inputStream, "UTF-8")
-                })
-                val response = StringBuilder()
-                var line: String?
-                while (withContext(Dispatchers.IO) {
-                        bufferedReader.readLine()
-                    }.also { line = it } != null) {
-                    response.append(line)
-                }
-                withContext(Dispatchers.IO) {
-                    bufferedReader.close()
-                }
-                withContext(Dispatchers.IO) {
-                    inputStream.close()
-                }
-
-                // Parse the response JSON to get the count
-                val jsonObject = JSONObject(response.toString())
-                val dataArray = jsonObject.getJSONArray("data")
-
-                // Return the number of sorted elements
-                return dataArray.length()
-            } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                // Access token is invalid, attempt to reconnect
-                // This is a simplified example, you should implement the logic to obtain a new access token
-
-                val new_access_token = getNewAccessToken()
-
-                if (new_access_token != null) {
-                    // Retry the operation with the new access token
-                    return checkRackLoad(new_access_token)
-                }
-            }
-        } finally {
-            urlConnection.disconnect()
-        }
-
-        return -1 // Return a value indicating an error
-    }
-
     @SuppressLint("SetTextI18n")
     private suspend fun getNewAccessToken(): String? {
         // Start a coroutine to perform the network operation
@@ -353,9 +327,9 @@ class SampleActivity : AppCompatActivity() {
             try {
                 val username = intent.getStringExtra("USERNAME")
                 val password = intent.getStringExtra("PASSWORD")
-                val base_url = "http://directus.dbgi.org"
-                val login_url = "$base_url/auth/login"
-                val url = URL(login_url)
+                val baseUrl = "http://directus.dbgi.org"
+                val loginUrl = "$baseUrl/auth/login"
+                val url = URL(loginUrl)
                 val connection =
                     withContext(Dispatchers.IO) {
                         url.openConnection()
@@ -391,12 +365,12 @@ class SampleActivity : AppCompatActivity() {
                     val jsonData = content.toString()
                     val jsonResponse = JSONObject(jsonData)
                     val data = jsonResponse.getJSONObject("data")
-                    val access_token = data.getString("access_token")
-                    deferred.complete(access_token)
+                    val accessToken = data.getString("access_token")
+                    deferred.complete(accessToken)
                 } else {
                     emptyPlace.text = "Database error, please check your connection."
                     deferred.complete(null)
-                    }
+                }
             }catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
@@ -407,5 +381,9 @@ class SampleActivity : AppCompatActivity() {
         }
         return deferred.await()
     }
-}
 
+    private fun showToast(toast: String?) {
+        runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_LONG).show() }
+    }
+
+}

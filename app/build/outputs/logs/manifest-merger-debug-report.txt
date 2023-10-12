@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-89:12
-INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-89:12
-INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-89:12
-INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-89:12
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-95:12
+INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-95:12
+INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-95:12
+INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-95:12
 MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\ccf30de911325006dd55065a2cf9ff87\transformed\BradySdk-1.4.4\AndroidManifest.xml:2:1-28:12
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\b84fd8e0913fbee5ea341511771bb46a\transformed\material-1.9.0\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\edoua\.gradle\caches\transforms-3\4dae1036e86902b2f055441e14dfca0a\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
@@ -150,8 +150,8 @@ MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradl
 	android:name
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:20:9-47
 application
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:23:5-87:19
-INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:23:5-87:19
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:23:5-93:19
+INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:23:5-93:19
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\b84fd8e0913fbee5ea341511771bb46a\transformed\material-1.9.0\AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\b84fd8e0913fbee5ea341511771bb46a\transformed\material-1.9.0\AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\edoua\.gradle\caches\transforms-3\4dae1036e86902b2f055441e14dfca0a\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -218,42 +218,54 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\edoua\.gradle\cach
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:30:9-69
 	android:dataExtractionRules
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:26:9-65
-activity#org.example.dbgitracking.ManagePrinterActivity
+activity#org.example.dbgitracking.WaitConnectionActivity
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:35:9-37:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:37:13-37
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:36:13-50
-activity#org.example.dbgitracking.PrinterConnectActivity
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:36:13-51
+activity#org.example.dbgitracking.PermissionsActivity
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:38:9-40:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:40:13-37
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:39:13-51
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:39:13-48
+activity#org.example.dbgitracking.ManagePrinterActivity
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:41:9-43:40
+	android:exported
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:43:13-37
+	android:name
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:42:13-50
+activity#org.example.dbgitracking.PrinterConnectActivity
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:44:9-46:40
+	android:exported
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:46:13-37
+	android:name
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:45:13-51
 activity#org.example.dbgitracking.AliquotsActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:41:9-44:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:47:9-50:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:44:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:50:13-37
 	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:43:13-87
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:49:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:42:13-45
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:48:13-45
 activity#org.example.dbgitracking.SignalingActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:45:9-48:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:51:9-54:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:48:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:54:13-37
 	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:47:13-87
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:53:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:46:13-46
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:52:13-46
 activity#com.journeyapps.barcodescanner.CaptureActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:49:9-52:49
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:55:9-58:49
 MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:47:9-53:63
 MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:47:9-53:63
 	android:clearTaskOnLaunch
 		ADDED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:49:13-45
 	android:screenOrientation
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:51:13-51
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:57:13-51
 		REJECTED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:50:13-56
 	android:stateNotNeeded
 		ADDED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:51:13-42
@@ -262,75 +274,75 @@ MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradl
 	android:theme
 		ADDED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:52:13-54
 	tools:replace
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:52:13-46
-	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:50:13-74
-activity#org.example.dbgitracking.SampleActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:53:9-56:40
-	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:56:13-37
-	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:55:13-87
-	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:54:13-43
-activity#org.example.dbgitracking.WeightingActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:57:9-60:40
-	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:60:13-37
-	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:59:13-87
-	android:name
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:58:13-46
+	android:name
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:56:13-74
+activity#org.example.dbgitracking.SampleActivity
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:59:9-62:40
+	android:exported
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:62:13-37
+	android:configChanges
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:61:13-87
+	android:name
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:60:13-43
+activity#org.example.dbgitracking.WeightingActivity
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:63:9-66:40
+	android:exported
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:66:13-37
+	android:configChanges
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:65:13-87
+	android:name
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:64:13-46
 activity#org.example.dbgitracking.FindActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:61:9-64:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:67:9-70:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:64:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:70:13-37
 	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:63:13-87
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:69:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:62:13-41
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:68:13-41
 activity#org.example.dbgitracking.InjectionActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:65:9-68:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:71:9-74:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:68:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:74:13-37
 	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:67:13-87
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:73:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:66:13-46
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:72:13-46
 activity#org.example.dbgitracking.ExtractionActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:69:9-72:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:75:9-78:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:72:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:78:13-37
 	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:71:13-87
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:77:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:70:13-47
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:76:13-47
 activity#org.example.dbgitracking.HomePageActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:73:9-76:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:79:9-82:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:76:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:82:13-37
 	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:75:13-87
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:81:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:74:13-45
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:80:13-45
 activity#org.example.dbgitracking.MainActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:77:9-86:20
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:83:9-92:20
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:80:13-36
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:86:13-36
 	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:79:13-87
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:85:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:78:13-41
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:84:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:81:13-85:29
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:87:13-91:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:82:17-69
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:88:17-69
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:82:25-66
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:88:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:84:17-77
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:90:17-77
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:84:27-74
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:90:27-74
 uses-sdk
 INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml
