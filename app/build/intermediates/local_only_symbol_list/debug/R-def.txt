@@ -26,6 +26,7 @@ id connectionStatusTextView
 id emptyPlace
 id errorMessageTextView
 id extractionInformation
+id extractionMethodBatch
 id extractionMethodBox
 id extractionMethodLabel
 id extractionMethodSpinner
@@ -40,6 +41,7 @@ id printerListView
 id printerNameTextView
 id sampleMethodRack
 id scanBoxLabel
+id scanButtonBatch
 id scanButtonBox
 id scanButtonExtract
 id scanButtonRack

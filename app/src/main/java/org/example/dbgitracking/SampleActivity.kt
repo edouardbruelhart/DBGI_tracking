@@ -201,7 +201,6 @@ class SampleActivity : AppCompatActivity() {
                 put("field_sample_id", sampleId)
                 put("container_8x3_id", rackId)
             }
-            showToast("$data")
 
             val outputStream: OutputStream = urlConnection.outputStream
             val writer = BufferedWriter(withContext(Dispatchers.IO) {

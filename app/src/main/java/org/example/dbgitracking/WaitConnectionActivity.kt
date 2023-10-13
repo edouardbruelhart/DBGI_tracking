@@ -32,7 +32,14 @@ class WaitConnectionActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } else {
+                val accessToken = intent.getStringExtra("ACCESS_TOKEN")
+                val username = intent.getStringExtra("USERNAME")
+                val password = intent.getStringExtra("PASSWORD")
+
                 val intent = Intent(this, ManagePrinterActivity::class.java)
+                intent.putExtra("ACCESS_TOKEN", accessToken)
+                intent.putExtra("USERNAME", username)
+                intent.putExtra("PASSWORD", password)
                 startActivity(intent)
                 finish()
             }

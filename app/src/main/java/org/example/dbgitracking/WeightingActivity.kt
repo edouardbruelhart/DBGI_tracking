@@ -50,7 +50,7 @@ class WeightingActivity : AppCompatActivity() {
     private lateinit var numberInput: EditText
     private lateinit var actionButton: Button
     private lateinit var emptyPlace: TextView
-    var hasTriedAgain = false
+    private var hasTriedAgain = false
 
 @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,14 +104,14 @@ class WeightingActivity : AppCompatActivity() {
             if (inputNumber != null && inputNumber >= 47.5 && inputNumber <= 52.5) {
 
                 // Define the table url
-                val collection_url = "http://directus.dbgi.org/items/Lab_Extracts"
+                val collectionUrl = "http://directus.dbgi.org/items/Lab_Extracts"
 
                 // Function to send data to Directus
                 @SuppressLint("DiscouragedApi")
-                suspend fun sendDataToDirectus(access_token: String, sampleId: String, weight: String) {
-                    val url = URL(collection_url)
+                suspend fun sendDataToDirectus(accessToken: String, sampleId: String, weight: String) {
+                    val url = URL(collectionUrl)
 
-                    val extractId = checkExistenceInDirectus(access_token, sampleId)
+                    val extractId = checkExistenceInDirectus(accessToken, sampleId)
 
                     if (extractId != null) {
 
@@ -123,7 +123,7 @@ class WeightingActivity : AppCompatActivity() {
                             urlConnection.setRequestProperty("Content-Type", "application/json")
                             urlConnection.setRequestProperty(
                                 "Authorization",
-                                "Bearer $access_token"
+                                "Bearer $accessToken"
                             )
 
                             val data = JSONObject().apply {
@@ -171,16 +171,9 @@ class WeightingActivity : AppCompatActivity() {
                                 }
 
                                 // 'response' contains the response from the server
-                                withContext(Dispatchers.Main) {
-                                    // Display a Toast with the response message
-                                    Toast.makeText(
-                                        this@WeightingActivity,
-                                        "$extractId correctly added to database",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
+                                showToast("$extractId correctly added to database")
                                 // print label here
-                                val isPrinterConnected = intent.getStringExtra("ISPRINTERCONNECTED")
+                                val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
                                 if (isPrinterConnected == "yes") {
                                     val printerDetails = PrinterDetailsSingleton.printerDetails
                                     // Specify the name of the template file you want to use.
@@ -204,14 +197,19 @@ class WeightingActivity : AppCompatActivity() {
                                         TemplateFactory.getTemplate(iStream, this@WeightingActivity)
                                     // Simple way to iterate through any placeholders to set desired values.
                                     for (placeholder in template.templateData) {
-                                        if (placeholder.name == "QR") {
-                                            placeholder.value = weightId
-                                        } else if (placeholder.name == "sample") {
-                                            placeholder.value = sample
-                                        } else if (placeholder.name == "extract") {
-                                            placeholder.value = extract
-                                        } else if (placeholder.name == "injection/temp") {
-                                            placeholder.value = injetemp
+                                        when (placeholder.name) {
+                                            "QR" -> {
+                                                placeholder.value = weightId
+                                            }
+                                            "sample" -> {
+                                                placeholder.value = sample
+                                            }
+                                            "extract" -> {
+                                                placeholder.value = extract
+                                            }
+                                            "injection/temp" -> {
+                                                placeholder.value = injetemp
+                                            }
                                         }
                                     }
 
@@ -238,32 +236,24 @@ class WeightingActivity : AppCompatActivity() {
                                     delay(1500)
                                     startQRScan("Scan object's QR")
                                 }
-                            } else {
-                                if (hasTriedAgain == false) {
+                            } else if (!hasTriedAgain) {
                                     hasTriedAgain = true
-                                    val new_access_token = getNewAccessToken()
+                                    val newAccessToken = getNewAccessToken()
 
-                                    if (new_access_token != null) {
+                                    if (newAccessToken != null) {
                                         // Retry the operation with the new access token
                                         return sendDataToDirectus(
-                                            new_access_token,
+                                            newAccessToken,
                                             sampleId,
                                             weight
                                         )
                                     }
                                 }
-                            }
                         } finally {
                             urlConnection.disconnect()
                         }
                     } else {
-                        withContext(Dispatchers.Main){
-                            Toast.makeText(
-                                this@WeightingActivity,
-                                "No more available extraction labels",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        showToast("No more available extraction labels")
                     }
                 }
 
@@ -271,10 +261,10 @@ class WeightingActivity : AppCompatActivity() {
 
                 // Usage
                 CoroutineScope(Dispatchers.IO).launch {
-                    val access_token = intent.getStringExtra("ACCESS_TOKEN")
-                    if (access_token != null) {
+                    val accessToken = intent.getStringExtra("ACCESS_TOKEN")
+                    if (accessToken != null) {
                         // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
-                        sendDataToDirectus(access_token, scanButtonSample.text.toString(), inputNumber.toString())
+                        sendDataToDirectus(accessToken, scanButtonSample.text.toString(), inputNumber.toString())
                     } else {
                         showToast("Token error, please verify your connection")
                     }
@@ -299,7 +289,7 @@ class WeightingActivity : AppCompatActivity() {
     }
 
     // Function that permits to control which extracts are already in the database and increment by one to create a unique one
-    private suspend fun checkExistenceInDirectus(access_token: String, sampleId: String): String? {
+    private suspend fun checkExistenceInDirectus(accessToken: String, sampleId: String): String? {
         for (i in 1..99) {
             val testId = "${sampleId}_${String.format("%02d", i)}"
             val url = URL("http://directus.dbgi.org/items/Lab_Extracts?filter[lab_extract_id][_eq]=$testId")
@@ -308,10 +298,11 @@ class WeightingActivity : AppCompatActivity() {
 
             try {
                 urlConnection.requestMethod = "GET"
-                urlConnection.setRequestProperty("Authorization", "Bearer $access_token")
+                urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
 
                 val responseCode = urlConnection.responseCode
                 if (responseCode == HttpURLConnection.HTTP_OK) {
+                    hasTriedAgain = false
                     // Read the response body
                     val inputStream = urlConnection.inputStream
                     val bufferedReader = BufferedReader(withContext(Dispatchers.IO) {
@@ -335,17 +326,15 @@ class WeightingActivity : AppCompatActivity() {
                     if (response.toString() == "{\"data\":[]}") {
                         return testId
                     }
-                } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    // Access token is invalid, attempt to reconnect
-                    // This is a simplified example, you should implement the logic to obtain a new access token
+                } else if (!hasTriedAgain) {
+                        hasTriedAgain = true
+                        val newAccessToken = getNewAccessToken()
 
-                    val new_access_token = getNewAccessToken()
-
-                    if (new_access_token != null) {
-                        // Retry the operation with the new access token
-                        return checkExistenceInDirectus(new_access_token, sampleId)
+                        if (newAccessToken != null) {
+                            // Retry the operation with the new access token
+                            return checkExistenceInDirectus(newAccessToken, sampleId)
+                        }
                     }
-                }
             } finally {
                 urlConnection.disconnect()
             }
@@ -389,9 +378,9 @@ class WeightingActivity : AppCompatActivity() {
             try {
                 val username = intent.getStringExtra("USERNAME")
                 val password = intent.getStringExtra("PASSWORD")
-                val base_url = "http://directus.dbgi.org"
-                val login_url = "$base_url/auth/login"
-                val url = URL(login_url)
+                val baseUrl = "http://directus.dbgi.org"
+                val loginUrl = "$baseUrl/auth/login"
+                val url = URL(loginUrl)
                 val connection =
                     withContext(Dispatchers.IO) {
                         url.openConnection()
@@ -427,8 +416,8 @@ class WeightingActivity : AppCompatActivity() {
                     val jsonData = content.toString()
                     val jsonResponse = JSONObject(jsonData)
                     val data = jsonResponse.getJSONObject("data")
-                    val access_token = data.getString("access_token")
-                    deferred.complete(access_token)
+                    val accessToken = data.getString("access_token")
+                    deferred.complete(accessToken)
                 } else {
                     emptyPlace.text = "Database error, please check your connection."
                     deferred.complete(null)
@@ -443,5 +432,4 @@ class WeightingActivity : AppCompatActivity() {
         }
         return deferred.await()
     }
-
 }

@@ -24,7 +24,7 @@
         android:id="@+id/choosePrinter"
         android:layout_width="353dp"
         android:layout_height="131dp"
-        android:text="Actually only available for brady m211. Make sure your printer is on and bluetooth blue light is blinking, then press the connection button."
+        android:text="Actually only available for brady m211. Make sure your printer is on and bluetooth blue light is blinking, then select your printer"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
