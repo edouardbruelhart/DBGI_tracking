@@ -19,9 +19,11 @@ id SignalingButton
 id WeightingButton
 id actionButton
 id aliquotsMethodLabel
+id buttonNewBatch
 id choosePrinter
 id connectButton
 id connectText
+id connectionLabel
 id connectionStatusTextView
 id emptyPlace
 id errorMessageTextView
@@ -67,6 +69,7 @@ mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round
 raw template_dbgi
+raw template_dbgi_batch
 string app_name
 style Theme.DBGITracking
 xml backup_rules

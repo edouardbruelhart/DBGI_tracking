@@ -3175,6 +3175,7 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id buttonNewBatch
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3203,6 +3204,7 @@ id compress
 id confirm_button
 id connectButton
 id connectText
+id connectionLabel
 id connectionStatusTextView
 id constraint
 id container
@@ -3829,6 +3831,7 @@ mipmap ic_launcher_foreground
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
 raw template_dbgi
+raw template_dbgi_batch
 raw zxing_beep
 string abc_action_bar_home_description
 string abc_action_bar_up_description

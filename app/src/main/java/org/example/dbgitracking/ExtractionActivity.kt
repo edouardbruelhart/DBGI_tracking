@@ -7,7 +7,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.text.SpannableString
+import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.MenuItem
@@ -15,6 +17,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -46,6 +49,7 @@ class ExtractionActivity : AppCompatActivity() {
     private lateinit var buttonNewBatch: Button
     private lateinit var newExtractionMethod: TextView
     private lateinit var extractionMethodLabel: TextView
+    private lateinit var volumeInput: EditText
     private lateinit var extractionMethodSpinner: Spinner
     private lateinit var extractionMethodBatch: TextView
     private lateinit var extractionMethodBox: TextView
@@ -74,6 +78,7 @@ class ExtractionActivity : AppCompatActivity() {
         buttonNewBatch = findViewById(R.id.buttonNewBatch)
         newExtractionMethod = findViewById(R.id.newExtractionMethod)
         extractionMethodLabel = findViewById(R.id.extractionMethodLabel)
+        volumeInput = findViewById(R.id.volumeInput)
         extractionMethodSpinner = findViewById(R.id.extractionMethodSpinner)
         extractionMethodBox = findViewById(R.id.extractionMethodBox)
         extractionMethodBatch = findViewById(R.id.extractionMethodBatch)
@@ -83,10 +88,30 @@ class ExtractionActivity : AppCompatActivity() {
         scanButtonSample = findViewById(R.id.scanButtonSample)
         emptyPlace = findViewById(R.id.emptyPlace)
 
+        volumeInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val inputText = s.toString()
+                val inputVolume = inputText.toInt()
+
+                if (inputVolume > 0) {
+                    extractionMethodBox.visibility = View.VISIBLE
+                    scanButtonBox.visibility = View.VISIBLE
+                } else {
+                    extractionMethodBox.visibility = View.INVISIBLE
+                    scanButtonBox.visibility = View.INVISIBLE
+                }
+            }
+        })
 
         // Set up button to generate a new batch identifier
         buttonNewBatch.setOnClickListener {
-
+            CoroutineScope(Dispatchers.IO).launch {
+                generateNewBatch("Fribourg", "JBUF")
+            }
         }
 
         // Make the link clickable
@@ -109,11 +134,9 @@ class ExtractionActivity : AppCompatActivity() {
         extractionMethodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position > 0) { // Check if a valid option (not "Choose an option") is selected
-                    extractionMethodBox.visibility = View.VISIBLE
-                    scanButtonBox.visibility = View.VISIBLE
+                    volumeInput.visibility = View.VISIBLE
                 } else {
-                    extractionMethodBox.visibility = View.INVISIBLE
-                    scanButtonBox.visibility = View.INVISIBLE
+                    volumeInput.visibility = View.INVISIBLE
                 }
             }
 
@@ -167,7 +190,6 @@ class ExtractionActivity : AppCompatActivity() {
                             val boxValueExt = checkBoxLoadExt(accessToken, box)
                             val boxValueAl = checkBoxLoadAl(accessToken, box)
                             val boxValueBa = checkBoxLoadBa(accessToken, box)
-                            showToast("box value ba: $boxValueBa")
                             val stillPlace = 81 - boxValueExt - boxValueAl - boxValueBa
                             val boxValue = boxValueAl + boxValueExt + boxValueBa
                             if (boxValue >= 0 && stillPlace > 0) {
@@ -184,6 +206,7 @@ class ExtractionActivity : AppCompatActivity() {
                         } else if (isBatchActive) {
                         val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
                         val box = scanButtonBox.text.toString()
+                        sendBatchToDirectus(result.contents, box)
                         val baBoxValueExt = checkBoxLoadExt(accessToken, box)
                         val baBoxValueAl = checkBoxLoadAl(accessToken, box)
                         val baBoxValueBa = checkBoxLoadBa(accessToken, box)
@@ -205,9 +228,13 @@ class ExtractionActivity : AppCompatActivity() {
                             val boxId = scanButtonBox.text.toString()
                             val sampleId = scanButtonSample.text.toString()
                             val selectedValue = extractionMethodSpinner.selectedItem.toString()
+                            val batchId = scanButtonBatch.text.toString()
+                            val inputVolume = volumeInput.text.toString()
                             if (accessToken != null) {
                                 withContext(Dispatchers.IO) {
-                                    sendDataToDirectus(accessToken, sampleId, boxId, selectedValue)
+                                    sendDataToDirectus(accessToken, sampleId, boxId, selectedValue, batchId,
+                                        inputVolume
+                                    )
                                 }
                             }
                         }
@@ -220,7 +247,7 @@ class ExtractionActivity : AppCompatActivity() {
 
     // Function to send data to Directus
     @SuppressLint("SetTextI18n")
-    private suspend fun sendDataToDirectus(accessToken: String, extractId: String, boxId: String, extractionMethod: String) {
+    private suspend fun sendDataToDirectus(accessToken: String, extractId: String, boxId: String, extractionMethod: String, batchId: String, inputVolume: String) {
         val parts = extractId.split("_")
         val withoutTemp = parts[0] + "_" + parts[1] + "_" + parts[2]
         // Define the table url
@@ -236,6 +263,8 @@ class ExtractionActivity : AppCompatActivity() {
             val data = JSONObject().apply {
                 put("container_9x9_id", boxId)
                 put("extraction_method", extractionMethod)
+                put("batch_id", batchId)
+                put("solvent_volume_micro", inputVolume)
             }
 
             val outputStream: OutputStream = urlConnection.outputStream
@@ -369,13 +398,178 @@ class ExtractionActivity : AppCompatActivity() {
                 val newAccessToken = getNewAccessToken()
                 if (newAccessToken != null) {
                     // Retry the operation with the new access token
-                    return sendDataToDirectus(newAccessToken, scanButtonSample.text.toString(), scanButtonBox.text.toString(), extractionMethodSpinner.selectedItem.toString())
+                    return sendDataToDirectus(newAccessToken, scanButtonSample.text.toString(), scanButtonBox.text.toString(), extractionMethodSpinner.selectedItem.toString(), scanButtonBatch.text.toString(), inputVolume)
                 }
             } else {
                 showToast("Database error, please try again")
             }
         } finally {
             urlConnection.disconnect()
+        }
+    }
+
+
+    // Function to send data to Directus
+    @SuppressLint("SetTextI18n", "DiscouragedApi")
+    private suspend fun generateNewBatch(batchLocation: String, bG: String) {
+        val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
+        // Define the table url
+        val collectionUrl = "http://directus.dbgi.org/items/Batch/"
+
+        val url = URL(collectionUrl)
+        val urlConnection2 =
+            withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
+        try {
+            val sortParam = "sort=-batch_id"
+            val urlWithSort = URL("$collectionUrl?$sortParam")
+            val urlConnection =
+                withContext(Dispatchers.IO) { urlWithSort.openConnection() as HttpURLConnection }
+
+            urlConnection.requestMethod = "GET"
+            urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
+
+            val responseCode = urlConnection.responseCode
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // Read the response body
+                val inputStream = urlConnection.inputStream
+                val bufferedReader = BufferedReader(withContext(Dispatchers.IO) {
+                    InputStreamReader(inputStream, "UTF-8")
+                })
+                val response = StringBuilder()
+                var line: String?
+                while (withContext(Dispatchers.IO) {
+                        bufferedReader.readLine()
+                    }.also { line = it } != null) {
+                    response.append(line)
+                }
+
+                val jsonData = response.toString()
+                val jsonResponse = JSONObject(jsonData)
+                val lastValue =
+                    jsonResponse.getJSONArray("data").getJSONObject(0).getString("batch_id")
+                val lastNumber = lastValue.split("_")[2].toInt()
+
+                // Define the first number of the list (last number + 1)
+                val firstNumber = lastNumber + 1
+
+                // Create a list with the asked codes beginning with the first number
+                val batchId = String.format("dbgi_batch_%06d", firstNumber)
+                urlConnection.disconnect()
+                urlConnection2.requestMethod = "POST"
+                urlConnection2.setRequestProperty("Content-Type", "application/json")
+                urlConnection2.setRequestProperty("Authorization", "Bearer $accessToken")
+
+                val data = JSONObject().apply {
+                    put("Reserved", "True")
+                    put("batch_id", batchId)
+                    put("batch_location", batchLocation)
+                    put("BG", bG)
+                }
+
+                val outputStream: OutputStream = urlConnection2.outputStream
+                val writer = BufferedWriter(withContext(Dispatchers.IO) {
+                    OutputStreamWriter(outputStream, "UTF-8")
+                })
+                withContext(Dispatchers.IO) {
+                    writer.write(data.toString())
+                }
+                withContext(Dispatchers.IO) {
+                    writer.flush()
+                }
+                withContext(Dispatchers.IO) {
+                    writer.close()
+                }
+
+                val responseCode = urlConnection2.responseCode
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    hasTriedAgain = false
+                    val inputStream = urlConnection.inputStream
+                    val bufferedReader = BufferedReader(
+                        withContext(
+                            Dispatchers.IO
+                        ) {
+                            InputStreamReader(inputStream, "UTF-8")
+                        })
+                    val response = StringBuilder()
+                    var line: String?
+                    while (withContext(Dispatchers.IO) {
+                            bufferedReader.readLine()
+                        }.also { line = it } != null) {
+                        response.append(line)
+                    }
+                    withContext(Dispatchers.IO) {
+                        bufferedReader.close()
+                    }
+                    withContext(Dispatchers.IO) {
+                        inputStream.close()
+                    }
+
+                    // 'response' contains the response from the server
+                    showToast("$batchId correctly added to database")
+
+                    // print label here
+                    val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+                    if (isPrinterConnected == "yes") {
+                        val printerDetails = PrinterDetailsSingleton.printerDetails
+                        // Specify the name of the template file you want to use.
+                        val selectedFileName = "template_dbgi_batch"
+
+                        // Initialize an input stream by opening the specified file.
+                        val iStream = resources.openRawResource(
+                            resources.getIdentifier(
+                                selectedFileName, "raw",
+                                packageName
+                            )
+                        )
+                        val parts = batchId.split("_")
+                        val sample = "_" + parts[2]
+
+                        // Call the SDK method ".getTemplate()" to retrieve its Template Object
+                        val template =
+                            TemplateFactory.getTemplate(iStream, this@ExtractionActivity)
+                        // Simple way to iterate through any placeholders to set desired values.
+                        for (placeholder in template.templateData) {
+                            when (placeholder.name) {
+                                "QR" -> {
+                                    placeholder.value = batchId
+                                }
+
+                                "sample" -> {
+                                    placeholder.value = sample
+                                }
+                            }
+                        }
+
+                        val printingOptions = PrintingOptions()
+                        printingOptions.cutOption = CutOption.EndOfJob
+                        printingOptions.numberOfCopies = 1
+                        val r = Runnable {
+                            runOnUiThread {
+                                printerDetails.print(
+                                    this,
+                                    template,
+                                    printingOptions,
+                                    null
+                                )
+                            }
+                        }
+                        val printThread = Thread(r)
+                        printThread.start()
+                    }
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+                    if (newAccessToken != null) {
+                        // Retry the operation with the new access token
+                        return generateNewBatch(batchLocation, bG)
+                    } else {
+                        showToast("Database error, please try again")
+                    }
+                }
+            }
+        } finally {
+            urlConnection2.disconnect()
         }
     }
 
@@ -435,15 +629,13 @@ class ExtractionActivity : AppCompatActivity() {
                                 val selectedDescription = descriptions[selectedValue]
                                 extractionInformation.visibility = View.VISIBLE
                                 extractionInformation.text = selectedDescription
-                                extractionMethodBox.visibility = View.VISIBLE
-                                scanButtonBox.visibility = View.VISIBLE
+                                volumeInput.visibility = View.VISIBLE
                             }
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>?) {
                             //newExtractionMethod.text = "No suitable referenced method? add it by following this link and restart the application"
-                            extractionMethodBox.visibility = View.INVISIBLE
-                            scanButtonBox.visibility = View.INVISIBLE
+                            volumeInput.visibility = View.INVISIBLE
                         }
                     }
                 }
@@ -666,6 +858,84 @@ class ExtractionActivity : AppCompatActivity() {
             }
         }
         emptyPlace.setTextColor(Color.RED)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private suspend fun sendBatchToDirectus(batchId: String, boxId: String) {
+        withContext(Dispatchers.IO) {
+            val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
+            // Define the table url
+            val collectionUrl = "http://directus.dbgi.org/items/Batch/$batchId"
+            val url = URL(collectionUrl)
+            val urlConnection =
+                withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
+
+            try {
+                urlConnection.requestMethod = "PATCH"
+                urlConnection.setRequestProperty("Content-Type", "application/json")
+                urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
+
+                val data = JSONObject().apply {
+                    put("container_9x9_id", boxId)
+                }
+
+                val outputStream: OutputStream = urlConnection.outputStream
+                val writer = BufferedWriter(withContext(Dispatchers.IO) {
+                    OutputStreamWriter(outputStream, "UTF-8")
+                })
+                withContext(Dispatchers.IO) {
+                    writer.write(data.toString())
+                }
+                withContext(Dispatchers.IO) {
+                    writer.flush()
+                }
+                withContext(Dispatchers.IO) {
+                    writer.close()
+                }
+
+                val responseCode = urlConnection.responseCode
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    hasTriedAgain = false
+                    val inputStream = urlConnection.inputStream
+                    val bufferedReader = BufferedReader(
+                        withContext(
+                            Dispatchers.IO
+                        ) {
+                            InputStreamReader(inputStream, "UTF-8")
+                        })
+                    val response = StringBuilder()
+                    var line: String?
+                    while (withContext(Dispatchers.IO) {
+                            bufferedReader.readLine()
+                        }.also { line = it } != null) {
+                        response.append(line)
+                    }
+                    withContext(Dispatchers.IO) {
+                        bufferedReader.close()
+                    }
+                    withContext(Dispatchers.IO) {
+                        inputStream.close()
+                    }
+
+                    // 'response' contains the response from the server
+                    showToast("$batchId correctly added to $boxId box")
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+                    if (newAccessToken != null) {
+                        // Retry the operation with the new access token
+                        return@withContext sendBatchToDirectus(
+                            batchId, boxId
+                        )
+                    }
+                } else {
+                    showToast("Database error, please try again")
+                }
+            } finally {
+                urlConnection.disconnect()
+            }
+        }
     }
 
 }

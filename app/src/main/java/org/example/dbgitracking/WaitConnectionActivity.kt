@@ -2,15 +2,19 @@ package org.example.dbgitracking
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bradysdk.api.printerdiscovery.PrinterDiscovery
 
 class WaitConnectionActivity : AppCompatActivity() {
     private lateinit var printerDiscovery: PrinterDiscovery
+    private lateinit var connectionLabel: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wait_connection)
+
+        connectionLabel = findViewById(R.id.connectionLabel)
 
         printerDiscovery = PrinterDetailsSingleton.printerDiscovery
         val isNewConnection = intent.getStringExtra("IS_NEW_CONNECTION")

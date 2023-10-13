@@ -70,7 +70,6 @@ class ManagePrinterActivity : AppCompatActivity(), PrinterUpdateListener, Printe
             if (lastConnectedPrinter != null && lastConnectedPrinter.name != "") {
                 val lastConnectedPrinter = PrinterDetailsSingleton.printerDiscovery.lastConnectedPrinter
                 PrinterDetailsSingleton.connectToPrinter(this, lastConnectedPrinter, this)
-                showToast("Searching...")
                 val new = "false"
                 setPrinterDetails(new)
             } else {
