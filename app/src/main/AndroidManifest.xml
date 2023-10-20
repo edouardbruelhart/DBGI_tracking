@@ -33,6 +33,12 @@
         android:theme="@style/Theme.DBGITracking"
         tools:targetApi="31">
         <activity
+            android:name=".SignalingManActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignalingScanActivity"
+            android:exported="false" />
+        <activity
             android:name=".WaitConnectionActivity"
             android:exported="false" />
         <activity

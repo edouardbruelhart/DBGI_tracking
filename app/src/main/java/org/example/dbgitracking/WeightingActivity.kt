@@ -43,6 +43,8 @@ import java.net.URL
 class WeightingActivity : AppCompatActivity() {
 
     // Initiate the displayed objects
+    private lateinit var chooseWeightLabel: TextView
+    private lateinit var weightInput: EditText
     private lateinit var extractionMethodLabel: TextView
     private lateinit var scanButtonSample: Button
     private var isObjectScanActive = false
@@ -51,6 +53,7 @@ class WeightingActivity : AppCompatActivity() {
     private lateinit var actionButton: Button
     private lateinit var emptyPlace: TextView
     private var hasTriedAgain = false
+    private var lastAccessToken: String? = null
 
 @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +66,8 @@ class WeightingActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
         // Initialize objects views
+        chooseWeightLabel = findViewById(R.id.chooseWeightLabel)
+        weightInput = findViewById(R.id.weightInput)
         extractionMethodLabel = findViewById(R.id.extractionMethodLabel)
         scanButtonSample = findViewById(R.id.scanButtonSample)
         scannedInfoTextView = findViewById(R.id.scannedInfoTextView)
@@ -70,6 +75,27 @@ class WeightingActivity : AppCompatActivity() {
         actionButton = findViewById(R.id.actionButton)
         emptyPlace = findViewById(R.id.emptyPlace)
 
+        val token = intent.getStringExtra("ACCESS_TOKEN").toString()
+
+        // stores the original token
+        retrieveToken(token)
+
+        weightInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val inputText = s.toString()
+                if (inputText != "") {
+                    inputText.toInt()
+                }
+
+                weightInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
+                extractionMethodLabel.visibility = View.VISIBLE // Show actionButton if valid
+                scanButtonSample.visibility = View.VISIBLE
+            }
+        })
 
         // Set up button click listener for Object QR Scanner
         scanButtonSample.setOnClickListener {
@@ -84,10 +110,15 @@ class WeightingActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
+                weightInput.visibility = View.INVISIBLE
+                chooseWeightLabel.visibility = View.INVISIBLE
                 val inputText = s.toString()
                 val inputNumber = inputText.toFloatOrNull()
+                val weightNumber = weightInput.text.toString()
+                val smallNumber = weightNumber.toInt() - weightNumber.toDouble()*5/100
+                val bigNumber = weightNumber.toInt() + weightNumber.toDouble()*5/100
 
-                if (inputNumber != null && inputNumber >= 47.5 && inputNumber <= 52.5) {
+                if (inputNumber != null && inputNumber >= smallNumber && inputNumber <= bigNumber) {
                     numberInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
                     actionButton.visibility = View.VISIBLE // Show actionButton if valid
                 } else {
@@ -108,10 +139,12 @@ class WeightingActivity : AppCompatActivity() {
 
                 // Function to send data to Directus
                 @SuppressLint("DiscouragedApi")
-                suspend fun sendDataToDirectus(accessToken: String, sampleId: String, weight: String) {
+                suspend fun sendDataToDirectus(sampleId: String, weight: String) {
+                    val accessToken = retrieveToken()
+
                     val url = URL(collectionUrl)
 
-                    val extractId = checkExistenceInDirectus(accessToken, sampleId)
+                    val extractId = checkExistenceInDirectus(sampleId)
 
                     if (extractId != null) {
 
@@ -241,12 +274,10 @@ class WeightingActivity : AppCompatActivity() {
                                     val newAccessToken = getNewAccessToken()
 
                                     if (newAccessToken != null) {
+                                        retrieveToken(newAccessToken)
+                                        showToast("connection to directus lost, reconnecting...")
                                         // Retry the operation with the new access token
-                                        return sendDataToDirectus(
-                                            newAccessToken,
-                                            sampleId,
-                                            weight
-                                        )
+                                        return sendDataToDirectus(sampleId, weight)
                                     }
                                 }
                         } finally {
@@ -257,17 +288,9 @@ class WeightingActivity : AppCompatActivity() {
                     }
                 }
 
-
-
                 // Usage
                 CoroutineScope(Dispatchers.IO).launch {
-                    val accessToken = intent.getStringExtra("ACCESS_TOKEN")
-                    if (accessToken != null) {
-                        // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
-                        sendDataToDirectus(accessToken, scanButtonSample.text.toString(), inputNumber.toString())
-                    } else {
-                        showToast("Token error, please verify your connection")
-                    }
+                    sendDataToDirectus(scanButtonSample.text.toString(), inputNumber.toString())
                 }
             }
         }
@@ -289,11 +312,11 @@ class WeightingActivity : AppCompatActivity() {
     }
 
     // Function that permits to control which extracts are already in the database and increment by one to create a unique one
-    private suspend fun checkExistenceInDirectus(accessToken: String, sampleId: String): String? {
+    private suspend fun checkExistenceInDirectus(sampleId: String): String? {
         for (i in 1..99) {
             val testId = "${sampleId}_${String.format("%02d", i)}"
             val url = URL("http://directus.dbgi.org/items/Lab_Extracts?filter[lab_extract_id][_eq]=$testId")
-
+            val accessToken = retrieveToken()
             val urlConnection = withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
 
             try {
@@ -331,8 +354,10 @@ class WeightingActivity : AppCompatActivity() {
                         val newAccessToken = getNewAccessToken()
 
                         if (newAccessToken != null) {
+                            retrieveToken(newAccessToken)
+                            showToast("connection to directus lost, reconnecting...")
                             // Retry the operation with the new access token
-                            return checkExistenceInDirectus(newAccessToken, sampleId)
+                            return checkExistenceInDirectus(sampleId)
                         }
                     }
             } finally {
@@ -431,5 +456,12 @@ class WeightingActivity : AppCompatActivity() {
             }
         }
         return deferred.await()
+    }
+
+    private fun retrieveToken(token: String? = null): String {
+        if (token != null) {
+            lastAccessToken = token
+        }
+        return lastAccessToken ?: "null"
     }
 }

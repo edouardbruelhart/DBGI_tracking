@@ -33,7 +33,6 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 // Create the class for the actual screen
-@Suppress("NAME_SHADOWING")
 class SampleActivity : AppCompatActivity() {
 
     // Initiate the displayed objects
@@ -44,6 +43,7 @@ class SampleActivity : AppCompatActivity() {
     private var isRackScanActive = false
     private var isObjectScanActive = false
     private var hasTriedAgain = false
+    private var lastAccessToken: String? = null
 
     @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +60,11 @@ class SampleActivity : AppCompatActivity() {
         scanButtonRack = findViewById(R.id.scanButtonRack)
         emptyPlace = findViewById(R.id.emptyPlace)
         scanButtonSample = findViewById(R.id.scanButtonSample)
+
+        val token = intent.getStringExtra("ACCESS_TOKEN").toString()
+
+        // stores the original token
+        retrieveToken(token)
 
         // Set up button click listener for Box QR Scanner
         scanButtonRack.setOnClickListener {
@@ -102,9 +107,8 @@ class SampleActivity : AppCompatActivity() {
                     // Initiate the activity when a QR is scanned
                     if (result != null && result.contents != null) {
                         if (isRackScanActive) {
-                            val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
                             val rack = result.contents
-                            val rackValue = checkRackLoad(accessToken, rack)
+                            val rackValue = checkRackLoad(rack)
                             val stillPlace = 24 - rackValue
                             if (rackValue >= 0 && stillPlace > 0){
                                 scanButtonRack.text = result.contents
@@ -117,17 +121,10 @@ class SampleActivity : AppCompatActivity() {
                             }
                         } else if (isObjectScanActive) {
                             scanButtonSample.text = result.contents
-                            val accessToken = intent.getStringExtra("ACCESS_TOKEN")
                             val rackId = scanButtonRack.text.toString()
                             val sampleId = scanButtonSample.text.toString()
-                            if (accessToken != null) {
-                                withContext(Dispatchers.IO) {
-                                    sendDataToDirectus(
-                                        accessToken,
-                                        sampleId,
-                                        rackId
-                                    )
-                                }
+                            withContext(Dispatchers.IO) {
+                                sendDataToDirectus(sampleId, rackId)
                             }
                         }
                     }
@@ -137,9 +134,9 @@ class SampleActivity : AppCompatActivity() {
     }
 
     // Function to ask how many samples are already present in the rack to directus
-    private suspend fun checkRackLoad(accessToken: String, rackId: String): Int {
-
+    private suspend fun checkRackLoad(rackId: String): Int {
         return withContext(Dispatchers.IO) {
+            val accessToken = retrieveToken()
             val url = URL("http://directus.dbgi.org/items/Field_Samples/?filter[container_8x3_id][_eq]=$rackId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
@@ -164,23 +161,35 @@ class SampleActivity : AppCompatActivity() {
 
                     // Return the number of sorted elements
                     dataArray.length()
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+
+                    if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        showToast("connection to directus lost, reconnecting...")
+                        // Retry the operation with the new access token
+                        return@withContext checkRackLoad(rackId)
+                    } else {
+                        showToast("Connection error")
+                    }
                 } else {
-                    -1 // Return a value indicating an error
+                    showToast("Error: $responseCode")
                 }
             } finally {
                 urlConnection.disconnect()
-            }
+            } as Int
         }
     }
 
     // Function to send data to Directus
     @SuppressLint("SetTextI18n")
     private suspend fun sendDataToDirectus(
-        accessToken: String,
         sampleId: String,
         rackId: String
     ) {
         // Define the table url
+        val accessToken = retrieveToken()
         val collectionUrl = "http://directus.dbgi.org/items/Field_Samples"
         val url = URL(collectionUrl)
         val urlConnection = withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
@@ -245,9 +254,8 @@ class SampleActivity : AppCompatActivity() {
 
                 // Check if there is still enough place in the rack before initiating the QR code reader
                 CoroutineScope(Dispatchers.IO).launch {
-                    val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
                     val rack = emptyPlace.text.toString()
-                    val upRackValue = checkRackLoad(accessToken, rack)
+                    val upRackValue = checkRackLoad(rack)
                     val upStillPlace = 24 - upRackValue
 
                     withContext(Dispatchers.Main) {
@@ -269,17 +277,16 @@ class SampleActivity : AppCompatActivity() {
 
                     }
                 }
-            } else {
-                if (!hasTriedAgain) {
+            } else if (!hasTriedAgain) {
                     hasTriedAgain = true
                     val newAccessToken = getNewAccessToken()
 
                     if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
-                        return sendDataToDirectus(newAccessToken, sampleId, rackId)
+                        return sendDataToDirectus(sampleId, rackId)
                     }
-
-                }
                 // Request failed
                 showToast("Error: $responseCode")
             }
@@ -385,4 +392,10 @@ class SampleActivity : AppCompatActivity() {
         runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_LONG).show() }
     }
 
+    private fun retrieveToken(token: String? = null): String {
+        if (token != null) {
+            lastAccessToken = token
+        }
+        return lastAccessToken ?: "null"
+    }
 }

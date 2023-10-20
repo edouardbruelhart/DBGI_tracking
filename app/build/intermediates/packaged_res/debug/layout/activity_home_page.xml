@@ -38,7 +38,7 @@
         android:id="@+id/AliquotsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="aliquots mode (Available soon)"
+        android:text="aliquots mode"
         android:textSize="18sp"
         android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText" />
@@ -56,7 +56,7 @@
         android:id="@+id/SignalingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="signaling mode (available soon)"
+        android:text="signaling mode"
         android:textSize="18sp"
         android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText" />

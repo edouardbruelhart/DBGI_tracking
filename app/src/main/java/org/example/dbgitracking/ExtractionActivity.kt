@@ -59,6 +59,7 @@ class ExtractionActivity : AppCompatActivity() {
     private lateinit var scanButtonSample: Button
     private lateinit var emptyPlace: TextView
     private var hasTriedAgain = false
+    private var lastAccessToken: String? = null
 
     private var choices: List<String> = mutableListOf("Choose an option")
 
@@ -88,6 +89,11 @@ class ExtractionActivity : AppCompatActivity() {
         scanButtonSample = findViewById(R.id.scanButtonSample)
         emptyPlace = findViewById(R.id.emptyPlace)
 
+        val token = intent.getStringExtra("ACCESS_TOKEN").toString()
+
+        // stores the original token
+        retrieveToken(token)
+
         volumeInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -110,7 +116,7 @@ class ExtractionActivity : AppCompatActivity() {
         // Set up button to generate a new batch identifier
         buttonNewBatch.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                generateNewBatch("Fribourg", "JBUF")
+                generateNewBatch()
             }
         }
 
@@ -185,11 +191,10 @@ class ExtractionActivity : AppCompatActivity() {
                     if (result != null && result.contents != null) {
 
                         if (isBoxScanActive) {
-                            val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
                             val box = result.contents
-                            val boxValueExt = checkBoxLoadExt(accessToken, box)
-                            val boxValueAl = checkBoxLoadAl(accessToken, box)
-                            val boxValueBa = checkBoxLoadBa(accessToken, box)
+                            val boxValueExt = checkBoxLoadExt(box)
+                            val boxValueAl = checkBoxLoadAl(box)
+                            val boxValueBa = checkBoxLoadBa(box)
                             val stillPlace = 81 - boxValueExt - boxValueAl - boxValueBa
                             val boxValue = boxValueAl + boxValueExt + boxValueBa
                             if (boxValue >= 0 && stillPlace > 0) {
@@ -204,12 +209,11 @@ class ExtractionActivity : AppCompatActivity() {
                                 handleInvalidScanResult(stillPlace, boxValue)
                             }
                         } else if (isBatchActive) {
-                        val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
                         val box = scanButtonBox.text.toString()
                         sendBatchToDirectus(result.contents, box)
-                        val baBoxValueExt = checkBoxLoadExt(accessToken, box)
-                        val baBoxValueAl = checkBoxLoadAl(accessToken, box)
-                        val baBoxValueBa = checkBoxLoadBa(accessToken, box)
+                        val baBoxValueExt = checkBoxLoadExt(box)
+                        val baBoxValueAl = checkBoxLoadAl(box)
+                        val baBoxValueBa = checkBoxLoadBa(box)
                         val baStillPlace = 81 - baBoxValueExt - baBoxValueAl - baBoxValueBa
                         val boxValue = baBoxValueAl + baBoxValueExt + baBoxValueBa
                         if (boxValue >= 0 && baStillPlace > 0) {
@@ -224,18 +228,16 @@ class ExtractionActivity : AppCompatActivity() {
                         }
                         } else if (isObjectScanActive) {
                             scanButtonSample.text = result.contents
-                            val accessToken = intent.getStringExtra("ACCESS_TOKEN")
                             val boxId = scanButtonBox.text.toString()
                             val sampleId = scanButtonSample.text.toString()
                             val selectedValue = extractionMethodSpinner.selectedItem.toString()
-                            val batchId = scanButtonBatch.text.toString()
+                            showToast("selected method: $selectedValue")
+                            val batchSample = scanButtonBatch.text.toString()
+                            val parts = batchSample.split("_")
+                            val batchId = parts[0] + "_" + parts[1] + "_" + parts[3]
                             val inputVolume = volumeInput.text.toString()
-                            if (accessToken != null) {
-                                withContext(Dispatchers.IO) {
-                                    sendDataToDirectus(accessToken, sampleId, boxId, selectedValue, batchId,
-                                        inputVolume
-                                    )
-                                }
+                            withContext(Dispatchers.IO) {
+                                sendDataToDirectus(sampleId, boxId, selectedValue, batchId, inputVolume)
                             }
                         }
                     }
@@ -247,10 +249,11 @@ class ExtractionActivity : AppCompatActivity() {
 
     // Function to send data to Directus
     @SuppressLint("SetTextI18n")
-    private suspend fun sendDataToDirectus(accessToken: String, extractId: String, boxId: String, extractionMethod: String, batchId: String, inputVolume: String) {
+    private suspend fun sendDataToDirectus(extractId: String, boxId: String, extractionMethod: String, batchId: String, inputVolume: String) {
         val parts = extractId.split("_")
         val withoutTemp = parts[0] + "_" + parts[1] + "_" + parts[2]
         // Define the table url
+        val accessToken = retrieveToken()
         val collectionUrl = "http://directus.dbgi.org/items/Lab_Extracts/$withoutTemp"
         val url = URL(collectionUrl)
         val urlConnection = withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
@@ -368,11 +371,10 @@ class ExtractionActivity : AppCompatActivity() {
 
                 // Check if there is still enough place in the rack before initiating the QR code reader
                 CoroutineScope(Dispatchers.IO).launch {
-                    val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
                     val box = scanButtonBox.text.toString()
-                    val upBoxValueExt = checkBoxLoadExt(accessToken, box)
-                    val upBoxValueAl = checkBoxLoadAl(accessToken, box)
-                    val upBoxValueBa = checkBoxLoadBa(accessToken, box)
+                    val upBoxValueExt = checkBoxLoadExt(box)
+                    val upBoxValueAl = checkBoxLoadAl(box)
+                    val upBoxValueBa = checkBoxLoadBa(box)
                     val upStillPlace = 81 - upBoxValueExt - upBoxValueAl - upBoxValueBa
 
                     withContext(Dispatchers.Main) {
@@ -397,8 +399,13 @@ class ExtractionActivity : AppCompatActivity() {
                 hasTriedAgain = true
                 val newAccessToken = getNewAccessToken()
                 if (newAccessToken != null) {
+                    retrieveToken(newAccessToken)
+                    showToast("connection to directus lost, reconnecting...")
+                    val batchSample = scanButtonBatch.text.toString()
+                    val parts = batchSample.split("_")
+                    val batchId = parts[0] + "_" + parts[1] + "_" + parts[3]
                     // Retry the operation with the new access token
-                    return sendDataToDirectus(newAccessToken, scanButtonSample.text.toString(), scanButtonBox.text.toString(), extractionMethodSpinner.selectedItem.toString(), scanButtonBatch.text.toString(), inputVolume)
+                    return sendDataToDirectus(extractId, boxId, extractionMethod, batchId, inputVolume)
                 }
             } else {
                 showToast("Database error, please try again")
@@ -411,8 +418,8 @@ class ExtractionActivity : AppCompatActivity() {
 
     // Function to send data to Directus
     @SuppressLint("SetTextI18n", "DiscouragedApi")
-    private suspend fun generateNewBatch(batchLocation: String, bG: String) {
-        val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
+    private suspend fun generateNewBatch() {
+        val accessToken = retrieveToken()
         // Define the table url
         val collectionUrl = "http://directus.dbgi.org/items/Batch/"
 
@@ -454,6 +461,7 @@ class ExtractionActivity : AppCompatActivity() {
 
                 // Create a list with the asked codes beginning with the first number
                 val batchId = String.format("dbgi_batch_%06d", firstNumber)
+                val batchSample = String.format("dbgi_batch_blk_%06d", firstNumber)
                 urlConnection.disconnect()
                 urlConnection2.requestMethod = "POST"
                 urlConnection2.setRequestProperty("Content-Type", "application/json")
@@ -462,8 +470,8 @@ class ExtractionActivity : AppCompatActivity() {
                 val data = JSONObject().apply {
                     put("Reserved", "True")
                     put("batch_id", batchId)
-                    put("batch_location", batchLocation)
-                    put("BG", bG)
+                    put("batch_type", "extraction")
+                    put("batch_sample", batchSample)
                 }
 
                 val outputStream: OutputStream = urlConnection2.outputStream
@@ -508,6 +516,10 @@ class ExtractionActivity : AppCompatActivity() {
                     // 'response' contains the response from the server
                     showToast("$batchId correctly added to database")
 
+                    val parts = batchId.split("_")
+                    val batchSample = parts[0] + "_" + parts[1] + "_" + "blk" + "_" + parts[2]
+                    showToast("batch sample: $batchSample")
+
                     // print label here
                     val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
                     if (isPrinterConnected == "yes") {
@@ -522,8 +534,9 @@ class ExtractionActivity : AppCompatActivity() {
                                 packageName
                             )
                         )
-                        val parts = batchId.split("_")
+                        //val parts = batchId.split("_")
                         val sample = "_" + parts[2]
+                        //val batchSample = parts[0] + "_" + parts[1] + "_" + "blk" + "_" + parts[2]
 
                         // Call the SDK method ".getTemplate()" to retrieve its Template Object
                         val template =
@@ -532,7 +545,7 @@ class ExtractionActivity : AppCompatActivity() {
                         for (placeholder in template.templateData) {
                             when (placeholder.name) {
                                 "QR" -> {
-                                    placeholder.value = batchId
+                                    placeholder.value = batchSample
                                 }
 
                                 "sample" -> {
@@ -561,8 +574,10 @@ class ExtractionActivity : AppCompatActivity() {
                     hasTriedAgain = true
                     val newAccessToken = getNewAccessToken()
                     if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
-                        return generateNewBatch(batchLocation, bG)
+                        return generateNewBatch()
                     } else {
                         showToast("Database error, please try again")
                     }
@@ -576,7 +591,7 @@ class ExtractionActivity : AppCompatActivity() {
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun fetchValuesAndPopulateSpinner() {
-        val accessToken = intent.getStringExtra("ACCESS_TOKEN")
+        val accessToken = retrieveToken()
         val apiUrl = "http://directus.dbgi.org/items/Extraction_Methods" // Replace with your collection URL
         val url = URL(apiUrl)
 
@@ -734,10 +749,12 @@ class ExtractionActivity : AppCompatActivity() {
     }
 
     // Function to ask how many samples are already present in the rack to directus
-    private suspend fun checkBoxLoadExt(accessToken: String, boxId: String): Int {
+    private suspend fun checkBoxLoadExt(boxId: String): Int {
 
         return withContext(Dispatchers.IO) {
-            val url = URL("http://directus.dbgi.org/items/Lab_Extracts/?filter[container_9x9_id][_eq]=$boxId")
+            val accessToken = retrieveToken()
+            val url =
+                URL("http://directus.dbgi.org/items/Lab_Extracts/?filter[container_9x9_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -761,19 +778,33 @@ class ExtractionActivity : AppCompatActivity() {
 
                     // Return the number of sorted elements
                     dataArray.length()
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+
+                    if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        showToast("connection to directus lost, reconnecting...")
+                        // Retry the operation with the new access token
+                        return@withContext checkBoxLoadExt(boxId)
+                    } else {
+                        showToast("Connection error")
+                    }
                 } else {
-                    -1 // Return a value indicating an error
+                    showToast("Error: $responseCode")
                 }
             } finally {
                 urlConnection.disconnect()
-            }
+            } as Int
         }
     }
 
-    private suspend fun checkBoxLoadAl(accessToken: String, boxId: String): Int {
+    private suspend fun checkBoxLoadAl(boxId: String): Int {
 
         return withContext(Dispatchers.IO) {
-            val url = URL("http://directus.dbgi.org/items/Aliquots/?filter[container_9x9_id][_eq]=$boxId")
+            val accessToken = retrieveToken()
+            val url =
+                URL("http://directus.dbgi.org/items/Aliquots/?filter[container_9x9_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -797,18 +828,31 @@ class ExtractionActivity : AppCompatActivity() {
 
                     // Return the number of sorted elements
                     dataArray.length()
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+
+                    if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        showToast("connection to directus lost, reconnecting...")
+                        // Retry the operation with the new access token
+                        return@withContext checkBoxLoadAl(boxId)
+                    } else {
+                        showToast("Connection error")
+                    }
                 } else {
-                    -1 // Return a value indicating an error
+                    showToast("Error: $responseCode")
                 }
             } finally {
                 urlConnection.disconnect()
-            }
+            } as Int
         }
     }
 
-    private suspend fun checkBoxLoadBa(accessToken: String, boxId: String): Int {
+    private suspend fun checkBoxLoadBa(boxId: String): Int {
 
         return withContext(Dispatchers.IO) {
+            val accessToken = retrieveToken()
             val url = URL("http://directus.dbgi.org/items/Batch/?filter[container_9x9_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
@@ -833,12 +877,24 @@ class ExtractionActivity : AppCompatActivity() {
 
                     // Return the number of sorted elements
                     dataArray.length()
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+
+                    if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        showToast("connection to directus lost, reconnecting...")
+                        // Retry the operation with the new access token
+                        return@withContext checkBoxLoadBa(boxId)
+                    } else {
+                        showToast("Connection error")
+                    }
                 } else {
-                    -1 // Return a value indicating an error
+                    showToast("Error: $responseCode")
                 }
             } finally {
                 urlConnection.disconnect()
-            }
+            } as Int
         }
     }
 
@@ -861,10 +917,12 @@ class ExtractionActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private suspend fun sendBatchToDirectus(batchId: String, boxId: String) {
+    private suspend fun sendBatchToDirectus(batchSample: String, boxId: String) {
         withContext(Dispatchers.IO) {
-            val accessToken = intent.getStringExtra("ACCESS_TOKEN").toString()
+            val accessToken = retrieveToken()
             // Define the table url
+            val parts = batchSample.split("_")
+            val batchId = parts[0] + "_" + parts[1] + "_" + parts[3]
             val collectionUrl = "http://directus.dbgi.org/items/Batch/$batchId"
             val url = URL(collectionUrl)
             val urlConnection =
@@ -874,9 +932,12 @@ class ExtractionActivity : AppCompatActivity() {
                 urlConnection.requestMethod = "PATCH"
                 urlConnection.setRequestProperty("Content-Type", "application/json")
                 urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
-
+                val selectedValue = extractionMethodSpinner.selectedItem.toString()
+                showToast("extraction method: $selectedValue")
                 val data = JSONObject().apply {
                     put("container_9x9_id", boxId)
+                    put("extraction_method", selectedValue)
+                    put("status", "OK")
                 }
 
                 val outputStream: OutputStream = urlConnection.outputStream
@@ -924,10 +985,10 @@ class ExtractionActivity : AppCompatActivity() {
                     hasTriedAgain = true
                     val newAccessToken = getNewAccessToken()
                     if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
-                        return@withContext sendBatchToDirectus(
-                            batchId, boxId
-                        )
+                        return@withContext sendBatchToDirectus(batchId, boxId)
                     }
                 } else {
                     showToast("Database error, please try again")
@@ -938,4 +999,10 @@ class ExtractionActivity : AppCompatActivity() {
         }
     }
 
+    private fun retrieveToken(token: String? = null): String {
+        if (token != null) {
+            lastAccessToken = token
+        }
+        return lastAccessToken ?: "null"
+    }
 }

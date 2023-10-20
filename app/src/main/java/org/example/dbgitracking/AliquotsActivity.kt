@@ -14,7 +14,11 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bradysdk.api.printerconnection.CutOption
+import com.bradysdk.api.printerconnection.PrintingOptions
+import com.bradysdk.printengine.templateinterface.TemplateFactory
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -40,6 +44,8 @@ class AliquotsActivity : AppCompatActivity() {
     private lateinit var scannedInfoTextView: TextView
     private lateinit var volumeInput: EditText
     private lateinit var actionButton: Button
+    private var hasTriedAgain = false
+    private var lastAccessToken: String? = null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +63,11 @@ class AliquotsActivity : AppCompatActivity() {
         scannedInfoTextView = findViewById(R.id.scannedInfoTextView)
         volumeInput = findViewById(R.id.volumeInput)
         actionButton = findViewById(R.id.actionButton)
+
+        val token = intent.getStringExtra("ACCESS_TOKEN").toString()
+
+        // stores the original token
+        retrieveToken(token)
 
         // Set up button click listener for Box QR Scanner
         scanButtonBox.setOnClickListener {
@@ -99,14 +110,16 @@ class AliquotsActivity : AppCompatActivity() {
             if (inputNumber != null) {
 
                 // Define the table url
-                val collection_url = "http://directus.dbgi.org/items/Aliquots"
+                val collectionUrl = "http://directus.dbgi.org/items/Aliquots"
 
                 // Function to send data to Directus
-                suspend fun sendDataToDirectus(access_token: String, extractId: String, volume: String, boxId: String) {
+                @SuppressLint("DiscouragedApi")
+                suspend fun sendDataToDirectus(extractId: String, volume: String, boxId: String) {
 
-                    val url = URL(collection_url)
+                    val accessToken = retrieveToken()
+                    val url = URL(collectionUrl)
 
-                    val injectId = checkExistenceInDirectus(access_token, extractId)
+                    val injectId = checkExistenceInDirectus(extractId)
 
                     if (injectId != null) {
 
@@ -118,7 +131,7 @@ class AliquotsActivity : AppCompatActivity() {
                             urlConnection.setRequestProperty("Content-Type", "application/json")
                             urlConnection.setRequestProperty(
                                 "Authorization",
-                                "Bearer $access_token"
+                                "Bearer $accessToken"
                             )
 
                             val data = JSONObject().apply {
@@ -144,6 +157,7 @@ class AliquotsActivity : AppCompatActivity() {
 
                             val responseCode = urlConnection.responseCode
                             if (responseCode == HttpURLConnection.HTTP_OK) {
+                                hasTriedAgain = false
                                 val inputStream = urlConnection.inputStream
                                 val bufferedReader = BufferedReader(
                                     withContext(
@@ -166,41 +180,86 @@ class AliquotsActivity : AppCompatActivity() {
                                 }
 
                                 // 'response' contains the response from the server
-                                withContext(Dispatchers.Main) {
-                                    // Display a Toast with the response message
-                                    Toast.makeText(
-                                        this@AliquotsActivity,
-                                        "$injectId correctly added to database",
-                                        Toast.LENGTH_LONG
-                                    ).show()
+                                showToast("$injectId correctly added to database")
+
+                                // print label here
+                                val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+                                if (isPrinterConnected == "yes") {
+                                    val printerDetails = PrinterDetailsSingleton.printerDetails
+                                    // Specify the name of the template file you want to use.
+                                    val selectedFileName = "template_dbgi"
+
+                                    // Initialize an input stream by opening the specified file.
+                                    val iStream = resources.openRawResource(
+                                        resources.getIdentifier(
+                                            selectedFileName, "raw",
+                                            packageName
+                                        )
+                                    )
+                                    val parts = injectId.split("_")
+                                    val sample = "_" + parts[1]
+                                    val extract = "_" + parts[2]
+                                    val injetemp = "_" + parts[3]
+
+                                    // Call the SDK method ".getTemplate()" to retrieve its Template Object
+                                    val template =
+                                        TemplateFactory.getTemplate(iStream, this@AliquotsActivity)
+                                    // Simple way to iterate through any placeholders to set desired values.
+                                    for (placeholder in template.templateData) {
+                                        when (placeholder.name) {
+                                            "QR" -> {
+                                                placeholder.value = injectId
+                                            }
+                                            "sample" -> {
+                                                placeholder.value = sample
+                                            }
+                                            "extract" -> {
+                                                placeholder.value = extract
+                                            }
+                                            "injection/temp" -> {
+                                                placeholder.value = injetemp
+                                            }
+                                        }
+                                    }
+
+                                    val printingOptions = PrintingOptions()
+                                    printingOptions.cutOption = CutOption.EndOfJob
+                                    printingOptions.numberOfCopies = 1
+                                    val r = Runnable {
+                                        runOnUiThread {
+                                            printerDetails.print(
+                                                this,
+                                                template,
+                                                printingOptions,
+                                                null
+                                            )
+                                        }
+                                    }
+                                    val printThread = Thread(r)
+                                    printThread.start()
                                 }
+
                                 // Start a coroutine to delay the next scan by 5 seconds
                                 CoroutineScope(Dispatchers.Main).launch {
                                     delay(1500)
                                     startQRScan("Scan object's QR")
                                 }
-                            } else {
-                                // Request failed
-                                withContext(Dispatchers.Main) {
-                                    // Display a Toast with an error message
-                                    Toast.makeText(
-                                        this@AliquotsActivity,
-                                        "Request failed, check if code is correct",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                            } else if (!hasTriedAgain) {
+                                hasTriedAgain = true
+                                val newAccessToken = getNewAccessToken()
+
+                                if (newAccessToken != null) {
+                                    retrieveToken(newAccessToken)
+                                    showToast("connection to directus lost, reconnecting...")
+                                    // Retry the operation with the new access token
+                                    return sendDataToDirectus(extractId, volume, boxId)
                                 }
                             }
                         } finally {
                             urlConnection.disconnect()
                         }
                     } else {
-                        withContext(Dispatchers.Main){
-                            Toast.makeText(
-                                this@AliquotsActivity,
-                                "No more available injection labels",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        showToast("No more available injection labels")
                     }
                 }
 
@@ -208,17 +267,8 @@ class AliquotsActivity : AppCompatActivity() {
 
                 // Usage
                 CoroutineScope(Dispatchers.IO).launch {
-                    val access_token = intent.getStringExtra("ACCESS_TOKEN")
-                    if (access_token != null) {
-                        // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
-                        sendDataToDirectus(access_token, scanButtonExtract.text.toString(), inputNumber.toInt().toString(), scanButtonBox.text.toString())
-                    } else {
-                        Toast.makeText(
-                            this@AliquotsActivity,
-                            "Token error, please close the application and reconnect",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
+                    sendDataToDirectus(scanButtonExtract.text.toString(), inputNumber.toInt().toString(), scanButtonBox.text.toString())
                 }
             }
         }
@@ -242,7 +292,8 @@ class AliquotsActivity : AppCompatActivity() {
         }
     }
 
-    suspend fun checkExistenceInDirectus(access_token: String, sampleId: String): String? {
+    private suspend fun checkExistenceInDirectus(sampleId: String): String? {
+        val accessToken = retrieveToken()
         for (i in 1..99) {
             val testId = "${sampleId}_${String.format("%02d", i)}"
             val url = URL("http://directus.dbgi.org/items/Aliquots?filter[aliquot_id][_eq]=$testId")
@@ -251,10 +302,11 @@ class AliquotsActivity : AppCompatActivity() {
 
             try {
                 urlConnection.requestMethod = "GET"
-                urlConnection.setRequestProperty("Authorization", "Bearer $access_token")
+                urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
 
                 val responseCode = urlConnection.responseCode
                 if (responseCode == HttpURLConnection.HTTP_OK) {
+                    hasTriedAgain = false
                     // Read the response body
                     val inputStream = urlConnection.inputStream
                     val bufferedReader = BufferedReader(withContext(Dispatchers.IO) {
@@ -277,6 +329,16 @@ class AliquotsActivity : AppCompatActivity() {
                     // Check if the response is empty
                     if (response.toString() == "{\"data\":[]}") {
                         return testId
+                    }
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+
+                    if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        showToast("connection to directus lost, reconnecting...")
+                        // Retry the operation with the new access token
+                        return checkExistenceInDirectus(sampleId)
                     }
                 }
             } finally {
@@ -307,5 +369,78 @@ class AliquotsActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private suspend fun getNewAccessToken(): String? {
+        // Start a coroutine to perform the network operation
+        val deferred = CompletableDeferred<String?>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val username = intent.getStringExtra("USERNAME")
+                val password = intent.getStringExtra("PASSWORD")
+                val baseUrl = "http://directus.dbgi.org"
+                val loginUrl = "$baseUrl/auth/login"
+                val url = URL(loginUrl)
+                val connection =
+                    withContext(Dispatchers.IO) {
+                        url.openConnection()
+                    } as HttpURLConnection
+                connection.requestMethod = "POST"
+                connection.setRequestProperty("Content-Type", "application/json")
+                connection.doOutput = true
+
+                val requestBody = "{\"email\":\"$username\",\"password\":\"$password\"}"
+
+                val outputStream: OutputStream = connection.outputStream
+                withContext(Dispatchers.IO) {
+                    outputStream.write(requestBody.toByteArray())
+                }
+                withContext(Dispatchers.IO) {
+                    outputStream.close()
+                }
+
+                val responseCode = connection.responseCode
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    val `in` = BufferedReader(InputStreamReader(connection.inputStream))
+                    val content = StringBuilder()
+                    var inputLine: String?
+                    while (withContext(Dispatchers.IO) {
+                            `in`.readLine()
+                        }.also { inputLine = it } != null) {
+                        content.append(inputLine)
+                    }
+                    withContext(Dispatchers.IO) {
+                        `in`.close()
+                    }
+
+                    val jsonData = content.toString()
+                    val jsonResponse = JSONObject(jsonData)
+                    val data = jsonResponse.getJSONObject("data")
+                    val accessToken = data.getString("access_token")
+                    deferred.complete(accessToken)
+                } else {
+                    showToast("Database error, please check your connection.")
+                    deferred.complete(null)
+                }
+            }catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    showToast("Database error, please check your connection.")
+                    deferred.complete(null)
+                }
+            }
+        }
+        return deferred.await()
+    }
+
+    private fun showToast(toast: String?) {
+        runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_LONG).show() }
+    }
+    private fun retrieveToken(token: String? = null): String {
+        if (token != null) {
+            lastAccessToken = token
+        }
+        return lastAccessToken ?: "null"
     }
 }

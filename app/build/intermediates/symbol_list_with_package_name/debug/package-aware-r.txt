@@ -3192,6 +3192,7 @@ id chains
 id checkbox
 id checked
 id choosePrinter
+id chooseWeightLabel
 id chronometer
 id circle_center
 id clear_text
@@ -3315,6 +3316,7 @@ id immediateStop
 id included
 id indeterminate
 id info
+id informationLabel
 id injectionMethodLabel
 id injectionMethodSpinner
 id invisible
@@ -3336,6 +3338,9 @@ id listMode
 id list_item
 id loginButton
 id m3_side_sheet
+id manInput
+id manSignalingLabel
+id manualSignaling
 id marquee
 id masked
 id match_constraint
@@ -3462,6 +3467,9 @@ id scanButtonBox
 id scanButtonExtract
 id scanButtonRack
 id scanButtonSample
+id scanButtonSignaling
+id scanSignaling
+id scanSignalingLabel
 id scannedInfoTextView
 id screen
 id scroll
@@ -3596,6 +3604,7 @@ id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
 id volumeInput
+id weightInput
 id west
 id wide
 id withText
@@ -3744,6 +3753,8 @@ layout activity_permissions
 layout activity_printer_connect
 layout activity_sample
 layout activity_signaling
+layout activity_signaling_man
+layout activity_signaling_scan
 layout activity_wait_connection
 layout activity_weighting
 layout custom_dialog
@@ -3832,6 +3843,8 @@ mipmap ic_launcher_round
 plurals mtrl_badge_content_description
 raw template_dbgi
 raw template_dbgi_batch
+raw template_dbgi_batch_copie
+raw test_m511
 raw zxing_beep
 string abc_action_bar_home_description
 string abc_action_bar_up_description
