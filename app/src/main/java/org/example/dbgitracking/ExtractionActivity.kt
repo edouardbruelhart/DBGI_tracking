@@ -28,9 +28,7 @@ import com.bradysdk.printengine.templateinterface.TemplateFactory
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -121,7 +119,7 @@ class ExtractionActivity : AppCompatActivity() {
         }
 
         // Make the link clickable
-        val linkTextView: TextView = findViewById(R.id.newExtractionMethod)
+        val linkTextView: TextView = newExtractionMethod
         val spannableString = SpannableString(linkTextView.text)
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
@@ -248,7 +246,7 @@ class ExtractionActivity : AppCompatActivity() {
 
 
     // Function to send data to Directus
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "DiscouragedApi")
     private suspend fun sendDataToDirectus(extractId: String, boxId: String, extractionMethod: String, batchId: String, inputVolume: String) {
         val parts = extractId.split("_")
         val withoutTemp = parts[0] + "_" + parts[1] + "_" + parts[2]
@@ -461,7 +459,6 @@ class ExtractionActivity : AppCompatActivity() {
 
                 // Create a list with the asked codes beginning with the first number
                 val batchId = String.format("dbgi_batch_%06d", firstNumber)
-                val batchSample = String.format("dbgi_batch_blk_%06d", firstNumber)
                 urlConnection.disconnect()
                 urlConnection2.requestMethod = "POST"
                 urlConnection2.setRequestProperty("Content-Type", "application/json")
@@ -470,8 +467,6 @@ class ExtractionActivity : AppCompatActivity() {
                 val data = JSONObject().apply {
                     put("Reserved", "True")
                     put("batch_id", batchId)
-                    put("batch_type", "extraction")
-                    put("batch_sample", batchSample)
                 }
 
                 val outputStream: OutputStream = urlConnection2.outputStream
@@ -551,6 +546,9 @@ class ExtractionActivity : AppCompatActivity() {
                                 "sample" -> {
                                     placeholder.value = sample
                                 }
+                                "injection" -> {
+                                    placeholder.value = " "
+                                }
                             }
                         }
 
@@ -589,70 +587,111 @@ class ExtractionActivity : AppCompatActivity() {
     }
 
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun fetchValuesAndPopulateSpinner() {
         val accessToken = retrieveToken()
-        val apiUrl = "http://directus.dbgi.org/items/Extraction_Methods" // Replace with your collection URL
+        val apiUrl =
+            "http://directus.dbgi.org/items/Extraction_Methods" // Replace with your collection URL
         val url = URL(apiUrl)
 
-        GlobalScope.launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
-                val urlConnection = url.openConnection() as HttpURLConnection
+                val urlConnection =
+                    withContext(Dispatchers.IO) {
+                        url.openConnection()
+                    } as HttpURLConnection
                 urlConnection.requestMethod = "GET"
                 urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
-                urlConnection.connect()
+                withContext(Dispatchers.IO) {
+                    urlConnection.connect()
+                }
 
                 val inputStream = urlConnection.inputStream
                 val bufferedReader = BufferedReader(InputStreamReader(inputStream))
                 val response = StringBuilder()
                 var line: String?
 
-                while (bufferedReader.readLine().also { line = it } != null) {
+                while (withContext(Dispatchers.IO) {
+                        bufferedReader.readLine()
+                    }.also { line = it } != null) {
                     response.append(line)
                 }
 
-                bufferedReader.close()
-
-                // Parse JSON response
-                val jsonArray = JSONObject(response.toString()).getJSONArray("data")
-                val values = ArrayList<String>()
-                val descriptions = HashMap<String, String>()
-
-                // Add "Choose an option" to the list of values
-                values.add("Choose an option")
-
-                for (i in 0 until jsonArray.length()) {
-                    val jsonObject = jsonArray.getJSONObject(i)
-                    val value = jsonObject.getString("method_name")
-                    val description = jsonObject.getString("method_description")
-                    values.add(value)
-                    descriptions[value] = description
+                withContext(Dispatchers.IO) {
+                    bufferedReader.close()
                 }
 
-                runOnUiThread {
-                    // Populate spinner with values
-                    choices = values // Update choices list
-                    val adapter = ArrayAdapter(this@ExtractionActivity, android.R.layout.simple_spinner_item, values)
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    extractionMethodSpinner.adapter = adapter
+                val responseCode = urlConnection.responseCode
 
-                    // Add an OnItemSelectedListener to update newExtractionMethod text and handle visibility
-                    extractionMethodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            if (position > 0) { // Check if a valid option (not "Choose an option") is selected
-                                val selectedValue = values[position]
-                                val selectedDescription = descriptions[selectedValue]
-                                extractionInformation.visibility = View.VISIBLE
-                                extractionInformation.text = selectedDescription
-                                volumeInput.visibility = View.VISIBLE
-                            }
-                        }
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    hasTriedAgain = false
+                    // Parse JSON response
+                    val jsonArray = JSONObject(response.toString()).getJSONArray("data")
+                    val values = ArrayList<String>()
+                    val descriptions = HashMap<String, String>()
 
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-                            //newExtractionMethod.text = "No suitable referenced method? add it by following this link and restart the application"
-                            volumeInput.visibility = View.INVISIBLE
-                        }
+                    // Add "Choose an option" to the list of values
+                    values.add("Choose an option")
+
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        val value = jsonObject.getString("method_name")
+                        val description = jsonObject.getString("method_description")
+                        values.add(value)
+                        descriptions[value] = description
                     }
+
+                    runOnUiThread {
+                        // Populate spinner with values
+                        choices = values // Update choices list
+                        val adapter = ArrayAdapter(
+                            this@ExtractionActivity,
+                            android.R.layout.simple_spinner_item,
+                            values
+                        )
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        extractionMethodSpinner.adapter = adapter
+
+                        // Add an OnItemSelectedListener to update newExtractionMethod text and handle visibility
+                        extractionMethodSpinner.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    if (position > 0) { // Check if a valid option (not "Choose an option") is selected
+                                        val selectedValue = values[position]
+                                        val selectedDescription = descriptions[selectedValue]
+                                        extractionInformation.visibility = View.VISIBLE
+                                        extractionInformation.text = selectedDescription
+                                        volumeInput.visibility = View.VISIBLE
+                                    } else {
+                                        extractionInformation.visibility = View.INVISIBLE
+                                        volumeInput.visibility = View.INVISIBLE
+                                    }
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                    //newExtractionMethod.text = "No suitable referenced method? add it by following this link and restart the application"
+                                    volumeInput.visibility = View.INVISIBLE
+                                }
+                            }
+                    }
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+
+                    if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        showToast("connection to directus lost, reconnecting...")
+                        // Retry the operation with the new access token
+                        return@launch fetchValuesAndPopulateSpinner()
+                    } else {
+                        showToast("Connection error")
+                    }
+                } else {
+                    showToast("Error: $responseCode")
                 }
 
             } catch (e: Exception) {
@@ -853,7 +892,7 @@ class ExtractionActivity : AppCompatActivity() {
 
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
-            val url = URL("http://directus.dbgi.org/items/Batch/?filter[container_9x9_id][_eq]=$boxId")
+            val url = URL("http://directus.dbgi.org/items/Blank_Extracts/?filter[container_9x9_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -918,26 +957,29 @@ class ExtractionActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private suspend fun sendBatchToDirectus(batchSample: String, boxId: String) {
+        val parts = batchSample.split("_")
+        val batch = parts[0] + "_" + parts[1] + "_" + parts[3]
+        val selectedValue = extractionMethodSpinner.selectedItem.toString()
+        showToast("batch: ${parts[3]}")
         withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
             // Define the table url
-            val parts = batchSample.split("_")
-            val batchId = parts[0] + "_" + parts[1] + "_" + parts[3]
-            val collectionUrl = "http://directus.dbgi.org/items/Batch/$batchId"
+            val collectionUrl = "http://directus.dbgi.org/items/Blank_Extracts"
             val url = URL(collectionUrl)
             val urlConnection =
                 withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
 
             try {
-                urlConnection.requestMethod = "PATCH"
+                urlConnection.requestMethod = "POST"
                 urlConnection.setRequestProperty("Content-Type", "application/json")
                 urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
-                val selectedValue = extractionMethodSpinner.selectedItem.toString()
-                showToast("extraction method: $selectedValue")
                 val data = JSONObject().apply {
+                    put("blk_id", batchSample)
                     put("container_9x9_id", boxId)
                     put("extraction_method", selectedValue)
                     put("status", "OK")
+                    put("solvent_volume_microliter", volumeInput.text.toString())
+                    put("batch_id", batch)
                 }
 
                 val outputStream: OutputStream = urlConnection.outputStream
@@ -980,7 +1022,7 @@ class ExtractionActivity : AppCompatActivity() {
                     }
 
                     // 'response' contains the response from the server
-                    showToast("$batchId correctly added to $boxId box")
+                    showToast("$batch correctly added to $boxId box")
                 } else if (!hasTriedAgain) {
                     hasTriedAgain = true
                     val newAccessToken = getNewAccessToken()
@@ -988,10 +1030,11 @@ class ExtractionActivity : AppCompatActivity() {
                         retrieveToken(newAccessToken)
                         showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
-                        return@withContext sendBatchToDirectus(batchId, boxId)
+                        return@withContext sendBatchToDirectus(batchSample, boxId)
                     }
                 } else {
                     showToast("Database error, please try again")
+                    scanButtonSample.visibility = View.INVISIBLE
                 }
             } finally {
                 urlConnection.disconnect()

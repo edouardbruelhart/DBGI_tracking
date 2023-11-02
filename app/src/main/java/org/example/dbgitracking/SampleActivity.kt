@@ -254,7 +254,7 @@ class SampleActivity : AppCompatActivity() {
 
                 // Check if there is still enough place in the rack before initiating the QR code reader
                 CoroutineScope(Dispatchers.IO).launch {
-                    val rack = emptyPlace.text.toString()
+                    val rack = scanButtonRack.text.toString()
                     val upRackValue = checkRackLoad(rack)
                     val upStillPlace = 24 - upRackValue
 

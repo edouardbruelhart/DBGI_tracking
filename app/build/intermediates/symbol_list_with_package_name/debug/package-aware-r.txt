@@ -3317,6 +3317,7 @@ id included
 id indeterminate
 id info
 id informationLabel
+id injectionInformation
 id injectionMethodLabel
 id injectionMethodSpinner
 id invisible
@@ -3338,6 +3339,7 @@ id listMode
 id list_item
 id loginButton
 id m3_side_sheet
+id manFindingLabel
 id manInput
 id manSignalingLabel
 id manualSignaling
@@ -3411,6 +3413,7 @@ id never
 id neverCompleteToEnd
 id neverCompleteToStart
 id newExtractionMethod
+id newInjectionMethod
 id noScroll
 id noState
 id none
@@ -3446,6 +3449,7 @@ id printerListView
 id printerNameTextView
 id progress_circular
 id progress_horizontal
+id rackInformation
 id radio
 id ratio
 id rectangles
@@ -3462,6 +3466,7 @@ id save_overlay_view
 id sawtooth
 id scale
 id scanBoxLabel
+id scanButtonAliquot
 id scanButtonBatch
 id scanButtonBox
 id scanButtonExtract
@@ -3540,6 +3545,7 @@ id staticPostLayout
 id stop
 id stretch
 id submenuarrow
+id submitButton
 id submit_area
 id supportScrollUp
 id tabMode
@@ -3843,8 +3849,6 @@ mipmap ic_launcher_round
 plurals mtrl_badge_content_description
 raw template_dbgi
 raw template_dbgi_batch
-raw template_dbgi_batch_copie
-raw test_m511
 raw zxing_beep
 string abc_action_bar_home_description
 string abc_action_bar_up_description

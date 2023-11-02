@@ -1,125 +1,0 @@
-
-brcudf2bin   
-FileFormatMWTName	test_m511Author Keywords Site Area 	Equipment CategoryMes modÃ¨les
-SubCategory 
-Description ViewRotation0PartInfo½<?xml version="1.0" encoding="utf-16"?>
-<PartsDatabase FileSchemaVersion="1.0">
-  <Parts>
-    <Part ID="{066ff78f-9b79-4b10-b58d-0f98aded2573}">
-      <Name>M21-750</Name>
-      <DefaultYNumber>
-      </DefaultYNumber>
-      <RelatedParts>
-        <RelatedPart PartName="M21-750-403" YNumber="4900647" />
-        <RelatedPart PartName="M21-750-414" YNumber="4857740" />
-        <RelatedPart PartName="M21-750-423" YNumber="4900648" />
-        <RelatedPart PartName="M21-750-430" YNumber="4900650" />
-        <RelatedPart PartName="M21-750-430-WT-CL" YNumber="4900651" Color="{e48bbc14-0cc4-4b0f-a201-b255a2656449}" />
-        <RelatedPart PartName="M21-750-461" YNumber="4900652" />
-        <RelatedPart PartName="M21-750-488" YNumber="4900653" />
-        <RelatedPart PartName="M21-750-581" YNumber="4939592" />
-        <RelatedPart PartName="M21-750-595-BK" YNumber="4900655" Color="{167b90d0-cd37-4b32-a8f3-73a41ff9e09e}" />
-        <RelatedPart PartName="M21-750-595-BL" YNumber="4900656" Color="{2d72aced-f608-404e-97de-cff5121af135}" />
-        <RelatedPart PartName="M21-750-595-BR" YNumber="4900657" Color="{648e129c-71a1-46b5-b8f4-a96e42cd8db1}" />
-        <RelatedPart PartName="M21-750-595-GN" YNumber="4900658" Color="{efd92612-00dc-4c04-a8bc-aae43db50aab}" />
-        <RelatedPart PartName="M21-750-595-GY" YNumber="4900659" Color="{fae5f7ce-935b-4b2d-9293-652e1d5e8aed}" />
-        <RelatedPart PartName="M21-750-595-OR" YNumber="4900660" Color="{460dfda1-ff09-412a-8fdc-85f3ae4bfd0f}" />
-        <RelatedPart PartName="M21-750-595-PL" YNumber="4900661" Color="{30dc552b-8784-4aa8-b089-8f9a7f57808e}" />
-        <RelatedPart PartName="M21-750-595-RD" YNumber="4900662" Color="{420418dc-d97d-4696-a643-ea5db7990ebd}" />
-        <RelatedPart PartName="M21-750-595-WT" YNumber="4900663" />
-        <RelatedPart PartName="M21-750-595-YL" YNumber="4900664" Color="{8791ea2b-733a-43f6-b837-7992a7e10dfb}" />
-        <RelatedPart PartName="Bulk M21-750-7425" YNumber="4926952" />
-        <RelatedPart PartName="M21-750-7425" YNumber="4900665" />
-        <RelatedPart PartName="M21-750-499" YNumber="4900654" />
-        <RelatedPart PartName="Bulk M21-750-499" YNumber="4926435" />
-      </RelatedParts>
-      <PrinterType>{66df6eb1-934c-4424-b374-1cb5c02063a5}</PrinterType>
-      <FamilyInfo>{40d9fa4d-337e-4fe5-8b09-d60bb38c3311}</FamilyInfo>
-      <Description />
-      <Width>7500</Width>
-      <Height>360000</Height>
-      <MarginLeft>2360</MarginLeft>
-      <MarginTop>0</MarginTop>
-      <WebWidth>10630</WebWidth>
-      <UnPrintableLeft>0</UnPrintableLeft>
-      <UnPrintableTop>0</UnPrintableTop>
-      <ColumnsPerSheet>1</ColumnsPerSheet>
-      <RowsPerSheet>1</RowsPerSheet>
-      <GapVertical>0</GapVertical>
-      <GapHorizontal>0</GapHorizontal>
-      <Rotation>180</Rotation>
-      <OutputOrientation>Landscape</OutputOrientation>
-      <IsFactoryDefined>True</IsFactoryDefined>
-      <IsCustom>False</IsCustom>
-      <IsPrePrinted>False</IsPrePrinted>
-      <IsDoubleSided>False</IsDoubleSided>
-      <SensorType>Notch</SensorType>
-      <IsContinuous>True</IsContinuous>
-      <IsSlitSleeve>False</IsSlitSleeve>
-      <ColorType>Monochrome</ColorType>
-    </Part>
-  </Parts>
-</PartsDatabase>AllowFreeFormTexttrue
-CreateDate"Saturday, 14 October 2023 08:53:00LastSaveDate"Saturday, 14 October 2023 09:08:12
-LastSavedUseredouaPrintOptionsµ<Options><SideToPrint>Side1</SideToPrint><Tiling>False</Tiling><LabelCopies>1</LabelCopies><Collate>False</Collate><Reverse>False</Reverse><Mirror>False</Mirror><Ranges /></Options>IsDuplicateEndsfalseIsRotateEndsfalse
-PrinterNameM511PrinterDriverNameM511 AppNameCustomDocumentLabelPropertiesÅ<ZoneProperties><Zone FontFamily="Agency FB" FontSize="0" IsAutoFit="False" IsWireMarked="False" LineCount="-1" Rotation="0" SideIndex="-1" VerticalAlignment="Top" ZoneInfoId="" /></ZoneProperties>IsPromptAtPrintFalseIsAutoSizeLabelTrueWasPrintEngineValidatedfalse,   ,   |
-  Æ
-                i      æ  P
-  >   8
-      ‰PNG
-
-   
-IHDR   €   €   Ã>aË   sRGB ®Îé   gAMA  ±
-üa   	pHYs  Ã  ÃÇo¨d  ÍIDATx^íwŒUÅÇ‡.E:D¤†Eª„iQ4JhAJD0@€(!Æ!¨À„&%«ÆWƒ%@¨!–?N@zG¥	ê8ß³3ÙËÜûî{»üüÁœOr²ofÎ{ß{gÎœ33
-I…ğõö·.\¸³.zGÂ &L˜ rrr¨2]¶mÛF;wNıóŒºÖ´Ù¤s›nİº‰ÌÌLï
-  Ñ©S'B¾ÄàjK&†¨6—^*òöÛoS?ÿüóÏ£Öå…õ_ÆSœ€–Š‰£¤P¡B$.}ÓæÂ¾GaòÂÀs"
-ÀŒ<—D‘LÏ5Më:—~û.aÜ° ğœÇn fšQlòduÁ6¦àaà9l óXÀvß.‚®İåŞ£Ú˜‚ƒ=€çD€=’ƒ£oh#vFÒÅÕ—-Œö Ãà9Np¹ë(	ÕŒ[vé™r\÷m÷G˜¼° ğœÇr"(‘fÃ\ûË‰º× BØxNd`0å01˜2Fo”¸^kcÚ\bˆj®:†=€÷°xNÂ pÊÖ¸Iã†ƒå01˜²¹Î–ü¼pÕL›}ÿ`İğáÃµ¶ß° ğœ„àì½%QØ£ÊHÓOX_v{P\ı±qÕ1©ÃÀsØ <Çi A÷jÊ8n;Qz®ş]DµÅ}†= £Faÿ6Ğ,Û˜6—ØDÕÙ…KßˆÁU şm ã5l i ÊC’˜ Ê–(l=Ó‡«Î¾&(.‚}˜r°_&ö ¾£FLR fÄE°-UıtöaÊÉú5:üDäÂÀs`ïÇˆ©³‰j3u¶}—^Pl‚}˜²]v-óö Ãà9N°İ)ÄåJíº`[2\úæ^.\mö}ƒ}¹ˆ«çì<'Öï\#'ê2[ßè%}®$Æ£¦Œê“Àø
-€çD Üp2×
-âêàÊ].ß£Ô3õS>œ
-{ ÏI€½hˆ6qôŒÄÜÇ®3ËÀUg0mq…É
-{ Ïağ§åªƒ:¶Ø$k7˜ş]úF¢péÛÂ¸aà9	°W»C²:#®‘jÚ˜ÿ
-ì<'20Ø#4Š¨Ñk÷aÄèÛ×˜6›¨~™üÁÀsØ <'Ò \îØ`Úìv—¾Ë}›:W¦ÍW¿A\×ÙÂ¸aà9	pí¸pé˜:3ÚLÙ–d¯µ1m.ì{Ä&/ì<'q$lúôéâÈ‘#T™._~ù%ıM¶×îÒ
-Ö™rùİÏoß¾½9r$<
-ÿçÑúµ—øn <x€ç°x€ç°x€ç°xN¾`åÊ•¢M›6´ˆÄ<™ÄZZ»v­X¸p¡.=äÚµkâèÑ£¢~ıúâã?İ»w×-O¾/áHŠúòa$¡Ò¨Q#¹lÙ2­ıdáû?Ëüı÷ßâÏ?ÿÔ¥G)R¤ˆ(^¼xÚ»mwîÜÛ·o×¥G)Q¢„PF&ªU«¦k
-õöy/@¿å§Ÿ~6l;v]»vÕµ¹'‰:$ *W®¬kSçØ±c"##C—¥\¹rbôèÑbêÔ©ºæ!0ÌO?ıT\¼xQ¨Ñ,jÖ¬)&Nœ(Ê—/¯5¢ñİ bOêC’µjÕ’sçÎ•÷ïßOÔ«‘/ÇŒ#ÿøãªK‡“'OÊêÕ«Sÿo½õ–ìİ»·|î¹çdãÆ©<jÔ(©Pkç¥Y³f²hÑ¢Ry!<ç
-/¼ ûí7­ïS@lÀ‡‹ºtéÒòİwß•çÎ“›7o–­[·¦àë¯¿ÖÚ©£I©F¹|ï½÷¨|şüyùÆoP¿É¨T©’¬S§üüóÏevv¶lÚ´)=ç7´F4üEÆn¸I“&4õÕW¢OŸ>bïŞ½BRjWŸ%ıMÄYYY¢F¢E‹4½Ä‰)*T¨ ”·¯½öšPFC×c:ºyó¦PF îİ»§5'¹ã x€Š+ÊiÓ¦É­[·Ê:ÈbÅŠ%Ü®úğå={´vê\¿~]fffJõåÉ²eËJõ¥ÒH^ºt©Ö  o#L0…Ü¾}[k?
-g
-ı:•â‰
-Ğ	åşÅ¥K—ÄòåËÅš5kÈ3<X¨y[k§²
-Œ\eT±ƒ¸W_}U¨ù^—eàÀ"“p¡Ş> Éxğà\½zµüì³ÏäÕ«Wu­$o ïpåÊ]“¿şú«lÙ²¥|öÙgéï¾}ûäîİ»åÌ™3µF8jê &ıõ—ÖtÃA`\©¹Ÿ¢ó#GèÚ‚Ë>óÌ3²^½zäÒ_ıu2dÉ¨]»¶TŞ"Tğl0’08Œ‚)äÛêK·nİï¼ó˜0a‚PhŞ¼¹øá‡„òZ;=ªV­*>ùäú«¼ŒxñÅ…½º5¸v•–Rğ§Ò?º¦L™2´€2ê•‹×ÚLØŸ"ò'NĞÜ¿eËÚPi`bnUƒ‰ş¦æ|5ÅâÅ‹ÉÀ°Ç ¦X_œ
- )øùçŸÅ DÿşıÅï¿ÿ.vìØAå>ú(tşg¹0äØ˜ŸMÔ×ªR-Š²±ğÒ³gOyğàA­:˜Ğ—ô‰u±cÇjpğÈÚ¶m+Û·o/«T©Âë )+
-Àğí·ßÒè/Y²¤è×¯¹×/¾øB¨9[4H´k×Nk§¢ÿ³gÏêR®·ÁŞòûd:”¦¬#à­¨ôTtéÒ…ST2Ô5¼ _ÿ§Àí«ÈŸ^cXµjm5cı_y¡F8µ¹À—i	± ö* ß
- Ö °(SªT)Z0`€üñÇuKşQ±¹q,.ÇT æoùÊ+¯hÍ‡,Y²DŞ»wO^¸pAöíÛ—§0 S9vì˜ÖJ§1Á T
-1 ¾ÄH×Ö­[§5Ò 1 ¾plâ`åNM1²aÃ† 2DNš4Ikæ²~ızZ1œ?>¥§x&¤£¼Æu7oŞÔÚÑ°Ä€ ^½zÉ?üP>ÿüóôa«˜€‚@,Ü¤
-¶yóæÉ7RY¥œrçÎRÅT2nÜ82F¬IÀ#©T”<š:¤šÿÉ8ŒG¬4ğ›o¾S¦L¡9g°Œt
-ËÃuêÔ'O¤=ıtÁœİ£G±hÑ"¡Ü½èÔ©“øî»ï(¸t¡F?Š™™™,â¹ğŒØ¤B
-ˆ
-¢t§x‡‘`Åª¶Œ?ÚîŞ½+:”g…0UN:%_zé¥„GÁèÆÜ-a*`¤#LEÁç2Â ±„egg‹Y³fQ
-ˆÍ¤[‚ Ş[ÍˆôqŸ3gÎĞ}ÆıòË/Z+/§OŸjÚ Å)õ%êÚ‡ må409±Ó@¸ÖË—/“»ÎÏñ/0 ,3#§WŞF¨ù\6ŒÖpä,
-¬E¸öü1Ea} KÕÍš5
-]Uôİ bM*Ç–íÚµ“/¿ü²1b¥[ˆÚ FérüøqZÑ{óÍ7©¬F7jÕª•£;°bÅ
-Êø<@4±‚@üË!û÷ï
-4 uwlÔ¨yZÔªUK¨l€¦—KõêÕiá ?4XeTY€˜;w.•]`Ô«øƒ dPêÕ«G'„°0TPSÕS‰‘ Ä¡Í9sæPÙ¤„XB0˜ßß`Äcû7L:wî,U„¯µsÉÈÈ gŠ›ï‡Á HµpêfÒ¤I´ö­`x •ƒküñàÁŠŒÀãäää$ÊjŠ ÀĞ1	I}‡º†I‹ÜqÍÅ‹åŒ3¤ŠÔén‹-äìÙ³édğâÅ‹åÈ‘#å®]»´vê¨)„NQ_>	lÓ¦
-•qfPåúZ;—š5k’Š›î…Ái B¿şÏÀfıË d“'O¦4.,
-@œ€³ ÈRÙü	¢Ş>gÉ8|ø0­ªZµ*Eİ˜—gÍš•ï³€ì˜M #È.ğ›ƒ0Ø±<€
-úÄûï¿O#²H‘"´u‹¼Ç­†B?ÛB$Ÿ.øY—¸ 2ÔáÔ±
-5QğÁ äëÄzûì’, nİº2+++q@£;r©XûéÖÿ;œÄ +ˆÂ±!„¹`ÄˆbÓ¦M´d‹5 äd@ô@ˆ[³Øû7›4˜›¿ÿş{İ*)ÇÍ“Ç 
-ı:Œrl»¬¬a~Poßë Ö ôañ ò´|ùL
-À<°x€ç°x€ç°x€ç°x€ç°x€ç°x€ç°x€ç°x€ç°x€ç°x€×ñ/:ô †âƒ6ò    IEND®B`‚        J          :   @wd×ñFVD†òw% %ñGÎîô3@›ÿµĞ•u      B@Zd;ßOï?ÿÿÿÿÿÿÿÿF      @wd×ñFVD†òw% %ñ                   Ó   
-             ]   @wd×ñFVD†òw% %ñD         è?      B@h‘í|?5Î?                                         }     @wd×ñFVD†òw% %ñ     ¾»¤œõ|D˜M¿7"bğ¿¼5ıF‰	ëöÛÁ\  ğ¿¼5ıF‰	ëöÛÁ¾»¤œõ|D˜M¿7"b¾»¤œõ|D˜M¿7"bQR ÿÿÿÿ   ÿ         ğ?    «ªªªªªÖ?«ªªªªªÖ?vìh+÷‰?«{÷°Üq|?     €V@      ğ?                           QRErrorCorrectionQ 
-IsBearerBox IsFitToFrame  Arial      0@        ÿ   dbgi_123456_02_01!   €Ÿqá@HV?       @      ğ?                                           ÿÿÿÿÿÿÿÿ              °N¾Ï{ŞŒ0  šfHRµ<ËõG‡ y22¶³¦  HRµ<ËõG‡ y22¶³¦°N¾Ï{ŞŒ0  šf°N¾Ï{ŞŒ0  šfdbgi ÿÿÿÿ   ÿ         ğ?    sh‘í|?Å?˜nƒÀÊÑ?ãÓúî¿?˜ø3§ÛÛ?     €V@       @                            *OriginalFontSizeForLinemodeAutosizeFontKeyUUUUUU@              
-BahnschriftUUUUUU@       ÿ                 
-BahnschriftUUUUUU@       ÿ      
-Bahnschrift«ªªªªª@       ÿ   dbgi_   …ëQ¸…Ä?UUUUUUµ?É/–übÉ¯?                   
-BahnschriftUUUUUU@       ÿ      
-Bahnschrift«ªªªªª@       ÿ   batch   Û@§
-tÚÅ?UUUUUUµ?É/–übÉ¯?               Y@             ÿÿÿÿÿÿï      ¬
-                                                              ÿÿÿÿÿÿÿÿ     ÿÿÿÿ      °N¾Ï{ŞŒ0  šfi›_(ûg<N˜èïC£´ã¢  i›_(ûg<N˜èïC£´ã¢°N¾Ï{ŞŒ0  šf°N¾Ï{ŞŒ0  šfsample ÿÿÿÿ   ÿ         ğ?    ²ï§ÆK·?áz®GáÒ?£bó[*²¿]p#åÛŞ?     €V@      @                            *OriginalFontSizeForLinemodeAutosizeFontKey«ªªªªª@              
-Bahnschrift«ªªªªª@       ÿ                 
-Bahnschrift«ªªªªª@       ÿ      
-Bahnschrift«ªªªªª@       ÿ   123456   µNè´Ê?UUUUUUµ?É/–übÉ¯?               Y@             ÿÿÿÿÿÿï      ¬
-                                                              ÿÿÿÿÿÿÿÿ     ÿÿÿÿ ?   ¤d5]å¹
-KªQ
-g€ñTo¤d5]å¹
-KªQ
-g€ñTo                      
