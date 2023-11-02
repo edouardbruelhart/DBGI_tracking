@@ -76,14 +76,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Solvant volume (microliter)"
+        android:hint="Solvent volume (microliter)"
         android:visibility="invisible"
         android:inputType="numberDecimal"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/extractionInformation"
-        tools:ignore="HardcodedText,MissingConstraints" />
+        tools:ignore="HardcodedText,MissingConstraints"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/extractionMethodBox"
