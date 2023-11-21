@@ -33,6 +33,12 @@
         android:theme="@style/Theme.DBGITracking"
         tools:targetApi="31">
         <activity
+            android:name=".LocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MoveActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignalingManActivity"
             android:exported="false" />
         <activity

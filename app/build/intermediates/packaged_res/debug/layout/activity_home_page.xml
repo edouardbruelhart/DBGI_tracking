@@ -69,4 +69,20 @@
         android:textSize="18sp"
         tools:ignore="HardcodedText" />
 
+    <Button
+        android:id="@+id/MoveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Move mode (available soon)"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/LocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location mode (available soon)"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
+
 </LinearLayout>

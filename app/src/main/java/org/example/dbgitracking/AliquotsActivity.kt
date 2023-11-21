@@ -346,7 +346,7 @@ class AliquotsActivity : AppCompatActivity() {
                     put("aliquot_id", injectId)
                     put("lab_extract_id", extractId)
                     put("aliquot_volume_microliter", volume)
-                    put("container_9x9_id", boxId)
+                    put("mobile_container_id", boxId)
                 }
 
                 val outputStream: OutputStream = urlConnection.outputStream
@@ -522,7 +522,7 @@ class AliquotsActivity : AppCompatActivity() {
                     put("aliquot_id", injectId)
                     put("blk_id", extractId)
                     put("aliquot_volume_microliter", volume)
-                    put("container_9x9_id", boxId)
+                    put("mobile_container_id", boxId)
                     put("status", "OK")
                 }
 
@@ -673,7 +673,7 @@ class AliquotsActivity : AppCompatActivity() {
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
             val url =
-                URL("http://directus.dbgi.org/items/Lab_Extracts/?filter[container_9x9_id][_eq]=$boxId")
+                URL("http://directus.dbgi.org/items/Lab_Extracts/?filter[mobile_container_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -723,7 +723,7 @@ class AliquotsActivity : AppCompatActivity() {
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
             val url =
-                URL("http://directus.dbgi.org/items/Aliquots/?filter[container_9x9_id][_eq]=$boxId")
+                URL("http://directus.dbgi.org/items/Aliquots/?filter[mobile_container_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -772,7 +772,7 @@ class AliquotsActivity : AppCompatActivity() {
 
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
-            val url = URL("http://directus.dbgi.org/items/Blank_Extracts/?filter[container_9x9_id][_eq]=$boxId")
+            val url = URL("http://directus.dbgi.org/items/Blank_Extracts/?filter[mobile_container_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {

@@ -156,8 +156,7 @@ class SignalingScanActivity : AppCompatActivity() {
 
             val data = JSONObject().apply {
                 put("status", "NOTOK")
-                put("container_9x9_id", "absent")
-                put("container_8x3_id", "absent")
+                put("mobile_container_id", "absent")
             }
 
             val outputStream: OutputStream = urlConnection.outputStream

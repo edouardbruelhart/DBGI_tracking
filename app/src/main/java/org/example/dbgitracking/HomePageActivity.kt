@@ -16,6 +16,8 @@ class HomePageActivity : AppCompatActivity() {
     private lateinit var button5: Button
     private lateinit var button6: Button
     private lateinit var button7: Button
+    private lateinit var button8: Button
+    private lateinit var button9: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,8 @@ class HomePageActivity : AppCompatActivity() {
         button5 = findViewById(R.id.InjectionButton)
         button6 = findViewById(R.id.SignalingButton)
         button7 = findViewById(R.id.FindButton)
+        button8 = findViewById(R.id.MoveButton)
+        button9 = findViewById(R.id.LocationButton)
 
         val accessToken = intent.getStringExtra("ACCESS_TOKEN")
         val username = intent.getStringExtra("USERNAME")
@@ -87,6 +91,22 @@ class HomePageActivity : AppCompatActivity() {
 
         button7.setOnClickListener {
             val intent = Intent(this, FindActivity::class.java)
+            intent.putExtra("ACCESS_TOKEN", accessToken)
+            intent.putExtra("USERNAME", username)
+            intent.putExtra("PASSWORD", password)
+            startActivity(intent)
+        }
+
+        button8.setOnClickListener {
+            val intent = Intent(this, MoveActivity::class.java)
+            intent.putExtra("ACCESS_TOKEN", accessToken)
+            intent.putExtra("USERNAME", username)
+            intent.putExtra("PASSWORD", password)
+            startActivity(intent)
+        }
+
+        button9.setOnClickListener {
+            val intent = Intent(this, LocationActivity::class.java)
             intent.putExtra("ACCESS_TOKEN", accessToken)
             intent.putExtra("USERNAME", username)
             intent.putExtra("PASSWORD", password)

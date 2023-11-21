@@ -2,7 +2,7 @@
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="org.example.dbgitracking"
 4    android:versionCode="1"
-5    android:versionName="0.4" >
+5    android:versionName="0.5" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="29"
@@ -145,7 +145,7 @@
 75-->[com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\f0af572707ed714702cef1ece6dfc6a2\transformed\rxandroidble-1.16.0\AndroidManifest.xml:19:29-83
 76
 77    <application
-77-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:23:5-99:19
+77-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:23:5-105:19
 78        android:allowBackup="true"
 78-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:24:9-35
 79        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -173,223 +173,235 @@
 91-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:33:9-50
 92        <activity
 92-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:35:9-37:40
-93            android:name="org.example.dbgitracking.SignalingManActivity"
-93-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:36:13-49
+93            android:name="org.example.dbgitracking.LocationActivity"
+93-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:36:13-45
 94            android:exported="false" />
 94-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:37:13-37
 95        <activity
 95-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:38:9-40:40
-96            android:name="org.example.dbgitracking.SignalingScanActivity"
-96-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:39:13-50
+96            android:name="org.example.dbgitracking.MoveActivity"
+96-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:39:13-41
 97            android:exported="false" />
 97-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:40:13-37
 98        <activity
 98-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:41:9-43:40
-99            android:name="org.example.dbgitracking.WaitConnectionActivity"
-99-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:42:13-51
+99            android:name="org.example.dbgitracking.SignalingManActivity"
+99-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:42:13-49
 100            android:exported="false" />
 100-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:43:13-37
 101        <activity
 101-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:44:9-46:40
-102            android:name="org.example.dbgitracking.PermissionsActivity"
-102-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:45:13-48
+102            android:name="org.example.dbgitracking.SignalingScanActivity"
+102-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:45:13-50
 103            android:exported="false" />
 103-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:46:13-37
 104        <activity
 104-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:47:9-49:40
-105            android:name="org.example.dbgitracking.ManagePrinterActivity"
-105-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:48:13-50
+105            android:name="org.example.dbgitracking.WaitConnectionActivity"
+105-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:48:13-51
 106            android:exported="false" />
 106-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:49:13-37
 107        <activity
 107-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:50:9-52:40
-108            android:name="org.example.dbgitracking.PrinterConnectActivity"
-108-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:51:13-51
+108            android:name="org.example.dbgitracking.PermissionsActivity"
+108-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:51:13-48
 109            android:exported="false" />
 109-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:52:13-37
 110        <activity
-110-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:53:9-56:40
-111            android:name="org.example.dbgitracking.AliquotsActivity"
-111-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:54:13-45
-112            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-112-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:55:13-87
-113            android:exported="false" />
-113-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:56:13-37
-114        <activity
-114-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:57:9-60:40
-115            android:name="org.example.dbgitracking.SignalingActivity"
-115-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:58:13-46
-116            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-116-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:59:13-87
-117            android:exported="false" />
-117-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:60:13-37
-118        <activity
-118-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:61:9-64:49
-119            android:name="com.journeyapps.barcodescanner.CaptureActivity"
-119-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:62:13-74
-120            android:clearTaskOnLaunch="true"
-120-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:49:13-45
-121            android:screenOrientation="fullSensor"
-121-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:63:13-51
-122            android:stateNotNeeded="true"
-122-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:51:13-42
-123            android:theme="@style/zxing_CaptureTheme"
-123-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:52:13-54
-124            android:windowSoftInputMode="stateAlwaysHidden" />
-124-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:53:13-60
-125        <activity
-125-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:65:9-68:40
-126            android:name="org.example.dbgitracking.SampleActivity"
-126-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:66:13-43
-127            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-127-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:67:13-87
-128            android:exported="false" />
-128-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:68:13-37
-129        <activity
-129-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:69:9-72:40
-130            android:name="org.example.dbgitracking.WeightingActivity"
-130-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:70:13-46
-131            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-131-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:71:13-87
-132            android:exported="false" />
-132-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:72:13-37
-133        <activity
-133-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:73:9-76:40
-134            android:name="org.example.dbgitracking.FindActivity"
-134-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:74:13-41
-135            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-135-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:75:13-87
-136            android:exported="false" />
-136-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:76:13-37
-137        <activity
-137-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:77:9-80:40
-138            android:name="org.example.dbgitracking.InjectionActivity"
-138-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:78:13-46
-139            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-139-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:79:13-87
-140            android:exported="false" />
-140-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:80:13-37
-141        <activity
-141-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:81:9-84:40
-142            android:name="org.example.dbgitracking.ExtractionActivity"
-142-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:82:13-47
-143            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-143-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:83:13-87
-144            android:exported="false" />
-144-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:84:13-37
-145        <activity
-145-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:85:9-88:40
-146            android:name="org.example.dbgitracking.HomePageActivity"
-146-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:86:13-45
-147            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-147-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:87:13-87
-148            android:exported="false" />
-148-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:88:13-37
-149        <activity
-149-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:89:9-98:20
-150            android:name="org.example.dbgitracking.MainActivity"
-150-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:90:13-41
-151            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-151-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:91:13-87
-152            android:exported="true" >
-152-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:92:13-36
-153            <intent-filter>
-153-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:93:13-97:29
-154                <action android:name="android.intent.action.MAIN" />
-154-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:94:17-69
-154-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:94:25-66
-155
-156                <category android:name="android.intent.category.LAUNCHER" />
-156-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:17-77
-156-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:27-74
-157            </intent-filter>
-158        </activity>
-159        <activity
-159-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:23:9-26:75
-160            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-160-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:24:13-79
-161            android:exported="false"
-161-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:25:13-37
-162            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-162-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:26:13-72
-163
-164        <meta-data
-164-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\343aa464f4c24289fe0bcae3fe14ae17\transformed\play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
-165            android:name="com.google.android.gms.version"
-165-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\343aa464f4c24289fe0bcae3fe14ae17\transformed\play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
-166            android:value="@integer/google_play_services_version" />
-166-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\343aa464f4c24289fe0bcae3fe14ae17\transformed\play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
-167
-168        <provider
-168-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-169            android:name="androidx.startup.InitializationProvider"
-169-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
-170            android:authorities="org.example.dbgitracking.androidx-startup"
-170-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
-171            android:exported="false" >
-171-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
-172            <meta-data
-172-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-173                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-173-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
-174                android:value="androidx.startup" />
-174-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
-175            <meta-data
-175-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\2fedbf8c74c9edc50a1bd4976a1d5f3e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-176                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-176-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\2fedbf8c74c9edc50a1bd4976a1d5f3e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
-177                android:value="androidx.startup" />
-177-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\2fedbf8c74c9edc50a1bd4976a1d5f3e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-178        </provider>
-179
-180        <activity
-180-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:27:9-34:20
-181            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
-181-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:28:13-99
-182            android:exported="true"
-182-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:29:13-36
-183            android:theme="@style/WhiteBackgroundTheme" >
-183-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:30:13-56
-184            <intent-filter android:priority="-100" >
-184-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
-184-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
-185                <category android:name="android.intent.category.LAUNCHER" />
-185-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:17-77
-185-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:27-74
-186            </intent-filter>
-187        </activity>
-188        <activity
-188-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:35:9-42:20
-189            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
-189-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:36:13-95
-190            android:exported="true"
-190-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:37:13-36
-191            android:theme="@style/WhiteBackgroundTheme" >
-191-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:38:13-56
-192            <intent-filter android:priority="-100" >
-192-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
-192-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
-193                <category android:name="android.intent.category.LAUNCHER" />
-193-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:17-77
-193-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:27-74
-194            </intent-filter>
-195        </activity>
-196        <activity
-196-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:43:9-50:20
-197            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
-197-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:44:13-103
-198            android:exported="true"
-198-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:45:13-36
-199            android:theme="@style/WhiteBackgroundDialogTheme" >
-199-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:46:13-62
-200            <intent-filter android:priority="-100" >
-200-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
-200-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
-201                <category android:name="android.intent.category.LAUNCHER" />
-201-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:17-77
-201-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:27-74
-202            </intent-filter>
-203        </activity>
-204    </application>
-205
-206</manifest>
+110-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:53:9-55:40
+111            android:name="org.example.dbgitracking.ManagePrinterActivity"
+111-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:54:13-50
+112            android:exported="false" />
+112-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:55:13-37
+113        <activity
+113-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:56:9-58:40
+114            android:name="org.example.dbgitracking.PrinterConnectActivity"
+114-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:57:13-51
+115            android:exported="false" />
+115-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:58:13-37
+116        <activity
+116-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:59:9-62:40
+117            android:name="org.example.dbgitracking.AliquotsActivity"
+117-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:60:13-45
+118            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+118-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:61:13-87
+119            android:exported="false" />
+119-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:62:13-37
+120        <activity
+120-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:63:9-66:40
+121            android:name="org.example.dbgitracking.SignalingActivity"
+121-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:64:13-46
+122            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+122-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:65:13-87
+123            android:exported="false" />
+123-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:66:13-37
+124        <activity
+124-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:67:9-70:49
+125            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+125-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:68:13-74
+126            android:clearTaskOnLaunch="true"
+126-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:49:13-45
+127            android:screenOrientation="fullSensor"
+127-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:69:13-51
+128            android:stateNotNeeded="true"
+128-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:51:13-42
+129            android:theme="@style/zxing_CaptureTheme"
+129-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:52:13-54
+130            android:windowSoftInputMode="stateAlwaysHidden" />
+130-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\edoua\.gradle\caches\transforms-3\e23354db2ccd0938ef0182c8d9729db4\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:53:13-60
+131        <activity
+131-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:71:9-74:40
+132            android:name="org.example.dbgitracking.SampleActivity"
+132-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:72:13-43
+133            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+133-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:73:13-87
+134            android:exported="false" />
+134-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:74:13-37
+135        <activity
+135-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:75:9-78:40
+136            android:name="org.example.dbgitracking.WeightingActivity"
+136-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:76:13-46
+137            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+137-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:77:13-87
+138            android:exported="false" />
+138-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:78:13-37
+139        <activity
+139-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:79:9-82:40
+140            android:name="org.example.dbgitracking.FindActivity"
+140-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:80:13-41
+141            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+141-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:81:13-87
+142            android:exported="false" />
+142-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:82:13-37
+143        <activity
+143-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:83:9-86:40
+144            android:name="org.example.dbgitracking.InjectionActivity"
+144-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:84:13-46
+145            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+145-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:85:13-87
+146            android:exported="false" />
+146-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:86:13-37
+147        <activity
+147-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:87:9-90:40
+148            android:name="org.example.dbgitracking.ExtractionActivity"
+148-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:88:13-47
+149            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+149-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:89:13-87
+150            android:exported="false" />
+150-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:90:13-37
+151        <activity
+151-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:91:9-94:40
+152            android:name="org.example.dbgitracking.HomePageActivity"
+152-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:92:13-45
+153            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+153-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:93:13-87
+154            android:exported="false" />
+154-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:94:13-37
+155        <activity
+155-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:95:9-104:20
+156            android:name="org.example.dbgitracking.MainActivity"
+156-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:13-41
+157            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+157-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:97:13-87
+158            android:exported="true" >
+158-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:98:13-36
+159            <intent-filter>
+159-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:99:13-103:29
+160                <action android:name="android.intent.action.MAIN" />
+160-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:100:17-69
+160-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:100:25-66
+161
+162                <category android:name="android.intent.category.LAUNCHER" />
+162-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:102:17-77
+162-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:102:27-74
+163            </intent-filter>
+164        </activity>
+165        <activity
+165-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:23:9-26:75
+166            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+166-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:24:13-79
+167            android:exported="false"
+167-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:25:13-37
+168            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+168-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\edoua\.gradle\caches\transforms-3\b17193c51ea0cf5a472c3896908e14db\transformed\play-services-base-17.4.0\AndroidManifest.xml:26:13-72
+169
+170        <meta-data
+170-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\343aa464f4c24289fe0bcae3fe14ae17\transformed\play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+171            android:name="com.google.android.gms.version"
+171-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\343aa464f4c24289fe0bcae3fe14ae17\transformed\play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+172            android:value="@integer/google_play_services_version" />
+172-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\343aa464f4c24289fe0bcae3fe14ae17\transformed\play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+173
+174        <provider
+174-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+175            android:name="androidx.startup.InitializationProvider"
+175-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+176            android:authorities="org.example.dbgitracking.androidx-startup"
+176-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+177            android:exported="false" >
+177-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+178            <meta-data
+178-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+179                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+179-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+180                android:value="androidx.startup" />
+180-->[androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\3ffd57255e6f9966dfb3d4f8b250b487\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+181            <meta-data
+181-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\2fedbf8c74c9edc50a1bd4976a1d5f3e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+182                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+182-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\2fedbf8c74c9edc50a1bd4976a1d5f3e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+183                android:value="androidx.startup" />
+183-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\2fedbf8c74c9edc50a1bd4976a1d5f3e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+184        </provider>
+185
+186        <activity
+186-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:27:9-34:20
+187            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
+187-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:28:13-99
+188            android:exported="true"
+188-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:29:13-36
+189            android:theme="@style/WhiteBackgroundTheme" >
+189-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:30:13-56
+190            <intent-filter android:priority="-100" >
+190-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
+190-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
+191                <category android:name="android.intent.category.LAUNCHER" />
+191-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:102:17-77
+191-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:102:27-74
+192            </intent-filter>
+193        </activity>
+194        <activity
+194-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:35:9-42:20
+195            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+195-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:36:13-95
+196            android:exported="true"
+196-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:37:13-36
+197            android:theme="@style/WhiteBackgroundTheme" >
+197-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:38:13-56
+198            <intent-filter android:priority="-100" >
+198-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
+198-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
+199                <category android:name="android.intent.category.LAUNCHER" />
+199-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:102:17-77
+199-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:102:27-74
+200            </intent-filter>
+201        </activity>
+202        <activity
+202-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:43:9-50:20
+203            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+203-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:44:13-103
+204            android:exported="true"
+204-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:45:13-36
+205            android:theme="@style/WhiteBackgroundDialogTheme" >
+205-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:46:13-62
+206            <intent-filter android:priority="-100" >
+206-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:13-33:29
+206-->[androidx.test:core:1.5.0] C:\Users\edoua\.gradle\caches\transforms-3\4b1f0787700ccd7ac6c94a26acbfa747\transformed\core-1.5.0\AndroidManifest.xml:31:28-51
+207                <category android:name="android.intent.category.LAUNCHER" />
+207-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:102:17-77
+207-->C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:102:27-74
+208            </intent-filter>
+209        </activity>
+210    </application>
+211
+212</manifest>

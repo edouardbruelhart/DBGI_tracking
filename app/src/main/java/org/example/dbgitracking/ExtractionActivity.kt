@@ -262,7 +262,7 @@ class ExtractionActivity : AppCompatActivity() {
             urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
 
             val data = JSONObject().apply {
-                put("container_9x9_id", boxId)
+                put("mobile_container_id", boxId)
                 put("extraction_method", extractionMethod)
                 put("batch_id", batchId)
                 put("solvent_volume_micro", inputVolume)
@@ -793,7 +793,7 @@ class ExtractionActivity : AppCompatActivity() {
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
             val url =
-                URL("http://directus.dbgi.org/items/Lab_Extracts/?filter[container_9x9_id][_eq]=$boxId")
+                URL("http://directus.dbgi.org/items/Lab_Extracts/?filter[mobile_container_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -843,7 +843,7 @@ class ExtractionActivity : AppCompatActivity() {
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
             val url =
-                URL("http://directus.dbgi.org/items/Aliquots/?filter[container_9x9_id][_eq]=$boxId")
+                URL("http://directus.dbgi.org/items/Aliquots/?filter[mobile_container_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -892,7 +892,7 @@ class ExtractionActivity : AppCompatActivity() {
 
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
-            val url = URL("http://directus.dbgi.org/items/Blank_Extracts/?filter[container_9x9_id][_eq]=$boxId")
+            val url = URL("http://directus.dbgi.org/items/Blank_Extracts/?filter[mobile_container_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -960,7 +960,6 @@ class ExtractionActivity : AppCompatActivity() {
         val parts = batchSample.split("_")
         val batch = parts[0] + "_" + parts[1] + "_" + parts[3]
         val selectedValue = extractionMethodSpinner.selectedItem.toString()
-        showToast("batch: ${parts[3]}")
         withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
             // Define the table url
@@ -975,7 +974,7 @@ class ExtractionActivity : AppCompatActivity() {
                 urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
                 val data = JSONObject().apply {
                     put("blk_id", batchSample)
-                    put("container_9x9_id", boxId)
+                    put("mobile_container_id", boxId)
                     put("extraction_method", selectedValue)
                     put("status", "OK")
                     put("solvent_volume_microliter", volumeInput.text.toString())
@@ -1033,7 +1032,7 @@ class ExtractionActivity : AppCompatActivity() {
                         return@withContext sendBatchToDirectus(batchSample, boxId)
                     }
                 } else {
-                    showToast("Database error, please try again")
+                    showToast("batch already added to database")
                     scanButtonSample.visibility = View.INVISIBLE
                 }
             } finally {

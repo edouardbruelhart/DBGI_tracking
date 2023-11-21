@@ -3075,7 +3075,9 @@ id ExtractionButton
 id FUNCTION
 id FindButton
 id InjectionButton
+id LocationButton
 id META
+id MoveButton
 id NO_DEBUG
 id SHIFT
 id SHOW_ALL
@@ -3753,8 +3755,10 @@ layout activity_extraction
 layout activity_find
 layout activity_home_page
 layout activity_injection
+layout activity_location
 layout activity_main
 layout activity_manage_printer
+layout activity_move
 layout activity_permissions
 layout activity_printer_connect
 layout activity_sample

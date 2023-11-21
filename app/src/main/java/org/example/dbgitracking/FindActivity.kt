@@ -105,17 +105,8 @@ class FindActivity : AppCompatActivity() {
                             }
                         }
 
-                        sampleId.matches(Regex("^container_8x3_\\d{6}\$")) -> {
-                            val collection = "Container_8x3"
-                            withContext(Dispatchers.IO) {
-                                sendDataToDirectus(
-                                    sampleId, collection
-                                )
-                            }
-                        }
-
-                        sampleId.matches(Regex("^container_9x9_\\d{6}\$")) -> {
-                            val collection = "Container_9x9"
+                        sampleId.matches(Regex("^container_*x*_\\d{6}\$")) -> {
+                            val collection = "Mobile_Container"
                             withContext(Dispatchers.IO) {
                                 sendDataToDirectus(
                                     sampleId, collection
@@ -159,8 +150,8 @@ class FindActivity : AppCompatActivity() {
 
             val data = JSONObject().apply {
                 put("status", "NOTOK")
-                put("container_9x9_id", "absent")
-                put("container_8x3_id", "absent")
+                put("mobile_container_id", "absent")
+                put("mobile_container_id", "absent")
             }
 
             val outputStream: OutputStream = urlConnection.outputStream

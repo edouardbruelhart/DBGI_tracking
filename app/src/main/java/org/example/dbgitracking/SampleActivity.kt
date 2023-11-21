@@ -137,7 +137,7 @@ class SampleActivity : AppCompatActivity() {
     private suspend fun checkRackLoad(rackId: String): Int {
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
-            val url = URL("http://directus.dbgi.org/items/Field_Samples/?filter[container_8x3_id][_eq]=$rackId")
+            val url = URL("http://directus.dbgi.org/items/Field_Samples/?filter[mobile_container_id][_eq]=$rackId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -208,7 +208,7 @@ class SampleActivity : AppCompatActivity() {
 
             val data = JSONObject().apply {
                 put("field_sample_id", sampleId)
-                put("container_8x3_id", rackId)
+                put("mobile_container_id", rackId)
             }
 
             val outputStream: OutputStream = urlConnection.outputStream
