@@ -87,6 +87,7 @@
   <androidx.percentlayout/>
   <androidx.preference/>
   <androidx.print/>
+  <androidx.privacysandbox.activity/>
   <androidx.privacysandbox.ads/>
   <androidx.privacysandbox.library/>
   <androidx.privacysandbox.plugins/>

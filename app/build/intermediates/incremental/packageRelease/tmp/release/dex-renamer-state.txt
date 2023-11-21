@@ -1,4 +1,4 @@
-#Mon Nov 06 10:23:39 CET 2023
+#Tue Nov 21 16:25:27 CET 2023
 base.0=C\:\\Users\\edoua\\Desktop\\DBGI_project\\DBGI_tracking_android\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
 base.1=C\:\\Users\\edoua\\Desktop\\DBGI_project\\DBGI_tracking_android\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes2.dex
 base.2=C\:\\Users\\edoua\\Desktop\\DBGI_project\\DBGI_tracking_android\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes3.dex

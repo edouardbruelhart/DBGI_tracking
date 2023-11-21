@@ -9,7 +9,7 @@
         android:id="@+id/manFindingLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type the sample's code you want to signal"
+        android:text="Type the sample's code you want to find"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"

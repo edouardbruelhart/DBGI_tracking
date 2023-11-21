@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.example.dbgitracking"
     android:versionCode="1"
-    android:versionName="0.4" >
+    android:versionName="0.5" >
 
     <uses-sdk
         android:minSdkVersion="29"
@@ -87,6 +87,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DBGITracking" >
+        <activity
+            android:name="org.example.dbgitracking.LocationActivity"
+            android:exported="false" />
+        <activity
+            android:name="org.example.dbgitracking.MoveActivity"
+            android:exported="false" />
         <activity
             android:name="org.example.dbgitracking.SignalingManActivity"
             android:exported="false" />
