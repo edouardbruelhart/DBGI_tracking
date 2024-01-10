@@ -19,7 +19,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.integration.android.IntentIntegrator
+import androidx.camera.view.PreviewView
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -56,10 +56,14 @@ class InjectionActivity : AppCompatActivity() {
     private var y: Int = 1
     private val scannedDataList = mutableListOf<String>()
     private var initials: String? = null
+    private lateinit var previewView: PreviewView
+    private lateinit var flashlightButton: Button
+    private lateinit var scanStatus: TextView
+    private var isQrScannerActive = false
 
     private var choices: List<String> = mutableListOf("Choose an option")
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_injection)
@@ -75,6 +79,9 @@ class InjectionActivity : AppCompatActivity() {
         rackInformation = findViewById(R.id.rackInformation)
         scanButtonAliquot = findViewById(R.id.scanButtonAliquot)
         submitButton = findViewById(R.id.submitButton)
+        previewView = findViewById(R.id.previewView)
+        flashlightButton = findViewById(R.id.flashlightButton)
+        scanStatus = findViewById(R.id.scanStatus)
 
         val token = intent.getStringExtra("ACCESS_TOKEN").toString()
 
@@ -102,8 +109,24 @@ class InjectionActivity : AppCompatActivity() {
 
         // Set up button click listener for Object QR Scanner
         scanButtonAliquot.setOnClickListener {
-            isObjectScanActive = true
-            startQRScan("Scan in row $x column $y")
+            isObjectScanActive = false
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan in row $x column $y"
+            flashlightButton.visibility = View.VISIBLE
+            scanButtonAliquot.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedAliquot ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                scanButtonAliquot.visibility = View.VISIBLE
+                scanStatus.text = ""
+                scanButtonAliquot.text = scannedAliquot
+                manageScan()
+            }
         }
 
         submitButton.setOnClickListener {
@@ -113,16 +136,11 @@ class InjectionActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == IntentIntegrator.REQUEST_CODE) {
-            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-            if (result != null && result.contents != null) {
-                scanButtonAliquot.text = result.contents // Update the button text
+    fun manageScan() {
+                val aliquot = scanButtonAliquot.text.toString()
                 val sdf = SimpleDateFormat("yyyyMMddHHmm")
                 val currentDate = sdf.format(Date())
-                val data = "${currentDate}_${initials}_${result.contents},,,$x$y,\n"
+                val data = "${currentDate}_${initials}_${aliquot},,,$x$y,\n"
                 handleScannedData(data)
                 //sendDataToDirectus()
                 // Display scanned information
@@ -143,7 +161,7 @@ class InjectionActivity : AppCompatActivity() {
                             x += 1
                         }
                         if (x <= rows) {
-                            startQRScan("Scan in row $x column $y")
+                            scanButtonAliquot.performClick()
                         }
                         // Check if all positions have been scanned
                         if (x > rows) {
@@ -154,19 +172,6 @@ class InjectionActivity : AppCompatActivity() {
                         }
                     }
                 }
-            }
-        }
-    }
-
-    private fun startQRScan(prompt: String) {
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setPrompt(prompt)
-        integrator.setCameraId(0)  // Use the default camera
-        integrator.setBeepEnabled(false)
-        integrator.setBarcodeImageEnabled(true)
-        integrator.setOrientationLocked(false)
-        integrator.initiateScan()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

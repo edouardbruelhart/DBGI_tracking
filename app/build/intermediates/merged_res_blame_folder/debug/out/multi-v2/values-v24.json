@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "org.example.dbgitracking.app-mergeDebugResources-31:/values-v24/values-v24.xml",
+            "outputFile": "org.example.dbgitracking.app-mergeDebugResources-41:/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\edoua\\.gradle\\caches\\transforms-3\\b84fd8e0913fbee5ea341511771bb46a\\transformed\\material-1.9.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\edoua\\.gradle\\caches\\transforms-3\\bec12648b5c289b68eed868060cdba26\\transformed\\material-1.9.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,9,12,15",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\edoua\\.gradle\\caches\\transforms-3\\60c55cbef2e6cdef5b8f3b785c00f588\\transformed\\appcompat-1.6.1\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\edoua\\.gradle\\caches\\transforms-3\\d7df77ebda5981800df5740c98f42e89\\transformed\\appcompat-1.6.1\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

@@ -3,7 +3,6 @@
 package org.example.dbgitracking
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -15,10 +14,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.view.PreviewView
 import com.bradysdk.api.printerconnection.CutOption
 import com.bradysdk.api.printerconnection.PrintingOptions
 import com.bradysdk.printengine.templateinterface.TemplateFactory
-import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,8 +45,12 @@ class AliquotsActivity : AppCompatActivity() {
     private lateinit var volumeInput: EditText
     private var hasTriedAgain = false
     private var lastAccessToken: String? = null
+    private lateinit var previewView: PreviewView
+    private lateinit var flashlightButton: Button
+    private lateinit var scanStatus: TextView
+    private var isQrScannerActive = false
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_aliquots)
@@ -62,6 +65,9 @@ class AliquotsActivity : AppCompatActivity() {
         aliquotsMethodLabel = findViewById(R.id.aliquotsMethodLabel)
         scanButtonExtract = findViewById(R.id.scanButtonExtract)
         volumeInput = findViewById(R.id.volumeInput)
+        previewView = findViewById(R.id.previewView)
+        flashlightButton = findViewById(R.id.flashlightButton)
+        scanStatus = findViewById(R.id.scanStatus)
 
         val token = intent.getStringExtra("ACCESS_TOKEN").toString()
 
@@ -72,14 +78,50 @@ class AliquotsActivity : AppCompatActivity() {
         scanButtonBox.setOnClickListener {
             isBoxScanActive = true
             isObjectScanActive = false
-            startQRScan("Scan box's QR")
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan the box"
+            flashlightButton.visibility = View.VISIBLE
+            scanButtonBox.visibility = View.INVISIBLE
+            scanButtonExtract.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedBox ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                scanButtonBox.visibility = View.VISIBLE
+                scanButtonExtract.visibility = View.VISIBLE
+                scanStatus.text = ""
+                scanButtonBox.text = scannedBox
+                manageScan()
+            }
         }
 
         // Set up button click listener for Object QR Scanner
         scanButtonExtract.setOnClickListener {
-            isBoxScanActive = false
-            isObjectScanActive = true
-            startQRScan("Scan object's QR")
+            isBoxScanActive = true
+            isObjectScanActive = false
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan the box"
+            flashlightButton.visibility = View.VISIBLE
+            scanButtonBox.visibility = View.INVISIBLE
+            scanButtonExtract.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedExtract ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                scanButtonBox.visibility = View.VISIBLE
+                scanButtonExtract.visibility = View.VISIBLE
+                scanStatus.text = ""
+                scanButtonExtract.text = scannedExtract
+                manageScan()
+            }
         }
 
         // Add a TextWatcher to the numberInput for real-time validation
@@ -107,57 +149,51 @@ class AliquotsActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    fun manageScan() {
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
-                if (requestCode == IntentIntegrator.REQUEST_CODE) {
-                    val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
-                    // Initiate the activity when a QR is scanned
-                    if (result != null && result.contents != null) {
+                if (isBoxScanActive) {
+                    val box = scanButtonBox.text.toString()
+                    val boxValueExt = checkBoxLoadExt(box)
+                    val boxValueAl = checkBoxLoadAl(box)
+                    val boxValueBa = checkBoxLoadBa(box)
+                    val stillPlace = 81 - boxValueExt - boxValueAl - boxValueBa
+                    val boxValue = boxValueAl + boxValueExt + boxValueBa
+                    if (boxValue >= 0 && stillPlace > 0) {
+                        scanButtonExtract.visibility = View.VISIBLE // Show actionButton if valid
+                        volumeInput.visibility = View.INVISIBLE
+                        emptyPlace.visibility = View.VISIBLE
+                        emptyPlace.setTextColor(Color.GRAY)
+                        emptyPlace.text =
+                            "This box should still contain $stillPlace empty places"
+                    } else {
+                        handleInvalidScanResult(stillPlace, boxValue)
+                        volumeInput.visibility = View.VISIBLE
+                    }
 
-                        if (isBoxScanActive) {
-                            val box = result.contents
-                            val boxValueExt = checkBoxLoadExt(box)
-                            val boxValueAl = checkBoxLoadAl(box)
-                            val boxValueBa = checkBoxLoadBa(box)
-                            val stillPlace = 81 - boxValueExt - boxValueAl - boxValueBa
-                            val boxValue = boxValueAl + boxValueExt + boxValueBa
-                            if (boxValue >= 0 && stillPlace > 0) {
-                                scanButtonBox.text = result.contents // Update the button text
-                                scanButtonExtract.visibility = View.VISIBLE // Show actionButton if valid
-                                volumeInput.visibility = View.INVISIBLE
-                                emptyPlace.visibility = View.VISIBLE
-                                emptyPlace.setTextColor(Color.GRAY)
-                                emptyPlace.text =
-                                    "This box should still contain $stillPlace empty places"
-                            } else {
-                                handleInvalidScanResult(stillPlace, boxValue)
-                                volumeInput.visibility = View.VISIBLE
-                            }
-
-                        } else if (isObjectScanActive) {
-                            scanButtonExtract.text = result.contents // Update the button text
-                            val inputNumber = volumeInput.text.toString()
-                            // Usage
-                            CoroutineScope(Dispatchers.IO).launch {
-                                // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
-                                if (scanButtonExtract.text.toString().matches(Regex("^dbgi_\\d{6}_\\d{2}\$"))) {
-                                    sendDataToDirectus(
-                                        scanButtonExtract.text.toString(),
-                                        inputNumber.toInt().toString(),
-                                        scanButtonBox.text.toString()
-                                    )
-                                } else if (scanButtonExtract.text.toString().matches(Regex("^dbgi_batch_blk_\\d{6}\$"))) {
-                                    sendBlankToDirectus(
-                                        scanButtonExtract.text.toString(),
-                                        inputNumber.toInt().toString(),
-                                        scanButtonBox.text.toString()
-                                    )
-                                }
-                            }
+                } else if (isObjectScanActive) {
+                    val inputNumber = volumeInput.text.toString()
+                    // Usage
+                    CoroutineScope(Dispatchers.IO).launch {
+                        // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
+                        if (scanButtonExtract.text.toString()
+                                .matches(Regex("^dbgi_\\d{6}_\\d{2}\$"))
+                        ) {
+                            sendDataToDirectus(
+                                scanButtonExtract.text.toString(),
+                                inputNumber.toInt().toString(),
+                                scanButtonBox.text.toString()
+                            )
+                        } else if (scanButtonExtract.text.toString()
+                                .matches(Regex("^dbgi_batch_blk_\\d{6}\$"))
+                        ) {
+                            sendBlankToDirectus(
+                                scanButtonExtract.text.toString(),
+                                inputNumber.toInt().toString(),
+                                scanButtonBox.text.toString()
+                            )
                         }
                     }
                 }
@@ -220,18 +256,6 @@ class AliquotsActivity : AppCompatActivity() {
         }
 
         return null
-    }
-
-
-    private fun startQRScan(prompt: String) {
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setPrompt(prompt)
-        integrator.setCameraId(0)  // Use the default camera
-        integrator.setBeepEnabled(false)
-        integrator.setBarcodeImageEnabled(true)
-        integrator.setOrientationLocked(false)
-        integrator.initiateScan()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -462,7 +486,7 @@ class AliquotsActivity : AppCompatActivity() {
                                 emptyPlace.visibility = View.VISIBLE
                                 emptyPlace.text = "This box should still contain $upStillPlace empty places"
                                 delay(1500)
-                                startQRScan("Scan object's QR")
+                                scanButtonExtract.performClick()
                             } else {
                                 emptyPlace.text = "Box is full, scan another one to continue"
                                 scanButtonBox.text = "scan another box"
@@ -635,7 +659,7 @@ class AliquotsActivity : AppCompatActivity() {
                                 emptyPlace.visibility = View.VISIBLE
                                 emptyPlace.text = "This box should still contain $upStillPlace empty places"
                                 delay(1500)
-                                startQRScan("Scan object's QR")
+                                scanButtonExtract.performClick()
                             } else {
                                 emptyPlace.text = "Box is full, scan another one to continue"
                                 scanButtonBox.text = "scan another box"

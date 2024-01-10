@@ -3,6 +3,7 @@
 package org.example.dbgitracking
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -14,6 +15,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -22,10 +24,10 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.view.PreviewView
 import com.bradysdk.api.printerconnection.CutOption
 import com.bradysdk.api.printerconnection.PrintingOptions
 import com.bradysdk.printengine.templateinterface.TemplateFactory
-import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -56,16 +58,19 @@ class ExtractionActivity : AppCompatActivity() {
     private lateinit var scanButtonBox: Button
     private lateinit var scanButtonSample: Button
     private lateinit var emptyPlace: TextView
-    private var hasTriedAgain = false
-    private var lastAccessToken: String? = null
+    private lateinit var previewView: PreviewView
+    private lateinit var flashlightButton: Button
+    private lateinit var scanStatus: TextView
 
     private var choices: List<String> = mutableListOf("Choose an option")
-
     private var isBatchActive = false
     private var isBoxScanActive = false
     private var isObjectScanActive = false
+    private var hasTriedAgain = false
+    private var lastAccessToken: String? = null
+    private var isQrScannerActive = false
 
-    @SuppressLint("CutPasteId", "MissingInflatedId")
+    @SuppressLint("CutPasteId", "MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_extraction)
@@ -86,6 +91,9 @@ class ExtractionActivity : AppCompatActivity() {
         scanButtonBox = findViewById(R.id.scanButtonBox)
         scanButtonSample = findViewById(R.id.scanButtonSample)
         emptyPlace = findViewById(R.id.emptyPlace)
+        previewView = findViewById(R.id.previewView)
+        flashlightButton = findViewById(R.id.flashlightButton)
+        scanStatus = findViewById(R.id.scanStatus)
 
         val token = intent.getStringExtra("ACCESS_TOKEN").toString()
 
@@ -151,10 +159,44 @@ class ExtractionActivity : AppCompatActivity() {
 
         // Set up button click listener for Box QR Scanner
         scanButtonBox.setOnClickListener {
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(volumeInput.windowToken, 0)
             isBoxScanActive = true
             isObjectScanActive = false
             isBatchActive = false
-            startQRScan("Scan box's QR")
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan the box"
+            flashlightButton.visibility = View.VISIBLE
+            buttonNewBatch.visibility = View.INVISIBLE
+            newExtractionMethod.visibility = View.INVISIBLE
+            extractionMethodSpinner.visibility = View.INVISIBLE
+            volumeInput.visibility = View.INVISIBLE
+            extractionMethodLabel.visibility = View.INVISIBLE
+            scanButtonBox.visibility = View.INVISIBLE
+            if (scanButtonSample.text != "Begin to scan samples") {
+                scanButtonSample.visibility = View.INVISIBLE
+            }
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedBox ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                buttonNewBatch.visibility = View.VISIBLE
+                newExtractionMethod.visibility = View.VISIBLE
+                extractionMethodSpinner.visibility = View.VISIBLE
+                volumeInput.visibility = View.VISIBLE
+                extractionMethodLabel.visibility = View.VISIBLE
+                scanButtonBox.visibility = View.VISIBLE
+                scanButtonBox.text = scannedBox
+                scanStatus.text = ""
+                if (scanButtonSample.text != "Begin to scan samples"){
+                    scanButtonSample.visibility = View.VISIBLE
+                }
+                manageScan()
+            }
         }
 
         // Set up button click listener for Batch QR Scanner
@@ -162,7 +204,35 @@ class ExtractionActivity : AppCompatActivity() {
             isBatchActive = true
             isBoxScanActive = false
             isObjectScanActive = false
-            startQRScan("Scan batch's QR")
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan the batch"
+            flashlightButton.visibility = View.VISIBLE
+            buttonNewBatch.visibility = View.INVISIBLE
+            newExtractionMethod.visibility = View.INVISIBLE
+            extractionMethodSpinner.visibility = View.INVISIBLE
+            volumeInput.visibility = View.INVISIBLE
+            extractionMethodLabel.visibility = View.INVISIBLE
+            scanButtonBox.visibility = View.INVISIBLE
+            scanButtonBatch.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedBatch ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                buttonNewBatch.visibility = View.VISIBLE
+                newExtractionMethod.visibility = View.VISIBLE
+                extractionMethodSpinner.visibility = View.VISIBLE
+                volumeInput.visibility = View.VISIBLE
+                extractionMethodLabel.visibility = View.VISIBLE
+                scanButtonBox.visibility = View.VISIBLE
+                scanButtonBatch.visibility = View.VISIBLE
+                scanButtonBatch.text = scannedBatch
+                scanStatus.text = ""
+                manageScan()
+            }
         }
 
         // Set up button click listener for Object QR Scanner
@@ -170,74 +240,93 @@ class ExtractionActivity : AppCompatActivity() {
             isObjectScanActive = true
             isBoxScanActive = false
             isBatchActive = false
-            startQRScan("Scan object's QR")
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan the sample"
+            flashlightButton.visibility = View.VISIBLE
+            buttonNewBatch.visibility = View.INVISIBLE
+            newExtractionMethod.visibility = View.INVISIBLE
+            extractionMethodSpinner.visibility = View.INVISIBLE
+            volumeInput.visibility = View.INVISIBLE
+            extractionMethodLabel.visibility = View.INVISIBLE
+            scanButtonBox.visibility = View.INVISIBLE
+            scanButtonBatch.visibility = View.INVISIBLE
+            scanButtonSample.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedSample ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                buttonNewBatch.visibility = View.VISIBLE
+                newExtractionMethod.visibility = View.VISIBLE
+                extractionMethodSpinner.visibility = View.VISIBLE
+                volumeInput.visibility = View.VISIBLE
+                extractionMethodLabel.visibility = View.VISIBLE
+                scanButtonBox.visibility = View.VISIBLE
+                scanButtonBatch.visibility = View.VISIBLE
+                scanButtonSample.visibility = View.VISIBLE
+                scanButtonSample.text = scannedSample
+                scanStatus.text = ""
+                manageScan()
+            }
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
+    fun manageScan() {
         // Counts the spaces left in the rack
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
-                if (requestCode == IntentIntegrator.REQUEST_CODE) {
-                    val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
-                    // Initiate the activity when a QR is scanned
-                    if (result != null && result.contents != null) {
-
-                        if (isBoxScanActive) {
-                            val box = result.contents
-                            val boxValueExt = checkBoxLoadExt(box)
-                            val boxValueAl = checkBoxLoadAl(box)
-                            val boxValueBa = checkBoxLoadBa(box)
-                            val stillPlace = 81 - boxValueExt - boxValueAl - boxValueBa
-                            val boxValue = boxValueAl + boxValueExt + boxValueBa
-                            if (boxValue >= 0 && stillPlace > 0) {
-                                scanButtonBox.text = result.contents
-                                extractionMethodBatch.visibility = View.VISIBLE
-                                scanButtonBatch.visibility = View.VISIBLE
-                                emptyPlace.visibility = View.VISIBLE
-                                emptyPlace.setTextColor(Color.GRAY)
-                                emptyPlace.text =
+                if (isBoxScanActive) {
+                    val box = scanButtonBox.text.toString()
+                    val boxValueExt = checkBoxLoadExt(box)
+                    val boxValueAl = checkBoxLoadAl(box)
+                    val boxValueBa = checkBoxLoadBa(box)
+                    val stillPlace = 81 - boxValueExt - boxValueAl - boxValueBa
+                    val boxValue = boxValueAl + boxValueExt + boxValueBa
+                    if (boxValue >= 0 && stillPlace > 0) {
+                        extractionMethodBatch.visibility = View.VISIBLE
+                        scanButtonBatch.visibility = View.VISIBLE
+                        emptyPlace.visibility = View.VISIBLE
+                        emptyPlace.setTextColor(Color.GRAY)
+                        emptyPlace.text =
                                     "This box should still contain $stillPlace empty places"
-                            } else {
-                                handleInvalidScanResult(stillPlace, boxValue)
-                            }
-                        } else if (isBatchActive) {
-                        val box = scanButtonBox.text.toString()
-                        sendBatchToDirectus(result.contents, box)
-                        val baBoxValueExt = checkBoxLoadExt(box)
-                        val baBoxValueAl = checkBoxLoadAl(box)
-                        val baBoxValueBa = checkBoxLoadBa(box)
-                        val baStillPlace = 81 - baBoxValueExt - baBoxValueAl - baBoxValueBa
-                        val boxValue = baBoxValueAl + baBoxValueExt + baBoxValueBa
-                        if (boxValue >= 0 && baStillPlace > 0) {
-                            scanButtonBatch.text = result.contents
-                            scanButtonSample.visibility = View.VISIBLE
-                            emptyPlace.visibility = View.VISIBLE
-                            emptyPlace.setTextColor(Color.GRAY)
-                            emptyPlace.text =
+                    } else {
+                        handleInvalidScanResult(stillPlace, boxValue)
+                    }
+                } else if (isBatchActive) {
+                    val box = scanButtonBox.text.toString()
+                    val batch = scanButtonBatch.text.toString()
+                    sendBatchToDirectus(batch, box)
+                    val baBoxValueExt = checkBoxLoadExt(box)
+                    val baBoxValueAl = checkBoxLoadAl(box)
+                    val baBoxValueBa = checkBoxLoadBa(box)
+                    val baStillPlace = 81 - baBoxValueExt - baBoxValueAl - baBoxValueBa
+                    val boxValue = baBoxValueAl + baBoxValueExt + baBoxValueBa
+                    if (boxValue >= 0 && baStillPlace > 0) {
+                        scanButtonSample.visibility = View.VISIBLE
+                        emptyPlace.visibility = View.VISIBLE
+                        emptyPlace.setTextColor(Color.GRAY)
+                        emptyPlace.text =
                                 "This box should still contain $baStillPlace empty places"
-                            } else {
+                    } else {
                             handleInvalidScanResult(baStillPlace, boxValue)
-                        }
-                        } else if (isObjectScanActive) {
-                            scanButtonSample.text = result.contents
-                            val boxId = scanButtonBox.text.toString()
-                            val sampleId = scanButtonSample.text.toString()
-                            val selectedValue = extractionMethodSpinner.selectedItem.toString()
-                            showToast("selected method: $selectedValue")
-                            val batchSample = scanButtonBatch.text.toString()
-                            val parts = batchSample.split("_")
-                            val batchId = parts[0] + "_" + parts[1] + "_" + parts[3]
-                            val inputVolume = volumeInput.text.toString()
-                            withContext(Dispatchers.IO) {
-                                sendDataToDirectus(sampleId, boxId, selectedValue, batchId, inputVolume)
-                            }
-                        }
+                    }
+                } else if (isObjectScanActive) {
+                    val boxId = scanButtonBox.text.toString()
+                    val sampleId = scanButtonSample.text.toString()
+                    val selectedValue = extractionMethodSpinner.selectedItem.toString()
+                    showToast("selected method: $selectedValue")
+                    val batchSample = scanButtonBatch.text.toString()
+                    val parts = batchSample.split("_")
+                    val batchId = parts[0] + "_" + parts[1] + "_" + parts[3]
+                    val inputVolume = volumeInput.text.toString()
+                    withContext(Dispatchers.IO) {
+                        sendDataToDirectus(sampleId, boxId, selectedValue, batchId, inputVolume)
                     }
                 }
             }
@@ -382,7 +471,7 @@ class ExtractionActivity : AppCompatActivity() {
                             emptyPlace.visibility = View.VISIBLE
                             emptyPlace.text = "This box should still contain $upStillPlace empty places"
                             delay(1500)
-                            startQRScan("Scan object's QR")
+                            scanButtonSample.performClick()
                         } else {
                             emptyPlace.text = "Box is full, scan another one to continue"
                             scanButtonBox.text = "scan another box"
@@ -700,22 +789,32 @@ class ExtractionActivity : AppCompatActivity() {
         }
     }
 
-    private fun startQRScan(prompt: String) {
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setPrompt(prompt)
-        integrator.setCameraId(0)
-        integrator.setOrientationLocked(false)
-        integrator.setBeepEnabled(false)
-        integrator.setBarcodeImageEnabled(true)
-        integrator.initiateScan()
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
-                return true
+                return if (isQrScannerActive){
+                    QRCodeScannerUtility.stopScanning()
+                    isQrScannerActive = false
+                    previewView.visibility = View.INVISIBLE
+                    flashlightButton.visibility = View.INVISIBLE
+                    buttonNewBatch.visibility = View.VISIBLE
+                    newExtractionMethod.visibility = View.VISIBLE
+                    extractionMethodSpinner.visibility = View.VISIBLE
+                    volumeInput.visibility = View.VISIBLE
+                    extractionMethodLabel.visibility = View.VISIBLE
+                    scanButtonBox.visibility = View.VISIBLE
+                    scanStatus.text = ""
+                    if (isObjectScanActive){
+                        scanButtonSample.visibility = View.VISIBLE
+                        scanButtonBatch.visibility = View.VISIBLE
+                    } else if (isBatchActive){
+                        scanButtonBatch.visibility = View.VISIBLE
+                    }
+                    true
+                } else {
+                    onBackPressed()
+                    true
+                }
             }
         }
         return super.onOptionsItemSelected(item)

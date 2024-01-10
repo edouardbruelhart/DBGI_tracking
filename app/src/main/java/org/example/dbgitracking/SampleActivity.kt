@@ -1,13 +1,11 @@
 // QR code reader is deprecated, this avoid warnings.
 // Maybe a good point to change the QR code reader to a not deprecated one in the future.
-@file:Suppress("DEPRECATION")
 
 // Links the screen to the application
 package org.example.dbgitracking
 
 // Imports
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
@@ -15,8 +13,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.integration.android.IntentIntegrator
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.view.PreviewView
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,12 +40,17 @@ class SampleActivity : AppCompatActivity() {
     private lateinit var scanButtonRack: Button
     private lateinit var emptyPlace: TextView
     private lateinit var scanButtonSample: Button
+    private lateinit var previewView: PreviewView
+    private lateinit var flashlightButton: Button
+    private lateinit var scanStatus: TextView
     private var isRackScanActive = false
     private var isObjectScanActive = false
     private var hasTriedAgain = false
+    private var isQrScannerActive = false
     private var lastAccessToken: String? = null
 
-    @SuppressLint("MissingInflatedId", "SetTextI18n")
+
+    @OptIn(ExperimentalGetImage::class) @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Create the connection with the XML file to add the displayed objects
@@ -60,6 +65,9 @@ class SampleActivity : AppCompatActivity() {
         scanButtonRack = findViewById(R.id.scanButtonRack)
         emptyPlace = findViewById(R.id.emptyPlace)
         scanButtonSample = findViewById(R.id.scanButtonSample)
+        previewView = findViewById(R.id.previewView)
+        flashlightButton = findViewById(R.id.flashlightButton)
+        scanStatus = findViewById(R.id.scanStatus)
 
         val token = intent.getStringExtra("ACCESS_TOKEN").toString()
 
@@ -70,48 +78,64 @@ class SampleActivity : AppCompatActivity() {
         scanButtonRack.setOnClickListener {
             isRackScanActive = true
             isObjectScanActive = false
-            startQRScan("Scan rack's QR")
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan the rack"
+            flashlightButton.visibility = View.VISIBLE
+            scanButtonRack.visibility = View.INVISIBLE
+            scanButtonSample.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedRack ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                scanButtonRack.visibility = View.VISIBLE
+                scanButtonSample.visibility = View.VISIBLE
+                scanStatus.text = ""
+                scanButtonRack.text = scannedRack
+                manageScan()
+            }
         }
 
         // Set up button click listener for Object QR Scanner
         scanButtonSample.setOnClickListener {
             isRackScanActive = false
             isObjectScanActive = true
-            startQRScan("Scan object's QR")
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan the sample"
+            flashlightButton.visibility = View.VISIBLE
+            scanButtonRack.visibility = View.INVISIBLE
+            scanButtonSample.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedSample ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                scanButtonRack.visibility = View.VISIBLE
+                scanButtonSample.visibility = View.VISIBLE
+                scanStatus.text = ""
+                scanButtonSample.text = scannedSample
+                manageScan()
+            }
         }
     }
 
-    // Function to initiate the QR scan page
-    private fun startQRScan(prompt: String) {
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setPrompt(prompt)
-        integrator.setCameraId(0)
-        integrator.setOrientationLocked(false)
-        integrator.setBeepEnabled(false)
-        integrator.setBarcodeImageEnabled(true)
-        integrator.initiateScan()
-    }
-
     @SuppressLint("SetTextI18n")
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    fun manageScan() {
 
         // Counts the spaces left in the rack
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
-                if (requestCode == IntentIntegrator.REQUEST_CODE) {
-                    val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-
-                    // Initiate the activity when a QR is scanned
-                    if (result != null && result.contents != null) {
                         if (isRackScanActive) {
-                            val rack = result.contents
+                            val rack = scanButtonRack.text.toString()
                             val rackValue = checkRackLoad(rack)
                             val stillPlace = 24 - rackValue
                             if (rackValue >= 0 && stillPlace > 0){
-                                scanButtonRack.text = result.contents
                                 scanButtonSample.visibility = View.VISIBLE
                                 emptyPlace.visibility = View.VISIBLE
                                 emptyPlace.setTextColor(Color.GRAY)
@@ -120,7 +144,6 @@ class SampleActivity : AppCompatActivity() {
                                 handleInvalidScanResult(stillPlace, rackValue)
                             }
                         } else if (isObjectScanActive) {
-                            scanButtonSample.text = result.contents
                             val rackId = scanButtonRack.text.toString()
                             val sampleId = scanButtonSample.text.toString()
                             withContext(Dispatchers.IO) {
@@ -130,8 +153,6 @@ class SampleActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
-    }
 
     // Function to ask how many samples are already present in the rack to directus
     private suspend fun checkRackLoad(rackId: String): Int {
@@ -167,7 +188,6 @@ class SampleActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return@withContext checkRackLoad(rackId)
                     } else {
@@ -266,7 +286,7 @@ class SampleActivity : AppCompatActivity() {
                             emptyPlace.text = "This rack should still contain $upStillPlace empty places"
                             hasTriedAgain = false
                             delay(1500)
-                            startQRScan("Scan object's QR")
+                            scanButtonSample.performClick()
                         } else {
                             emptyPlace.text = "Rack is full, scan another one to continue"
                             scanButtonRack.text = "scan another rack"
@@ -283,12 +303,125 @@ class SampleActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return sendDataToDirectus(sampleId, rackId)
                     }
                 // Request failed
-                showToast("Error: $responseCode")
+                showToast("Connection lost, kill the app and reconnect")
+            } else {
+                updateDataToDirectus(sampleId, rackId)
+            }
+        } finally {
+            urlConnection.disconnect()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private suspend fun updateDataToDirectus(
+        sampleId: String,
+        rackId: String
+    ) {
+        // Define the table url
+        val accessToken = retrieveToken()
+        val collectionUrl = "http://directus.dbgi.org/items/Field_Samples/$sampleId"
+        val url = URL(collectionUrl)
+        val urlConnection = withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
+
+        // Perform the POST request to add the values on directus
+        try {
+            urlConnection.requestMethod = "PATCH"
+            urlConnection.setRequestProperty(
+                "Content-Type",
+                "application/json"
+            )
+            urlConnection.setRequestProperty(
+                "Authorization",
+                "Bearer $accessToken"
+            )
+
+            val data = JSONObject().apply {
+                put("mobile_container_id", rackId)
+            }
+
+            val outputStream: OutputStream = urlConnection.outputStream
+            val writer = BufferedWriter(withContext(Dispatchers.IO) {
+                OutputStreamWriter(outputStream, "UTF-8")
+            })
+            withContext(Dispatchers.IO) {
+                writer.write(data.toString())
+            }
+            withContext(Dispatchers.IO) {
+                writer.flush()
+            }
+            withContext(Dispatchers.IO) {
+                writer.close()
+            }
+
+            // Capture the response code and control if it's successful
+            val responseCode = urlConnection.responseCode
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                hasTriedAgain = false
+                val inputStream = urlConnection.inputStream
+                val bufferedReader = BufferedReader(
+                    withContext(
+                        Dispatchers.IO
+                    ) {
+                        InputStreamReader(inputStream, "UTF-8")
+                    })
+                val response = StringBuilder()
+                var line: String?
+                while (withContext(Dispatchers.IO) {
+                        bufferedReader.readLine()
+                    }.also { line = it } != null) {
+                    response.append(line)
+                }
+                withContext(Dispatchers.IO) {
+                    bufferedReader.close()
+                }
+                withContext(Dispatchers.IO) {
+                    inputStream.close()
+                }
+                // Display a Toast with the response message
+                showToast("Database correctly updated")
+
+                // Check if there is still enough place in the rack before initiating the QR code reader
+                CoroutineScope(Dispatchers.IO).launch {
+                    val rack = scanButtonRack.text.toString()
+                    val upRackValue = checkRackLoad(rack)
+                    val upStillPlace = 24 - upRackValue
+
+                    withContext(Dispatchers.Main) {
+
+                        if(upStillPlace > 0){
+                            // Automatically launch the QR scanning when last sample correctly added to the database
+                            emptyPlace.visibility = View.VISIBLE
+                            emptyPlace.text = "This rack should still contain $upStillPlace empty places"
+                            hasTriedAgain = false
+                            delay(1500)
+                            scanButtonSample.performClick()
+                        } else {
+                            emptyPlace.text = "Rack is full, scan another one to continue"
+                            scanButtonRack.text = "scan another rack"
+                            scanButtonSample.text = "Begin to scan samples"
+                            scanButtonSample.visibility = View.INVISIBLE
+
+                        }
+
+                    }
+                }
+            } else if (!hasTriedAgain) {
+                hasTriedAgain = true
+                val newAccessToken = getNewAccessToken()
+
+                if (newAccessToken != null) {
+                    retrieveToken(newAccessToken)
+                    // Retry the operation with the new access token
+                    return sendDataToDirectus(sampleId, rackId)
+                }
+                // Request failed
+                showToast("Connection lost, kill the app and reconnect")
+            } else {
+                showToast("unknown error, kill the application and retry")
             }
         } finally {
             urlConnection.disconnect()
@@ -318,8 +451,21 @@ class SampleActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
-                return true
+                return if (isQrScannerActive){
+                    QRCodeScannerUtility.stopScanning()
+                    isQrScannerActive = false
+                    previewView.visibility = View.INVISIBLE
+                    flashlightButton.visibility = View.INVISIBLE
+                    scanButtonRack.visibility = View.VISIBLE
+                    scanStatus.text = ""
+                    if (isObjectScanActive){
+                        scanButtonSample.visibility = View.VISIBLE
+                    }
+                    true
+                } else {
+                    onBackPressed()
+                    true
+                }
             }
         }
         return super.onOptionsItemSelected(item)

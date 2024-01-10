@@ -31,10 +31,11 @@ class PrinterConnectActivity : AppCompatActivity() {
 
         // Set up button click listeners here
         connectButton.setOnClickListener {
-            val intent = Intent(this, PermissionsActivity::class.java)
+            val intent = Intent(this,ManagePrinterActivity::class.java)
             intent.putExtra("ACCESS_TOKEN", accessToken)
             intent.putExtra("USERNAME", username)
             intent.putExtra("PASSWORD", password)
+            intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
             startActivity(intent)
             finish()
         }

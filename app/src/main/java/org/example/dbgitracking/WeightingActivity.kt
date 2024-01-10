@@ -1,6 +1,5 @@
 // QR code reader is deprecated, this avoid warnings.
 // Maybe a good point to change the QR code reader to a not deprecated one in the future.
-@file:Suppress("DEPRECATION")
 
 // Links the screen to the application
 package org.example.dbgitracking
@@ -8,21 +7,22 @@ package org.example.dbgitracking
 // Imports
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.view.PreviewView
 import com.bradysdk.api.printerconnection.CutOption
 import com.bradysdk.api.printerconnection.PrintingOptions
 import com.bradysdk.printengine.templateinterface.TemplateFactory
-import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,8 +54,12 @@ class WeightingActivity : AppCompatActivity() {
     private lateinit var emptyPlace: TextView
     private var hasTriedAgain = false
     private var lastAccessToken: String? = null
+    private lateinit var previewView: PreviewView
+    private lateinit var flashlightButton: Button
+    private lateinit var scanStatus: TextView
+    private var isQrScannerActive = false
 
-@SuppressLint("MissingInflatedId")
+@SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Create the connection with the XML file to add the displayed objects
@@ -74,6 +78,9 @@ class WeightingActivity : AppCompatActivity() {
         numberInput = findViewById(R.id.numberInput)
         actionButton = findViewById(R.id.actionButton)
         emptyPlace = findViewById(R.id.emptyPlace)
+        previewView = findViewById(R.id.previewView)
+        flashlightButton = findViewById(R.id.flashlightButton)
+        scanStatus = findViewById(R.id.scanStatus)
 
         val token = intent.getStringExtra("ACCESS_TOKEN").toString()
 
@@ -99,8 +106,33 @@ class WeightingActivity : AppCompatActivity() {
 
         // Set up button click listener for Object QR Scanner
         scanButtonSample.setOnClickListener {
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(weightInput.windowToken, 0)
+            chooseWeightLabel.visibility = View.INVISIBLE
             isObjectScanActive = true
-            startQRScan("Scan object's QR")
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan the sample"
+            flashlightButton.visibility = View.VISIBLE
+            weightInput.visibility = View.INVISIBLE
+            scanButtonSample.visibility = View.INVISIBLE
+            actionButton.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedSample ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                scanButtonSample.visibility = View.VISIBLE
+                scanButtonSample.text = "Value"
+                numberInput.visibility = View.VISIBLE
+                actionButton.visibility = View.VISIBLE
+                numberInput.text = null
+                scanStatus.text = ""
+                scanButtonSample.text = scannedSample
+                //manageScan()
+            }
         }
 
         // Add a TextWatcher to the numberInput for real-time validation. Permits to constrain the user entry from 47.5 to 52.5
@@ -267,7 +299,7 @@ class WeightingActivity : AppCompatActivity() {
                                 // Start a coroutine to delay the next scan by 5 seconds
                                 CoroutineScope(Dispatchers.Main).launch {
                                     delay(1500)
-                                    startQRScan("Scan object's QR")
+                                    scanButtonSample.performClick()
                                 }
                             } else if (!hasTriedAgain) {
                                     hasTriedAgain = true
@@ -291,21 +323,6 @@ class WeightingActivity : AppCompatActivity() {
                 // Usage
                 CoroutineScope(Dispatchers.IO).launch {
                     sendDataToDirectus(scanButtonSample.text.toString(), inputNumber.toString())
-                }
-            }
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == IntentIntegrator.REQUEST_CODE) {
-            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-            if (result != null && result.contents != null) {
-                if (isObjectScanActive) {
-                    scanButtonSample.text = result.contents // Update the button text
-                    numberInput.visibility = View.VISIBLE
                 }
             }
         }
@@ -368,24 +385,25 @@ class WeightingActivity : AppCompatActivity() {
         return null
     }
 
-
-    private fun startQRScan(prompt: String) {
-        numberInput.text = null
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setPrompt(prompt)
-        integrator.setCameraId(0)  // Use the default camera
-        integrator.setBeepEnabled(false)
-        integrator.setBarcodeImageEnabled(true)
-        integrator.setOrientationLocked(false)
-        integrator.initiateScan()
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
-                return true
+                return if (isQrScannerActive){
+                    QRCodeScannerUtility.stopScanning()
+                    isQrScannerActive = false
+                    previewView.visibility = View.INVISIBLE
+                    flashlightButton.visibility = View.INVISIBLE
+                    weightInput.visibility = View.VISIBLE
+                    chooseWeightLabel.visibility = View.VISIBLE
+                    scanStatus.text = ""
+                    if (isObjectScanActive){
+                        scanButtonSample.visibility = View.VISIBLE
+                    }
+                    true
+                } else {
+                    onBackPressed()
+                    true
+                }
             }
         }
         return super.onOptionsItemSelected(item)

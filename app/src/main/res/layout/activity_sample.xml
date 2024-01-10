@@ -15,18 +15,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
-        tools:ignore="HardcodedText,MissingConstraints" />
+        tools:ignore="HardcodedText,MissingConstraints,VisualLintOverlap" />
 
     <Button
         android:id="@+id/scanButtonRack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Value"
-        app:layout_constraintTop_toBottomOf="@id/sampleMethodRack"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        tools:ignore="HardcodedText" />
+        android:text="Value"
+        android:textColor="#212121"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sampleMethodRack"
+        tools:ignore="HardcodedText,VisualLintOverlap" />
 
     <TextView
         android:id="@+id/emptyPlace"
@@ -54,5 +55,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="100dp"
         tools:ignore="HardcodedText,MissingConstraints" />
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        tools:ignore="MissingClass" />
+
+    <Button
+        android:id="@+id/flashlightButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="toggleFlashlight"
+        android:visibility="invisible"
+        android:text="light"
+        tools:ignore="HardcodedText,MissingConstraints,OnClick,TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/scanStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

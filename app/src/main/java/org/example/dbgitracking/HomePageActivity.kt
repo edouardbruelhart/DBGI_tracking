@@ -5,7 +5,9 @@ package org.example.dbgitracking
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.ExperimentalGetImage
 
 class HomePageActivity : AppCompatActivity() {
 
@@ -19,7 +21,7 @@ class HomePageActivity : AppCompatActivity() {
     private lateinit var button8: Button
     private lateinit var button9: Button
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    @OptIn(ExperimentalGetImage::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
@@ -64,53 +66,53 @@ class HomePageActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        button4.setOnClickListener {
-            val intent = Intent(this, AliquotsActivity::class.java)
-            intent.putExtra("ACCESS_TOKEN", accessToken)
-            intent.putExtra("USERNAME", username)
-            intent.putExtra("PASSWORD", password)
-            intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
-            startActivity(intent)
-        }
+        //button4.setOnClickListener {
+            //val intent = Intent(this, AliquotsActivity::class.java)
+            //intent.putExtra("ACCESS_TOKEN", accessToken)
+            //intent.putExtra("USERNAME", username)
+            //intent.putExtra("PASSWORD", password)
+            //intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+            //startActivity(intent)
+        //}
 
-        button5.setOnClickListener {
-            val intent = Intent(this, InjectionActivity::class.java)
-            intent.putExtra("ACCESS_TOKEN", accessToken)
-            intent.putExtra("USERNAME", username)
-            intent.putExtra("PASSWORD", password)
-            startActivity(intent)
-        }
+        //button5.setOnClickListener {
+            //val intent = Intent(this, InjectionActivity::class.java)
+            //intent.putExtra("ACCESS_TOKEN", accessToken)
+            //intent.putExtra("USERNAME", username)
+            //intent.putExtra("PASSWORD", password)
+            //startActivity(intent)
+        //}
 
-        button6.setOnClickListener {
-            val intent = Intent(this, SignalingActivity::class.java)
-            intent.putExtra("ACCESS_TOKEN", accessToken)
-            intent.putExtra("USERNAME", username)
-            intent.putExtra("PASSWORD", password)
-            startActivity(intent)
-        }
+        //button6.setOnClickListener {
+            //val intent = Intent(this, SignalingActivity::class.java)
+            //intent.putExtra("ACCESS_TOKEN", accessToken)
+            //intent.putExtra("USERNAME", username)
+            //intent.putExtra("PASSWORD", password)
+            //startActivity(intent)
+        //}
 
-        button7.setOnClickListener {
-            val intent = Intent(this, FindActivity::class.java)
-            intent.putExtra("ACCESS_TOKEN", accessToken)
-            intent.putExtra("USERNAME", username)
-            intent.putExtra("PASSWORD", password)
-            startActivity(intent)
-        }
+        //button7.setOnClickListener {
+            //val intent = Intent(this, FindActivity::class.java)
+            //intent.putExtra("ACCESS_TOKEN", accessToken)
+            //intent.putExtra("USERNAME", username)
+            //intent.putExtra("PASSWORD", password)
+            //startActivity(intent)
+        //}
 
-        button8.setOnClickListener {
-            val intent = Intent(this, MoveActivity::class.java)
-            intent.putExtra("ACCESS_TOKEN", accessToken)
-            intent.putExtra("USERNAME", username)
-            intent.putExtra("PASSWORD", password)
-            startActivity(intent)
-        }
+        //button8.setOnClickListener {
+            //val intent = Intent(this, MoveActivity::class.java)
+            //intent.putExtra("ACCESS_TOKEN", accessToken)
+            //intent.putExtra("USERNAME", username)
+            //intent.putExtra("PASSWORD", password)
+            //startActivity(intent)
+        //}
 
-        button9.setOnClickListener {
-            val intent = Intent(this, LocationActivity::class.java)
-            intent.putExtra("ACCESS_TOKEN", accessToken)
-            intent.putExtra("USERNAME", username)
-            intent.putExtra("PASSWORD", password)
-            startActivity(intent)
-        }
+        //button9.setOnClickListener {
+            //val intent = Intent(this, LocationActivity::class.java)
+            //intent.putExtra("ACCESS_TOKEN", accessToken)
+            //intent.putExtra("USERNAME", username)
+            //intent.putExtra("PASSWORD", password)
+            //startActivity(intent)
+        //}
     }
 }

@@ -3,14 +3,14 @@
 package org.example.dbgitracking
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.integration.android.IntentIntegrator
+import androidx.camera.view.PreviewView
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +33,12 @@ class SignalingScanActivity : AppCompatActivity() {
     private var isObjectScanActive = false
     private var hasTriedAgain = false
     private var lastAccessToken: String? = null
+    private lateinit var previewView: PreviewView
+    private lateinit var flashlightButton: Button
+    private lateinit var scanStatus: TextView
+    private var isQrScannerActive = false
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signaling_scan)
@@ -44,6 +49,9 @@ class SignalingScanActivity : AppCompatActivity() {
 
         scanSignalingLabel = findViewById(R.id.scanSignalingLabel)
         scanButtonSignaling = findViewById(R.id.scanButtonSignaling)
+        previewView = findViewById(R.id.previewView)
+        flashlightButton = findViewById(R.id.flashlightButton)
+        scanStatus = findViewById(R.id.scanStatus)
 
         val token = intent.getStringExtra("ACCESS_TOKEN").toString()
 
@@ -52,28 +60,39 @@ class SignalingScanActivity : AppCompatActivity() {
 
         // Set up button click listener for Object QR Scanner
         scanButtonSignaling.setOnClickListener {
-            isObjectScanActive = true
-            startQRScan("Scan object's QR")
+            isObjectScanActive = false
+            isQrScannerActive = true
+            previewView.visibility = View.VISIBLE
+            scanStatus.text = "Scan the sample to signal"
+            flashlightButton.visibility = View.VISIBLE
+            scanButtonSignaling.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedSample ->
+
+                // Stop the scanning process after receiving the result
+                QRCodeScannerUtility.stopScanning()
+                isQrScannerActive = false
+                previewView.visibility = View.INVISIBLE
+                flashlightButton.visibility = View.INVISIBLE
+                scanButtonSignaling.visibility = View.VISIBLE
+                scanStatus.text = ""
+                scanButtonSignaling.text = scannedSample
+                manageScan()
+            }
         }
 
     }
 
     @SuppressLint("SetTextI18n")
     @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    fun manageScan() {
 
         // Counts the spaces left in the rack
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
-                if (requestCode == IntentIntegrator.REQUEST_CODE) {
-                    val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
-                    // Initiate the activity when a QR is scanned
-                    if (result != null && result.contents != null) {
                         if (isObjectScanActive) {
-                            scanButtonSignaling.text = result.contents
-                            val sampleId = result.contents
+
+                            val sampleId = scanButtonSignaling.text.toString()
                             showToast("sample id: $sampleId")
                             when {
                                 sampleId.matches(Regex("^dbgi_\\d{6}\$")) -> {
@@ -115,20 +134,6 @@ class SignalingScanActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
-    }
-
-
-    private fun startQRScan(prompt: String) {
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setPrompt(prompt)
-        integrator.setCameraId(0)  // Use the default camera
-        integrator.setBeepEnabled(false)
-        integrator.setBarcodeImageEnabled(true)
-        integrator.setOrientationLocked(false)
-        integrator.initiateScan()
-    }
 
     // Function to send data to Directus
     @SuppressLint("SetTextI18n")
@@ -201,7 +206,7 @@ class SignalingScanActivity : AppCompatActivity() {
                 // Display a Toast with the response message
                 showToast("$sampleId correctly updated")
                 delay(1500)
-                startQRScan("Scan object's QR")
+                scanButtonSignaling.performClick()
             } else if (!hasTriedAgain) {
                     hasTriedAgain = true
                     val newAccessToken = getNewAccessToken()

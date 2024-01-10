@@ -38,7 +38,8 @@ class PermissionsActivity : AppCompatActivity() {
                     Manifest.permission.BLUETOOTH,
                     Manifest.permission.BLUETOOTH_CONNECT,
                     Manifest.permission.BLUETOOTH_SCAN,
-                    Manifest.permission.ACCESS_FINE_LOCATION
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.CAMERA
                 )
             )
         } else {
@@ -118,7 +119,7 @@ class PermissionsActivity : AppCompatActivity() {
             val username = intent.getStringExtra("USERNAME")
             val password = intent.getStringExtra("PASSWORD")
 
-            val intent = Intent(this, ManagePrinterActivity::class.java)
+            val intent = Intent(this, PrinterConnectActivity::class.java)
             intent.putExtra("ACCESS_TOKEN", accessToken)
             intent.putExtra("USERNAME", username)
             intent.putExtra("PASSWORD", password)
