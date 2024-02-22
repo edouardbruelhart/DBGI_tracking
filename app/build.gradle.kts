@@ -43,6 +43,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -60,10 +63,13 @@ dependencies {
     implementation("androidx.camera:camera-core:1.2.1")
     implementation("androidx.camera:camera-camera2:1.2.1")
     implementation("com.android.support:support-annotations:28.0.0")
-    implementation("com.bradyid:BradySdk:1.4.4")
+    implementation("com.bradyid:BradySdk:1.5.2")
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("androidx.camera:camera-lifecycle:1.3.0")
     implementation("androidx.camera:camera-view:1.3.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    //noinspection GradleDependency
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

@@ -35,20 +35,22 @@ import java.net.URL
 
 class AliquotsActivity : AppCompatActivity() {
 
+    private lateinit var volumeInput: EditText
     private lateinit var scanBoxLabel: TextView
     private lateinit var scanButtonBox: Button
     private lateinit var emptyPlace: TextView
-    private lateinit var aliquotsMethodLabel: TextView
     private lateinit var scanButtonExtract: Button
-    private var isBoxScanActive = false
-    private var isObjectScanActive = false
-    private lateinit var volumeInput: EditText
-    private var hasTriedAgain = false
-    private var lastAccessToken: String? = null
     private lateinit var previewView: PreviewView
     private lateinit var flashlightButton: Button
     private lateinit var scanStatus: TextView
+
+    private var isBoxScanActive = false
+    private var isObjectScanActive = false
+    private var hasTriedAgain = false
+    private var lastAccessToken: String? = null
     private var isQrScannerActive = false
+    private var selectedFileName: String = ""
+    private var readyToSend = true
 
     @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,12 +61,11 @@ class AliquotsActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
         // Initialize views
+        volumeInput = findViewById(R.id.volumeInput)
         scanBoxLabel = findViewById(R.id.scanBoxLabel)
         scanButtonBox = findViewById(R.id.scanButtonBox)
         emptyPlace = findViewById(R.id.emptyPlace)
-        aliquotsMethodLabel = findViewById(R.id.aliquotsMethodLabel)
         scanButtonExtract = findViewById(R.id.scanButtonExtract)
-        volumeInput = findViewById(R.id.volumeInput)
         previewView = findViewById(R.id.previewView)
         flashlightButton = findViewById(R.id.flashlightButton)
         scanStatus = findViewById(R.id.scanStatus)
@@ -101,11 +102,11 @@ class AliquotsActivity : AppCompatActivity() {
 
         // Set up button click listener for Object QR Scanner
         scanButtonExtract.setOnClickListener {
-            isBoxScanActive = true
-            isObjectScanActive = false
+            isBoxScanActive = false
+            isObjectScanActive = true
             isQrScannerActive = true
             previewView.visibility = View.VISIBLE
-            scanStatus.text = "Scan the box"
+            scanStatus.text = "Scan vials"
             flashlightButton.visibility = View.VISIBLE
             scanButtonBox.visibility = View.INVISIBLE
             scanButtonExtract.visibility = View.INVISIBLE
@@ -181,6 +182,7 @@ class AliquotsActivity : AppCompatActivity() {
                         if (scanButtonExtract.text.toString()
                                 .matches(Regex("^dbgi_\\d{6}_\\d{2}\$"))
                         ) {
+                            showToast("sending data to directus...")
                             sendDataToDirectus(
                                 scanButtonExtract.text.toString(),
                                 inputNumber.toInt().toString(),
@@ -353,7 +355,15 @@ class AliquotsActivity : AppCompatActivity() {
 
         val injectId = checkExistenceInDirectus(extractId)
 
-        if (injectId != null) {
+        val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+
+        if (isPrinterConnected == "yes") {
+            println(PrinterDetailsSingleton.printerDetails.printerStatusMessage)
+            readyToSend = PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+
+        }
+
+        if (injectId != null && readyToSend) {
 
             val urlConnection =
                 withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
@@ -412,14 +422,26 @@ class AliquotsActivity : AppCompatActivity() {
                     }
 
                     // 'response' contains the response from the server
-                    showToast("$injectId correctly added to database")
+                    //showToast("$injectId correctly added to database")
 
                     // print label here
-                    val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+                    val printerDetails = PrinterDetailsSingleton.printerDetails
                     if (isPrinterConnected == "yes") {
-                        val printerDetails = PrinterDetailsSingleton.printerDetails
-                        // Specify the name of the template file you want to use.
-                        val selectedFileName = "template_dbgi"
+                        readyToSend = PrinterDetailsSingleton.printerDetails.printerStatusMessage == PrinterDetailsSingleton.printerDetails.printerStatusMessage
+
+                    }
+                    if (isPrinterConnected == "yes" && readyToSend) {
+
+                        if (printerDetails.printerModel == "M211") {
+                            // Specify the name of the template file you want to use.
+                            selectedFileName = "template_dbgi_m211"
+                            showToast("M211 model detected")
+                        } else if (printerDetails.printerModel == "M511") {
+                            selectedFileName = "template_dbgi_m511"
+                            showToast("M511 model detected")
+                        }
+
+                        showToast("model: $selectedFileName")
 
                         // Initialize an input stream by opening the specified file.
                         val iStream = resources.openRawResource(
@@ -442,12 +464,15 @@ class AliquotsActivity : AppCompatActivity() {
                                 "QR" -> {
                                     placeholder.value = injectId
                                 }
+
                                 "sample" -> {
                                     placeholder.value = sample
                                 }
+
                                 "extract" -> {
                                     placeholder.value = extract
                                 }
+
                                 "injection/temp" -> {
                                     placeholder.value = injetemp
                                 }
@@ -455,7 +480,7 @@ class AliquotsActivity : AppCompatActivity() {
                         }
 
                         val printingOptions = PrintingOptions()
-                        printingOptions.cutOption = CutOption.EndOfJob
+                        //printingOptions.cutOption = CutOption.EndOfJob
                         printingOptions.numberOfCopies = 1
                         val r = Runnable {
                             runOnUiThread {
@@ -469,6 +494,8 @@ class AliquotsActivity : AppCompatActivity() {
                         }
                         val printThread = Thread(r)
                         printThread.start()
+                    } else {
+                        showToast("Printer disconnected, data added to database.")
                     }
 
                     // Check if there is still enough place in the rack before initiating the QR code reader
@@ -481,10 +508,11 @@ class AliquotsActivity : AppCompatActivity() {
 
                         withContext(Dispatchers.Main) {
 
-                            if(upStillPlace > 0){
+                            if (upStillPlace > 0) {
                                 // Automatically launch the QR scanning when last sample correctly added to the database
                                 emptyPlace.visibility = View.VISIBLE
-                                emptyPlace.text = "This box should still contain $upStillPlace empty places"
+                                emptyPlace.text =
+                                    "This box should still contain $upStillPlace empty places"
                                 delay(1500)
                                 scanButtonExtract.performClick()
                             } else {
@@ -513,8 +541,10 @@ class AliquotsActivity : AppCompatActivity() {
             } finally {
                 urlConnection.disconnect()
             }
-        } else {
+        } else if (injectId == null) {
             showToast("No more available injection labels")
+        } else {
+            showToast("Printer disconnected, please reconnect it and scan the label again")
         }
     }
 

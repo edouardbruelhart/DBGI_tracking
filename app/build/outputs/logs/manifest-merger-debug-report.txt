@@ -1,11 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-105:12
-INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-105:12
-INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-105:12
-INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-105:12
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-108:12
+INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-108:12
+INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-108:12
+INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:1-108:12
+MERGED from [androidx.databinding:viewbinding:8.1.4] C:\Users\edoua\.gradle\caches\transforms-3\320ed2743972e88e25b50e90afa84f58\transformed\jetified-viewbinding-8.1.4\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\8ff0142161f7aea255b101b42e6ad8e4\transformed\navigation-fragment-ktx-2.5.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-fragment:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\ee37070d6e4d9cd32fc87d35c76562d6\transformed\navigation-fragment-2.5.3\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment-ktx:1.5.5] C:\Users\edoua\.gradle\caches\transforms-3\3e4b8bd95b23f1a39221f8e5c8ad39b3\transformed\jetified-fragment-ktx-1.5.5\AndroidManifest.xml:17:1-24:12
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:2:1-28:12
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:2:1-28:12
+MERGED from [androidx.navigation:navigation-ui-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\790231c192241ca0de7ba588f56b4e24\transformed\navigation-ui-ktx-2.5.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-ui:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\2d1e88457888b72faf26eea846180dfe\transformed\navigation-ui-2.5.3\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\bec12648b5c289b68eed868060cdba26\transformed\material-1.9.0\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\edoua\.gradle\caches\transforms-3\8e9c18a67f8d8f077699c83f6d571299\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.camera:camera-video:1.3.0] C:\Users\edoua\.gradle\caches\transforms-3\17c414e90fbb358932e8755a31323265\transformed\jetified-camera-video-1.3.0\AndroidManifest.xml:2:1-7:12
@@ -30,7 +35,11 @@ MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\edoua\.
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\4b086ec179f4dea705fa003150dd2850\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
 MERGED from [androidx.fragment:fragment:1.5.5] C:\Users\edoua\.gradle\caches\transforms-3\afe3f83827547fee056f038e5508eed6\transformed\fragment-1.5.5\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.6.1] C:\Users\edoua\.gradle\caches\transforms-3\73bf9dc97615714cf23204b1a7d42ad2\transformed\jetified-activity-1.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\5d888e8ca86ccd9746138f24bd0ec065\transformed\navigation-runtime-ktx-2.5.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-runtime:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\f627115fdcf3ce963d177a6f6b91a28c\transformed\navigation-runtime-2.5.3\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity-ktx:1.6.1] C:\Users\edoua\.gradle\caches\transforms-3\e16be356685ff7aa417015c24631acb8\transformed\jetified-activity-ktx-1.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\b01f777bfba98faac0e18cc22d6e87be\transformed\navigation-common-ktx-2.5.3\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\8cbe41f23406e4c57981d561f5d240d8\transformed\navigation-common-2.5.3\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\b26ca8fb46992a0e05f9a42ae7a4b1d5\transformed\jetified-lifecycle-runtime-ktx-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\31540f4b387a452ea287c293f535b716\transformed\jetified-lifecycle-viewmodel-ktx-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\a714ca0a446dccfe47ed2a398481e3f7\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -38,16 +47,18 @@ MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\edoua\.gr
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\9e8be09d0a3b9c9629e229d5d6f292f4\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\5dcd0afc97b069d9315747100a3c4993\transformed\lifecycle-viewmodel-2.5.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\308a44ca8f2208495ac9cc607269f0b0\transformed\jetified-lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\50328bf5a30962a517676919655da692\transformed\slidingpanelayout-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\b322bf7932042435c728b83a919ef40e\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\a556661a689146764731e9df751a8198\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:17:1-35:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\edoua\.gradle\caches\transforms-3\c09cadfa6f3af7b392a25609b42421f1\transformed\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\45a8bc146f2c3cd72ce4d3997227a069\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.transition:transition:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\e3fd4e23262dfa44cb725a7536c95604\transformed\transition-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\e7b7398ffa5c0f1b8be4693d61a67331\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\bb8f2957f2bee75f8a8e4f7fc6f9389f\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\9935c3357744ddcf9579311f96f30836\transformed\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\4469af39f7086375dbd04b2f78af79c6\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\582b49010fa79cd407b14d8b65f47b2f\transformed\customview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.4.1] C:\Users\edoua\.gradle\caches\transforms-3\fbaaf4cbcaccee430b26b45304010e3b\transformed\transition-1.4.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\1dc4e537ab8bb504569a422ebbb76397\transformed\core-1.9.0\AndroidManifest.xml:17:1-30:12
 MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\d8ccdf087bcf9caba4b2a0acc3be4389\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\4ddcb99b11a2105103c6ecb5c6c46d2a\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -97,8 +108,8 @@ MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\edoua\.gradle\c
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:6:5-67
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:26:5-67
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:26:5-67
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:26:5-67
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:26:5-67
 MERGED from [com.google.android.gms:play-services-gcm:17.0.0] C:\Users\edoua\.gradle\caches\transforms-3\eeabb11cfa0d4418bb33f43f7d28e2cf\transformed\jetified-play-services-gcm-17.0.0\AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.gms:play-services-gcm:17.0.0] C:\Users\edoua\.gradle\caches\transforms-3\eeabb11cfa0d4418bb33f43f7d28e2cf\transformed\jetified-play-services-gcm-17.0.0\AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.gms:play-services-iid:17.0.0] C:\Users\edoua\.gradle\caches\transforms-3\4d9270058ffebccbff858a2e7f2e6b64\transformed\jetified-play-services-iid-17.0.0\AndroidManifest.xml:24:5-67
@@ -117,61 +128,51 @@ ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\mai
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:8:22-66
 uses-permission#android.permission.BLUETOOTH_CONNECT
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:9:5-76
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:19:5-76
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:19:5-76
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:19:5-76
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:19:5-76
 MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:21:5-76
 MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:21:5-76
 	android:name
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:9:22-73
 uses-permission#android.permission.BLUETOOTH_SCAN
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:10:5-73
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:20:5-23:31
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:20:5-23:31
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:20:5-23:31
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:20:5-23:31
 MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:22:5-25:31
 MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:22:5-25:31
 	android:usesPermissionFlags
-		ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:22:9-55
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:22:9-55
 	tools:targetApi
-		ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:23:9-28
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:23:9-28
 	android:name
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:10:22-70
 uses-permission#android.permission.ACCESS_FINE_LOCATION
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:11:5-79
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:24:5-79
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:24:5-79
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:24:5-79
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:24:5-79
 	android:name
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:11:22-76
-uses-permission#android.permission.BLUETOOTH
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:12:5-68
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:17:5-68
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:17:5-68
-MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:10:5-12:38
-MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:10:5-12:38
-	android:maxSdkVersion
-		ADDED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:12:9-35
-	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:12:22-65
 uses-feature#android.hardware.bluetooth
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:14:5-16:36
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:13:5-15:36
 	android:required
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:16:9-33
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:15:9-33
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:15:9-50
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:14:9-50
 uses-feature#android.hardware.bluetooth_le
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:17:5-19:36
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:16:5-18:36
 	android:required
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:19:9-33
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:18:9-33
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:18:9-53
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:17:9-53
 uses-feature#android.hardware.camera
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:20:5-22:36
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:19:5-21:36
 	android:required
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:22:9-33
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:21:9-33
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:21:9-47
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:20:9-47
 application
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:24:5-103:19
-INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:24:5-103:19
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:23:5-106:19
+INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:23:5-106:19
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\bec12648b5c289b68eed868060cdba26\transformed\material-1.9.0\AndroidManifest.xml:24:5-20
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\bec12648b5c289b68eed868060cdba26\transformed\material-1.9.0\AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\edoua\.gradle\caches\transforms-3\8e9c18a67f8d8f077699c83f6d571299\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -198,6 +199,8 @@ MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\edoua\.
 MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\edoua\.gradle\caches\transforms-3\85be5ad3a7e61f9795749cd7779b2293\transformed\jetified-play-services-stats-17.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\4b086ec179f4dea705fa003150dd2850\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\4b086ec179f4dea705fa003150dd2850\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:24:5-31:19
+MERGED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:24:5-31:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\a556661a689146764731e9df751a8198\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\a556661a689146764731e9df751a8198\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\1dc4e537ab8bb504569a422ebbb76397\transformed\core-1.9.0\AndroidManifest.xml:28:5-89
@@ -223,165 +226,185 @@ MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\edoua\.gradle\c
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\1dc4e537ab8bb504569a422ebbb76397\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:33:9-35
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:32:9-35
 	android:label
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:30:9-41
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:29:9-29
 	android:fullBackupContent
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:28:9-54
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:27:9-54
 	android:roundIcon
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:32:9-54
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:31:9-54
 	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:26:9-83
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:25:9-83
 	tools:targetApi
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:35:9-29
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:34:9-29
 	android:icon
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:29:9-43
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:28:9-43
 	android:allowBackup
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:25:9-35
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:24:9-35
 	android:theme
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:34:9-50
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:33:9-50
 	android:networkSecurityConfig
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:31:9-69
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:30:9-69
 	android:dataExtractionRules
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:27:9-65
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:26:9-65
+activity#org.example.dbgitracking.WarningActivity
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:35:9-39:57
+	android:label
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:38:13-59
+	android:exported
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:37:13-37
+	android:theme
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:39:13-54
+	android:name
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:36:13-44
 activity#org.example.dbgitracking.LocationActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:36:9-38:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:40:9-42:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:38:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:42:13-37
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:37:13-45
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:41:13-45
 activity#org.example.dbgitracking.MoveActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:39:9-41:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:43:9-45:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:41:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:45:13-37
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:40:13-41
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:44:13-41
 activity#org.example.dbgitracking.SignalingManActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:42:9-44:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:46:9-48:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:44:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:48:13-37
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:43:13-49
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:47:13-49
 activity#org.example.dbgitracking.SignalingScanActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:45:9-47:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:49:9-51:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:47:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:51:13-37
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:46:13-50
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:50:13-50
 activity#org.example.dbgitracking.WaitConnectionActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:48:9-50:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:52:9-54:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:50:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:54:13-37
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:49:13-51
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:53:13-51
 activity#org.example.dbgitracking.PermissionsActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:51:9-53:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:55:9-57:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:53:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:57:13-37
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:52:13-48
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:56:13-48
 activity#org.example.dbgitracking.ManagePrinterActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:54:9-56:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:58:9-60:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:56:13-37
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:60:13-37
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:55:13-50
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:59:13-50
 activity#org.example.dbgitracking.PrinterConnectActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:57:9-59:40
-	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:59:13-37
-	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:58:13-51
-activity#org.example.dbgitracking.AliquotsActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:60:9-63:40
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:61:9-63:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:63:13-37
-	android:configChanges
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:62:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:61:13-45
-activity#org.example.dbgitracking.SignalingActivity
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:62:13-51
+activity#org.example.dbgitracking.AliquotsActivity
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:64:9-67:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:67:13-37
 	android:configChanges
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:66:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:65:13-46
-activity#org.example.dbgitracking.SampleActivity
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:65:13-45
+activity#org.example.dbgitracking.SignalingActivity
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:68:9-71:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:71:13-37
 	android:configChanges
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:70:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:69:13-43
-activity#org.example.dbgitracking.WeightingActivity
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:69:13-46
+activity#org.example.dbgitracking.SampleActivity
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:72:9-75:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:75:13-37
 	android:configChanges
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:74:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:73:13-46
-activity#org.example.dbgitracking.FindActivity
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:73:13-43
+activity#org.example.dbgitracking.WeightingActivity
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:76:9-79:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:79:13-37
 	android:configChanges
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:78:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:77:13-41
-activity#org.example.dbgitracking.InjectionActivity
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:77:13-46
+activity#org.example.dbgitracking.FindActivity
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:80:9-83:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:83:13-37
 	android:configChanges
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:82:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:81:13-46
-activity#org.example.dbgitracking.ExtractionActivity
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:81:13-41
+activity#org.example.dbgitracking.InjectionActivity
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:84:9-87:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:87:13-37
 	android:configChanges
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:86:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:85:13-47
-activity#org.example.dbgitracking.HomePageActivity
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:85:13-46
+activity#org.example.dbgitracking.ExtractionActivity
 ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:88:9-91:40
 	android:exported
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:91:13-37
 	android:configChanges
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:90:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:89:13-45
-activity#org.example.dbgitracking.MainActivity
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:92:9-101:20
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:89:13-47
+activity#org.example.dbgitracking.HomePageActivity
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:92:9-95:40
 	android:exported
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:95:13-36
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:95:13-37
 	android:configChanges
 		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:94:13-87
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:93:13-41
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:93:13-45
+activity#org.example.dbgitracking.DirectusConnectionActivity
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:9-105:20
+	android:exported
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:99:13-36
+	android:configChanges
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:98:13-87
+	android:name
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:97:13-55
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:96:13-100:29
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:100:13-104:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:97:17-69
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:101:17-69
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:97:25-66
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:101:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:99:17-77
+ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:103:17-77
 	android:name
-		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:99:27-74
+		ADDED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml:103:27-74
 uses-sdk
 INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml
+MERGED from [androidx.databinding:viewbinding:8.1.4] C:\Users\edoua\.gradle\caches\transforms-3\320ed2743972e88e25b50e90afa84f58\transformed\jetified-viewbinding-8.1.4\AndroidManifest.xml:5:5-44
+MERGED from [androidx.databinding:viewbinding:8.1.4] C:\Users\edoua\.gradle\caches\transforms-3\320ed2743972e88e25b50e90afa84f58\transformed\jetified-viewbinding-8.1.4\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\8ff0142161f7aea255b101b42e6ad8e4\transformed\navigation-fragment-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\8ff0142161f7aea255b101b42e6ad8e4\transformed\navigation-fragment-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\ee37070d6e4d9cd32fc87d35c76562d6\transformed\navigation-fragment-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-fragment:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\ee37070d6e4d9cd32fc87d35c76562d6\transformed\navigation-fragment-2.5.3\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment-ktx:1.5.5] C:\Users\edoua\.gradle\caches\transforms-3\3e4b8bd95b23f1a39221f8e5c8ad39b3\transformed\jetified-fragment-ktx-1.5.5\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment-ktx:1.5.5] C:\Users\edoua\.gradle\caches\transforms-3\3e4b8bd95b23f1a39221f8e5c8ad39b3\transformed\jetified-fragment-ktx-1.5.5\AndroidManifest.xml:20:5-22:41
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:6:5-8:41
-MERGED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:6:5-8:41
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:6:5-8:41
+MERGED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:6:5-8:41
+MERGED from [androidx.navigation:navigation-ui-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\790231c192241ca0de7ba588f56b4e24\transformed\navigation-ui-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\790231c192241ca0de7ba588f56b4e24\transformed\navigation-ui-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\2d1e88457888b72faf26eea846180dfe\transformed\navigation-ui-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\2d1e88457888b72faf26eea846180dfe\transformed\navigation-ui-2.5.3\AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\bec12648b5c289b68eed868060cdba26\transformed\material-1.9.0\AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\bec12648b5c289b68eed868060cdba26\transformed\material-1.9.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\edoua\.gradle\caches\transforms-3\8e9c18a67f8d8f077699c83f6d571299\transformed\constraintlayout-2.1.4\AndroidManifest.xml:5:5-7:41
@@ -430,8 +453,16 @@ MERGED from [androidx.fragment:fragment:1.5.5] C:\Users\edoua\.gradle\caches\tra
 MERGED from [androidx.fragment:fragment:1.5.5] C:\Users\edoua\.gradle\caches\transforms-3\afe3f83827547fee056f038e5508eed6\transformed\fragment-1.5.5\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.6.1] C:\Users\edoua\.gradle\caches\transforms-3\73bf9dc97615714cf23204b1a7d42ad2\transformed\jetified-activity-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity:1.6.1] C:\Users\edoua\.gradle\caches\transforms-3\73bf9dc97615714cf23204b1a7d42ad2\transformed\jetified-activity-1.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\5d888e8ca86ccd9746138f24bd0ec065\transformed\navigation-runtime-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\5d888e8ca86ccd9746138f24bd0ec065\transformed\navigation-runtime-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\f627115fdcf3ce963d177a6f6b91a28c\transformed\navigation-runtime-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\f627115fdcf3ce963d177a6f6b91a28c\transformed\navigation-runtime-2.5.3\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity-ktx:1.6.1] C:\Users\edoua\.gradle\caches\transforms-3\e16be356685ff7aa417015c24631acb8\transformed\jetified-activity-ktx-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity-ktx:1.6.1] C:\Users\edoua\.gradle\caches\transforms-3\e16be356685ff7aa417015c24631acb8\transformed\jetified-activity-ktx-1.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\b01f777bfba98faac0e18cc22d6e87be\transformed\navigation-common-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\b01f777bfba98faac0e18cc22d6e87be\transformed\navigation-common-ktx-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\8cbe41f23406e4c57981d561f5d240d8\transformed\navigation-common-2.5.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.5.3] C:\Users\edoua\.gradle\caches\transforms-3\8cbe41f23406e4c57981d561f5d240d8\transformed\navigation-common-2.5.3\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\b26ca8fb46992a0e05f9a42ae7a4b1d5\transformed\jetified-lifecycle-runtime-ktx-2.5.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\b26ca8fb46992a0e05f9a42ae7a4b1d5\transformed\jetified-lifecycle-runtime-ktx-2.5.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\31540f4b387a452ea287c293f535b716\transformed\jetified-lifecycle-viewmodel-ktx-2.5.1\AndroidManifest.xml:20:5-22:41
@@ -446,6 +477,10 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] C:\Users\edoua\.gradl
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\5dcd0afc97b069d9315747100a3c4993\transformed\lifecycle-viewmodel-2.5.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\308a44ca8f2208495ac9cc607269f0b0\transformed\jetified-lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] C:\Users\edoua\.gradle\caches\transforms-3\308a44ca8f2208495ac9cc607269f0b0\transformed\jetified-lifecycle-viewmodel-savedstate-2.5.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\50328bf5a30962a517676919655da692\transformed\slidingpanelayout-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\50328bf5a30962a517676919655da692\transformed\slidingpanelayout-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\b322bf7932042435c728b83a919ef40e\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\b322bf7932042435c728b83a919ef40e\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\a556661a689146764731e9df751a8198\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:21:5-44
@@ -454,8 +489,6 @@ MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\edoua\.gradle\ca
 MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\edoua\.gradle\caches\transforms-3\c09cadfa6f3af7b392a25609b42421f1\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\45a8bc146f2c3cd72ce4d3997227a069\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\45a8bc146f2c3cd72ce4d3997227a069\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.transition:transition:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\e3fd4e23262dfa44cb725a7536c95604\transformed\transition-1.2.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.transition:transition:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\e3fd4e23262dfa44cb725a7536c95604\transformed\transition-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\e7b7398ffa5c0f1b8be4693d61a67331\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\e7b7398ffa5c0f1b8be4693d61a67331\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\bb8f2957f2bee75f8a8e4f7fc6f9389f\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
@@ -466,6 +499,8 @@ MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\edoua\.gradle\caches\t
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\4469af39f7086375dbd04b2f78af79c6\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\582b49010fa79cd407b14d8b65f47b2f\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\edoua\.gradle\caches\transforms-3\582b49010fa79cd407b14d8b65f47b2f\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.4.1] C:\Users\edoua\.gradle\caches\transforms-3\fbaaf4cbcaccee430b26b45304010e3b\transformed\transition-1.4.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.4.1] C:\Users\edoua\.gradle\caches\transforms-3\fbaaf4cbcaccee430b26b45304010e3b\transformed\transition-1.4.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\1dc4e537ab8bb504569a422ebbb76397\transformed\core-1.9.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\1dc4e537ab8bb504569a422ebbb76397\transformed\core-1.9.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core-ktx:1.9.0] C:\Users\edoua\.gradle\caches\transforms-3\d8ccdf087bcf9caba4b2a0acc3be4389\transformed\jetified-core-ktx-1.9.0\AndroidManifest.xml:5:5-44
@@ -543,33 +578,41 @@ MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\edoua\.gradle\c
 	android:minSdkVersion
 		INJECTED from C:\Users\edoua\Desktop\DBGI_project\DBGI_tracking_android\app\src\main\AndroidManifest.xml
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:10:5-12:40
+ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:10:5-12:40
 	tools:ignore
-		ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:12:9-37
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:12:9-37
 	android:name
-		ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:11:9-65
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:11:9-65
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:13:5-15:38
+ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:13:5-15:38
 	android:maxSdkVersion
-		ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:15:9-35
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:15:9-35
 	android:name
-		ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:14:9-64
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:14:9-64
 uses-permission#android.permission.CHANGE_WIFI_MULTICAST_STATE
-ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:16:5-86
+ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:16:5-86
 	android:name
-		ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:16:22-83
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:16:22-83
+uses-permission#android.permission.BLUETOOTH
+ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:17:5-68
+MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:10:5-12:38
+MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:10:5-12:38
+	android:maxSdkVersion
+		ADDED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:12:9-35
+	android:name
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:17:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:18:5-74
+ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:18:5-74
 MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:13:5-15:38
 MERGED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:13:5-15:38
 	android:maxSdkVersion
 		ADDED from [com.polidea.rxandroidble2:rxandroidble:1.16.0] C:\Users\edoua\.gradle\caches\transforms-3\dcf670c906e422686972973f278507bb\transformed\jetified-rxandroidble-1.16.0\AndroidManifest.xml:15:9-35
 	android:name
-		ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:18:22-71
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:18:22-71
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:25:5-81
+ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:25:5-81
 	android:name
-		ADDED from [com.bradyid:BradySdk:1.4.4] C:\Users\edoua\.gradle\caches\transforms-3\badeaa97210c33339f387ea77b116798\transformed\jetified-BradySdk-1.4.4\AndroidManifest.xml:25:22-78
+		ADDED from [com.bradyid:BradySdk:1.5.2] C:\Users\edoua\.gradle\caches\transforms-3\964ba65af6b416a417d5b8bdc0046751\transformed\jetified-BradySdk-1.5.2\AndroidManifest.xml:25:22-78
 service#androidx.camera.core.impl.MetadataHolderService
 ADDED from [androidx.camera:camera-camera2:1.3.0] C:\Users\edoua\.gradle\caches\transforms-3\77718fee2c4c299d1b09ce1f1703b7ff\transformed\jetified-camera-camera2-1.3.0\AndroidManifest.xml:24:9-33:19
 MERGED from [androidx.camera:camera-core:1.3.0] C:\Users\edoua\.gradle\caches\transforms-3\bc7fde59d3c2c02b3a6afc081979cd43\transformed\jetified-camera-core-1.3.0\AndroidManifest.xml:29:9-33:78
@@ -652,6 +695,18 @@ ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua
 		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\4b086ec179f4dea705fa003150dd2850\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
 	android:name
 		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\edoua\.gradle\caches\transforms-3\4b086ec179f4dea705fa003150dd2850\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+uses-library#androidx.window.extensions
+ADDED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:25:9-27:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:26:13-54
+uses-library#androidx.window.sidecar
+ADDED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:28:9-30:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:30:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0] C:\Users\edoua\.gradle\caches\transforms-3\ae3f25db4be2b04fa1b02771e5816168\transformed\jetified-window-1.0.0\AndroidManifest.xml:29:13-51
 provider#androidx.startup.InitializationProvider
 ADDED from [androidx.emoji2:emoji2:1.2.0] C:\Users\edoua\.gradle\caches\transforms-3\a556661a689146764731e9df751a8198\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\edoua\.gradle\caches\transforms-3\4c04aea934a789e346649fb84802fded\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:26:9-34:20

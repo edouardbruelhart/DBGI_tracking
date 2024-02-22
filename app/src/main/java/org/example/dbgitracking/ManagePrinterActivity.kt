@@ -1,3 +1,5 @@
+// activity that permits to connect to a brady printer (M211 or M511).
+
 package org.example.dbgitracking
 
 import android.annotation.SuppressLint
@@ -18,10 +20,8 @@ import com.bradysdk.api.printerdiscovery.DiscoveredPrinterInformation
 import com.bradysdk.api.printerdiscovery.PrinterDiscoveryListener
 import com.bradysdk.printengine.printinginterface.PrinterDiscoveryFactory
 
-@Suppress("NAME_SHADOWING", "UNUSED_PARAMETER")
 class ManagePrinterActivity : AppCompatActivity(), PrinterUpdateListener, PrinterDiscoveryListener {
 
-    private lateinit var choosePrinter: TextView
     private lateinit var printerListView: ListView
     private lateinit var adapter: PrinterListAdapter
 
@@ -32,8 +32,8 @@ class ManagePrinterActivity : AppCompatActivity(), PrinterUpdateListener, Printe
 
         // Initialize the ListView
         printerListView = findViewById(R.id.printerListView)
-        choosePrinter = findViewById(R.id.choosePrinter)
 
+        // Creates and displays the available (detected) printers
         val printerList = ArrayList<DiscoveredPrinterInformation>()
         adapter = PrinterListAdapter(this, printerList)
         printerListView.adapter = adapter
@@ -47,16 +47,14 @@ class ManagePrinterActivity : AppCompatActivity(), PrinterUpdateListener, Printe
                 selectedPrinter,
                 this
             )
-            showToast("Connecting...")
-            val new = "true"
-            setPrinterDetails(new)
+            setPrinterDetails()
 
         }
 
         setupPrinterDiscovery(this)
     }
 
-
+    // Searches for available printers
     private fun setupPrinterDiscovery(context: Context) {
         try {
             val printerDiscoveryListeners: MutableList<PrinterDiscoveryListener> = ArrayList()
@@ -66,16 +64,8 @@ class ManagePrinterActivity : AppCompatActivity(), PrinterUpdateListener, Printe
                 printerDiscoveryListeners
             )
             PrinterDetailsSingleton.sendPrintDiscovery()
-            val lastConnectedPrinter = PrinterDetailsSingleton.printerDiscovery.lastConnectedPrinter
-            if (lastConnectedPrinter != null && lastConnectedPrinter.name != "") {
-                val lastConnectedPrinter = PrinterDetailsSingleton.printerDiscovery.lastConnectedPrinter
-                PrinterDetailsSingleton.connectToPrinter(this, lastConnectedPrinter, this)
-                val new = "false"
-                setPrinterDetails(new)
-            } else {
-                PrinterDetailsSingleton.printerDiscovery.startBlePrinterDiscovery()
-                showToast("Select a printer...")
-            }
+            PrinterDetailsSingleton.printerDiscovery.startBlePrinterDiscovery()
+            showToast("Select a printer...")
         } catch (ex: Exception) {
             println("Error: ${ex.message}")
         }
@@ -83,7 +73,10 @@ class ManagePrinterActivity : AppCompatActivity(), PrinterUpdateListener, Printe
 
     private val isPrinterConnected = "yes"
 
-    private fun setPrinterDetails(new: String) {
+    // Launches activity to wait printer connection before redirecting to homepage.
+    // Permits to be sure that the printer is successfully connected.
+    private fun setPrinterDetails() {
+        showToast("connecting...")
         val accessToken = intent.getStringExtra("ACCESS_TOKEN")
         val username = intent.getStringExtra("USERNAME")
         val password = intent.getStringExtra("PASSWORD")
@@ -93,7 +86,6 @@ class ManagePrinterActivity : AppCompatActivity(), PrinterUpdateListener, Printe
         intent.putExtra("USERNAME", username)
         intent.putExtra("PASSWORD", password)
         intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
-        intent.putExtra("IS_NEW_CONNECTION", new)
         startActivity(intent)
     }
 
@@ -134,9 +126,6 @@ class ManagePrinterActivity : AppCompatActivity(), PrinterUpdateListener, Printe
             printerNameTextView.text = printerInfo?.name
 
             return view
-        }
-        fun onPrinterUpdate(printerProperties: MutableList<PrinterProperties>?) {
-            // Implement the logic for handling printer update
         }
     }
 

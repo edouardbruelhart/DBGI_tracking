@@ -1,16 +1,16 @@
+// activity that asks the user if he wants to connect a printer or not.
+
 package org.example.dbgitracking
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 
 class PrinterConnectActivity : AppCompatActivity() {
-    
-    private lateinit var connectText: TextView
+
     private lateinit var connectButton: Button
     private lateinit var ignoreButton: Button
 
@@ -20,7 +20,6 @@ class PrinterConnectActivity : AppCompatActivity() {
         setContentView(R.layout.activity_printer_connect)
 
         // Initialize views
-        connectText = findViewById(R.id.connectText)
         connectButton = findViewById(R.id.connectButton)
         ignoreButton = findViewById(R.id.ignoreButton)
 

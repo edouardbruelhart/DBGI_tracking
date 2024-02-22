@@ -12,19 +12,30 @@
         android:id="@+id/connectText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="If you want to connect a brady printer (M211, M511 or M611), click on connect. Otherwise click on ignore"
+        android:text="Do you want to connect a brady printer?"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:layout_marginBottom="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <TextView
+        android:id="@+id/compatibleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Compatible models: M211 and M511"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <Button
         android:id="@+id/connectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Connect"
+        android:text="Yes"
         android:textSize="18sp"
         android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText" />
@@ -33,7 +44,7 @@
         android:id="@+id/ignoreButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ignore"
+        android:text="No"
         android:textSize="18sp"
         android:layout_marginBottom="40dp"
         tools:ignore="HardcodedText" />

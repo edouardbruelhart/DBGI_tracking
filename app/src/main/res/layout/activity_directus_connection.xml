@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    tools:context=".MainActivity">
+    tools:context=".DirectusConnectionActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="Enter your username"
+        android:gravity="center_horizontal"
         android:minHeight="48dp"
         tools:ignore="HardcodedText,TextFields,VisualLintTextFieldSize"
         android:autofillHints="" />
@@ -55,6 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="Enter your password"
+        android:gravity="center_horizontal"
         android:inputType="textPassword"
         android:minHeight="48dp"
         tools:ignore="HardcodedText,VisualLintTextFieldSize"
@@ -66,22 +68,6 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:textSize="18sp"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/errorMessageTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FF0000"
-        android:layout_marginTop="16dp" />
-
-    <TextView
-        android:id="@+id/connectionStatusTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="18sp"
-        android:layout_gravity="center"
         tools:ignore="HardcodedText" />
 
 </LinearLayout>

@@ -60,21 +60,6 @@
         android:layout_marginStart="15dp"
         tools:ignore="HardcodedText,MissingConstraints" />
 
-    <TextView
-        android:id="@+id/aliquotsMethodLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Scan the vial's QR code"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emptyPlace"
-        android:layout_marginTop="16dp"
-        tools:ignore="HardcodedText" />
-
     <Button
         android:id="@+id/scanButtonExtract"
         android:layout_width="wrap_content"

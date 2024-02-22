@@ -11,29 +11,23 @@ import androidx.camera.core.ExperimentalGetImage
 
 class HomePageActivity : AppCompatActivity() {
 
-    private lateinit var button1: Button
-    private lateinit var button2: Button
-    private lateinit var button3: Button
-    private lateinit var button4: Button
-    private lateinit var button5: Button
-    private lateinit var button6: Button
-    private lateinit var button7: Button
-    private lateinit var button8: Button
-    private lateinit var button9: Button
+    private lateinit var sampleButton: Button
+    private lateinit var weightingButton: Button
+    private lateinit var extractionButton: Button
+    private lateinit var aliquotsButton: Button
+    private lateinit var signalingButton: Button
+    private lateinit var findButton: Button
 
     @OptIn(ExperimentalGetImage::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
-        button1 = findViewById(R.id.SampleButton)
-        button2 = findViewById(R.id.WeightingButton)
-        button3 = findViewById(R.id.ExtractionButton)
-        button4 = findViewById(R.id.AliquotsButton)
-        button5 = findViewById(R.id.InjectionButton)
-        button6 = findViewById(R.id.SignalingButton)
-        button7 = findViewById(R.id.FindButton)
-        button8 = findViewById(R.id.MoveButton)
-        button9 = findViewById(R.id.LocationButton)
+        sampleButton = findViewById(R.id.sampleButton)
+        weightingButton = findViewById(R.id.weightingButton)
+        extractionButton = findViewById(R.id.extractionButton)
+        aliquotsButton = findViewById(R.id.aliquotsButton)
+        signalingButton = findViewById(R.id.signalingButton)
+        findButton = findViewById(R.id.findButton)
 
         val accessToken = intent.getStringExtra("ACCESS_TOKEN")
         val username = intent.getStringExtra("USERNAME")
@@ -41,78 +35,88 @@ class HomePageActivity : AppCompatActivity() {
         val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
 
         // Set up button click listeners here
-        button1.setOnClickListener {
+        sampleButton.setOnClickListener {
             val intent = Intent(this, SampleActivity::class.java)
             intent.putExtra("ACCESS_TOKEN", accessToken)
             intent.putExtra("USERNAME", username)
             intent.putExtra("PASSWORD", password)
             startActivity(intent)
         }
-        button2.setOnClickListener {
-            val intent = Intent(this, WeightingActivity::class.java)
+
+        weightingButton.setOnClickListener {
+            if (isPrinterConnected == "yes") {
+                val intent = Intent(this, WeightingActivity::class.java)
+                intent.putExtra("ACCESS_TOKEN", accessToken)
+                intent.putExtra("USERNAME", username)
+                intent.putExtra("PASSWORD", password)
+                intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+                startActivity(intent)
+            } else {
+                val activity = "WeightingActivity"
+                val intent = Intent(this, WarningActivity::class.java)
+                intent.putExtra("ACCESS_TOKEN", accessToken)
+                intent.putExtra("USERNAME", username)
+                intent.putExtra("PASSWORD", password)
+                intent.putExtra("ACTIVITY", activity)
+                intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+                startActivity(intent)
+            }
+        }
+
+        extractionButton.setOnClickListener {
+            if (isPrinterConnected == "yes") {
+                val intent = Intent(this, ExtractionActivity::class.java)
+                intent.putExtra("ACCESS_TOKEN", accessToken)
+                intent.putExtra("USERNAME", username)
+                intent.putExtra("PASSWORD", password)
+                intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+                startActivity(intent)
+            } else {
+                val activity = "ExtractionActivity"
+                val intent = Intent(this, WarningActivity::class.java)
+                intent.putExtra("ACCESS_TOKEN", accessToken)
+                intent.putExtra("USERNAME", username)
+                intent.putExtra("PASSWORD", password)
+                intent.putExtra("ACTIVITY", activity)
+                intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+                startActivity(intent)
+            }
+        }
+
+        aliquotsButton.setOnClickListener {
+            if (isPrinterConnected == "yes") {
+                val intent = Intent(this, AliquotsActivity::class.java)
+                intent.putExtra("ACCESS_TOKEN", accessToken)
+                intent.putExtra("USERNAME", username)
+                intent.putExtra("PASSWORD", password)
+                intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+                startActivity(intent)
+            } else {
+                val activity = "AliquotsActivity"
+                val intent = Intent(this, WarningActivity::class.java)
+                intent.putExtra("ACCESS_TOKEN", accessToken)
+                intent.putExtra("USERNAME", username)
+                intent.putExtra("PASSWORD", password)
+                intent.putExtra("ACTIVITY", activity)
+                intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+                startActivity(intent)
+            }
+        }
+
+        signalingButton.setOnClickListener {
+            val intent = Intent(this, SignalingActivity::class.java)
             intent.putExtra("ACCESS_TOKEN", accessToken)
             intent.putExtra("USERNAME", username)
             intent.putExtra("PASSWORD", password)
-            intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
             startActivity(intent)
         }
 
-        button3.setOnClickListener {
-            val intent = Intent(this, ExtractionActivity::class.java)
+        findButton.setOnClickListener {
+            val intent = Intent(this, FindActivity::class.java)
             intent.putExtra("ACCESS_TOKEN", accessToken)
             intent.putExtra("USERNAME", username)
             intent.putExtra("PASSWORD", password)
-            intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
             startActivity(intent)
         }
-
-        //button4.setOnClickListener {
-            //val intent = Intent(this, AliquotsActivity::class.java)
-            //intent.putExtra("ACCESS_TOKEN", accessToken)
-            //intent.putExtra("USERNAME", username)
-            //intent.putExtra("PASSWORD", password)
-            //intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
-            //startActivity(intent)
-        //}
-
-        //button5.setOnClickListener {
-            //val intent = Intent(this, InjectionActivity::class.java)
-            //intent.putExtra("ACCESS_TOKEN", accessToken)
-            //intent.putExtra("USERNAME", username)
-            //intent.putExtra("PASSWORD", password)
-            //startActivity(intent)
-        //}
-
-        //button6.setOnClickListener {
-            //val intent = Intent(this, SignalingActivity::class.java)
-            //intent.putExtra("ACCESS_TOKEN", accessToken)
-            //intent.putExtra("USERNAME", username)
-            //intent.putExtra("PASSWORD", password)
-            //startActivity(intent)
-        //}
-
-        //button7.setOnClickListener {
-            //val intent = Intent(this, FindActivity::class.java)
-            //intent.putExtra("ACCESS_TOKEN", accessToken)
-            //intent.putExtra("USERNAME", username)
-            //intent.putExtra("PASSWORD", password)
-            //startActivity(intent)
-        //}
-
-        //button8.setOnClickListener {
-            //val intent = Intent(this, MoveActivity::class.java)
-            //intent.putExtra("ACCESS_TOKEN", accessToken)
-            //intent.putExtra("USERNAME", username)
-            //intent.putExtra("PASSWORD", password)
-            //startActivity(intent)
-        //}
-
-        //button9.setOnClickListener {
-            //val intent = Intent(this, LocationActivity::class.java)
-            //intent.putExtra("ACCESS_TOKEN", accessToken)
-            //intent.putExtra("USERNAME", username)
-            //intent.putExtra("PASSWORD", password)
-            //startActivity(intent)
-        //}
     }
 }

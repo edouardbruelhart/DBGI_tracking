@@ -17,12 +17,22 @@ object PrinterDetailsSingleton : AppCompatActivity() {
     lateinit var printerDetails: PrinterDetails
     private var value: Int = -1
 
+    private fun disconnectPreviousPrinter() {
+        val lastConnectedPrinter = printerDiscovery.lastConnectedPrinter
+        if (lastConnectedPrinter != null) {
+            printerDiscovery.forgetLastConnectedPrinter()
+        }
+    }
+
 
     fun connectToPrinter(
         context: Context,
         printerSelected: DiscoveredPrinterInformation,
         pul: PrinterUpdateListener,
     ): Int {
+
+        disconnectPreviousPrinter()
+
         val r = Runnable {
             try {
 
@@ -31,11 +41,6 @@ object PrinterDetailsSingleton : AppCompatActivity() {
                     printerSelected,
                     listOf(pul)
                 )!!
-
-                if (printerDiscovery.haveOwnership != null) {
-                    // Handle successful connection
-                } else {
-                }
             } catch (_: NullPointerException) {
 
             } catch (_: Exception) {
@@ -44,7 +49,6 @@ object PrinterDetailsSingleton : AppCompatActivity() {
         val connectThread = Thread(r)
         connectThread.start()
         return value
-
     }
 
     fun sendPrintDiscovery() {}

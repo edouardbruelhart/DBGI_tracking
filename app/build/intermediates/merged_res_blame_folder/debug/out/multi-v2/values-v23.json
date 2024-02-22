@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "org.example.dbgitracking.app-mergeDebugResources-41:/values-v23/values-v23.xml",
+            "outputFile": "org.example.dbgitracking.app-mergeDebugResources-51:/values-v23/values-v23.xml",
             "map": [
                 {
                     "source": "C:\\Users\\edoua\\.gradle\\caches\\transforms-3\\bec12648b5c289b68eed868060cdba26\\transformed\\material-1.9.0\\res\\values-v23\\values-v23.xml",
@@ -14,12 +14,12 @@
                         "endOffsets": "266,476,796,1033,1240,1447,1650,1982,2184,2449,2722"
                     },
                     "to": {
-                        "startLines": "53,56,59,64,68,71,74,77,82,85,89",
+                        "startLines": "59,62,65,70,74,77,80,83,88,91,95",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "3382,3598,3808,4128,4365,4572,4779,4982,5314,5516,5781",
-                        "endLines": "55,58,63,67,70,73,76,81,84,88,92",
+                        "startOffsets": "3711,3927,4137,4457,4694,4901,5108,5311,5643,5845,6110",
+                        "endLines": "61,64,69,73,76,79,82,87,90,94,98",
                         "endColumns": "10,10,10,10,10,10,10,10,10,10,10",
-                        "endOffsets": "3593,3803,4123,4360,4567,4774,4977,5309,5511,5776,6049"
+                        "endOffsets": "3922,4132,4452,4689,4896,5103,5306,5638,5840,6105,6378"
                     }
                 },
                 {
@@ -39,6 +39,25 @@
                         "endLines": "52",
                         "endColumns": "12",
                         "endOffsets": "3377"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\edoua\\Desktop\\DBGI_project\\DBGI_tracking_android\\app\\src\\main\\res\\values-v23\\themes.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "64",
+                        "endLines": "7",
+                        "endColumns": "12",
+                        "endOffsets": "438"
+                    },
+                    "to": {
+                        "startLines": "53",
+                        "startColumns": "4",
+                        "startOffsets": "3382",
+                        "endLines": "58",
+                        "endColumns": "12",
+                        "endOffsets": "3706"
                     }
                 },
                 {

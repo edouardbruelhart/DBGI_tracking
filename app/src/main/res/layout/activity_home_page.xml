@@ -7,17 +7,26 @@
     android:gravity="center"
     tools:context=".HomePageActivity">
 
-    <Button
-        android:id="@+id/SampleButton"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="falcon mode"
+        android:text="Choose the mode you want to use"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/sampleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Falcon mode"
         android:textSize="18sp"
         android:layout_marginBottom="15dp"
         tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/WeightingButton"
+        android:id="@+id/weightingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Weighting mode"
@@ -26,7 +35,7 @@
         tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/ExtractionButton"
+        android:id="@+id/extractionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Extraction mode"
@@ -35,55 +44,29 @@
         tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/AliquotsButton"
+        android:id="@+id/aliquotsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="aliquots mode"
+        android:text="Aliquots mode"
         android:textSize="18sp"
         android:layout_marginBottom="15dp"
         tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/InjectionButton"
+        android:id="@+id/signalingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="injection mode (Available soon)"
+        android:text="Signaling mode (available soon)"
         android:textSize="18sp"
         android:layout_marginBottom="15dp"
         tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/SignalingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="signaling mode"
-        android:textSize="18sp"
-        android:layout_marginBottom="15dp"
-        tools:ignore="HardcodedText" />
-
-    <Button
-        android:id="@+id/FindButton"
+        android:id="@+id/findButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Find mode (available soon)"
         android:layout_marginBottom="15dp"
-        android:textSize="18sp"
-        tools:ignore="HardcodedText" />
-
-    <Button
-        android:id="@+id/MoveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Move mode (available soon)"
-        android:layout_marginBottom="15dp"
-        android:textSize="18sp"
-        tools:ignore="HardcodedText" />
-
-    <Button
-        android:id="@+id/LocationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location mode (available soon)"
         android:textSize="18sp"
         tools:ignore="HardcodedText" />
 
