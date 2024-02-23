@@ -37,6 +37,8 @@ class DirectusConnectionActivity : AppCompatActivity() {
         // Make the link with the corresponding xml
         setContentView(R.layout.activity_directus_connection)
 
+        title = " DB connection screen"
+
         // Retrieve UI elements from xml to perform action on them
         editTextUsername = findViewById(R.id.usernameEditText)
         editTextPassword = findViewById(R.id.passwordEditText)

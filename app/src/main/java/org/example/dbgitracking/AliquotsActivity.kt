@@ -3,6 +3,7 @@
 package org.example.dbgitracking
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -35,11 +36,13 @@ import java.net.URL
 
 class AliquotsActivity : AppCompatActivity() {
 
-    private lateinit var volumeInput: EditText
-    private lateinit var scanBoxLabel: TextView
+    private lateinit var aliquotVolume: EditText
+    private lateinit var scanButtonBoxLabel: TextView
     private lateinit var scanButtonBox: Button
-    private lateinit var emptyPlace: TextView
-    private lateinit var scanButtonExtract: Button
+    private lateinit var boxEmptyPlace: TextView
+    private lateinit var scanButtonAliquotLabel: TextView
+    private lateinit var scanButtonAliquot: Button
+
     private lateinit var previewView: PreviewView
     private lateinit var flashlightButton: Button
     private lateinit var scanStatus: TextView
@@ -57,15 +60,19 @@ class AliquotsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_aliquots)
 
+        title = "Aliquots mode"
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
         // Initialize views
-        volumeInput = findViewById(R.id.volumeInput)
-        scanBoxLabel = findViewById(R.id.scanBoxLabel)
+        aliquotVolume = findViewById(R.id.aliquotVolume)
+        scanButtonBoxLabel = findViewById(R.id.scanButtonBoxLabel)
         scanButtonBox = findViewById(R.id.scanButtonBox)
-        emptyPlace = findViewById(R.id.emptyPlace)
-        scanButtonExtract = findViewById(R.id.scanButtonExtract)
+        boxEmptyPlace = findViewById(R.id.boxEmptyPlace)
+        scanButtonAliquotLabel = findViewById(R.id.scanButtonAliquotLabel)
+        scanButtonAliquot = findViewById(R.id.scanButtonAliquot)
+
         previewView = findViewById(R.id.previewView)
         flashlightButton = findViewById(R.id.flashlightButton)
         scanStatus = findViewById(R.id.scanStatus)
@@ -81,10 +88,11 @@ class AliquotsActivity : AppCompatActivity() {
             isObjectScanActive = false
             isQrScannerActive = true
             previewView.visibility = View.VISIBLE
-            scanStatus.text = "Scan the box"
+            scanStatus.text = "Scan box"
             flashlightButton.visibility = View.VISIBLE
             scanButtonBox.visibility = View.INVISIBLE
-            scanButtonExtract.visibility = View.INVISIBLE
+            scanButtonAliquotLabel.visibility = View.INVISIBLE
+            scanButtonAliquot.visibility = View.INVISIBLE
             QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedBox ->
 
                 // Stop the scanning process after receiving the result
@@ -93,7 +101,8 @@ class AliquotsActivity : AppCompatActivity() {
                 previewView.visibility = View.INVISIBLE
                 flashlightButton.visibility = View.INVISIBLE
                 scanButtonBox.visibility = View.VISIBLE
-                scanButtonExtract.visibility = View.VISIBLE
+                scanButtonAliquotLabel.visibility = View.VISIBLE
+                scanButtonAliquot.visibility = View.VISIBLE
                 scanStatus.text = ""
                 scanButtonBox.text = scannedBox
                 manageScan()
@@ -101,7 +110,7 @@ class AliquotsActivity : AppCompatActivity() {
         }
 
         // Set up button click listener for Object QR Scanner
-        scanButtonExtract.setOnClickListener {
+        scanButtonAliquot.setOnClickListener {
             isBoxScanActive = false
             isObjectScanActive = true
             isQrScannerActive = true
@@ -109,8 +118,9 @@ class AliquotsActivity : AppCompatActivity() {
             scanStatus.text = "Scan vials"
             flashlightButton.visibility = View.VISIBLE
             scanButtonBox.visibility = View.INVISIBLE
-            scanButtonExtract.visibility = View.INVISIBLE
-            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedExtract ->
+            scanButtonAliquotLabel.visibility = View.INVISIBLE
+            scanButtonAliquot.visibility = View.INVISIBLE
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedAliquot ->
 
                 // Stop the scanning process after receiving the result
                 QRCodeScannerUtility.stopScanning()
@@ -118,15 +128,16 @@ class AliquotsActivity : AppCompatActivity() {
                 previewView.visibility = View.INVISIBLE
                 flashlightButton.visibility = View.INVISIBLE
                 scanButtonBox.visibility = View.VISIBLE
-                scanButtonExtract.visibility = View.VISIBLE
+                scanButtonAliquotLabel.visibility = View.VISIBLE
+                scanButtonAliquot.visibility = View.VISIBLE
                 scanStatus.text = ""
-                scanButtonExtract.text = scannedExtract
+                scanButtonAliquot.text = scannedAliquot
                 manageScan()
             }
         }
 
         // Add a TextWatcher to the numberInput for real-time validation
-        volumeInput.addTextChangedListener(object : TextWatcher {
+        aliquotVolume.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -136,13 +147,13 @@ class AliquotsActivity : AppCompatActivity() {
                 val inputNumber = inputText.toFloatOrNull()
 
                 if (inputNumber != null) {
-                    volumeInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
+                    aliquotVolume.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
                     scanButtonBox.visibility = View.VISIBLE // Show actionButton if valid
-                    scanBoxLabel.visibility = View.VISIBLE
+                    scanButtonBoxLabel.visibility = View.VISIBLE
                 } else {
-                    volumeInput.setBackgroundResource(android.R.color.holo_red_light) // Set background to red if not valid
+                    aliquotVolume.setBackgroundResource(android.R.color.holo_red_light) // Set background to red if not valid
                     scanButtonBox.visibility = View.INVISIBLE
-                    scanBoxLabel.visibility = View.INVISIBLE
+                    scanButtonBoxLabel.visibility = View.INVISIBLE
                 }
             }
         })
@@ -163,36 +174,37 @@ class AliquotsActivity : AppCompatActivity() {
                     val stillPlace = 81 - boxValueExt - boxValueAl - boxValueBa
                     val boxValue = boxValueAl + boxValueExt + boxValueBa
                     if (boxValue >= 0 && stillPlace > 0) {
-                        scanButtonExtract.visibility = View.VISIBLE // Show actionButton if valid
-                        volumeInput.visibility = View.INVISIBLE
-                        emptyPlace.visibility = View.VISIBLE
-                        emptyPlace.setTextColor(Color.GRAY)
-                        emptyPlace.text =
+                        scanButtonAliquotLabel.visibility = View.VISIBLE
+                        scanButtonAliquot.visibility = View.VISIBLE
+                        aliquotVolume.visibility = View.INVISIBLE
+                        boxEmptyPlace.visibility = View.VISIBLE
+                        boxEmptyPlace.setTextColor(Color.GRAY)
+                        boxEmptyPlace.text =
                             "This box should still contain $stillPlace empty places"
                     } else {
                         handleInvalidScanResult(stillPlace, boxValue)
-                        volumeInput.visibility = View.VISIBLE
+                        aliquotVolume.visibility = View.VISIBLE
                     }
 
                 } else if (isObjectScanActive) {
-                    val inputNumber = volumeInput.text.toString()
+                    val inputNumber = aliquotVolume.text.toString()
                     // Usage
                     CoroutineScope(Dispatchers.IO).launch {
                         // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
-                        if (scanButtonExtract.text.toString()
+                        if (scanButtonAliquot.text.toString()
                                 .matches(Regex("^dbgi_\\d{6}_\\d{2}\$"))
                         ) {
                             showToast("sending data to directus...")
                             sendDataToDirectus(
-                                scanButtonExtract.text.toString(),
+                                scanButtonAliquot.text.toString(),
                                 inputNumber.toInt().toString(),
                                 scanButtonBox.text.toString()
                             )
-                        } else if (scanButtonExtract.text.toString()
+                        } else if (scanButtonAliquot.text.toString()
                                 .matches(Regex("^dbgi_batch_blk_\\d{6}\$"))
                         ) {
                             sendBlankToDirectus(
-                                scanButtonExtract.text.toString(),
+                                scanButtonAliquot.text.toString(),
                                 inputNumber.toInt().toString(),
                                 scanButtonBox.text.toString()
                             )
@@ -247,7 +259,6 @@ class AliquotsActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return checkExistenceInDirectus(sampleId)
                     }
@@ -319,15 +330,13 @@ class AliquotsActivity : AppCompatActivity() {
                     val accessToken = data.getString("access_token")
                     deferred.complete(accessToken)
                 } else {
-                    showToast("Database error, please check your connection.")
-                    deferred.complete(null)
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             }catch (e: Exception) {
                 e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    showToast("Database error, please check your connection.")
-                    deferred.complete(null)
-                }
+                showToast("$e")
+                goToConnectionActivity()
             }
         }
         return deferred.await()
@@ -345,7 +354,7 @@ class AliquotsActivity : AppCompatActivity() {
 
     // Function to send data to Directus
     @SuppressLint("DiscouragedApi", "SetTextI18n")
-    suspend fun sendDataToDirectus(extractId: String, volume: String, boxId: String) {
+    suspend fun sendDataToDirectus(aliquotId: String, volume: String, boxId: String) {
 
         // Define the table url
         val collectionUrl = "http://directus.dbgi.org/items/Aliquots"
@@ -353,14 +362,17 @@ class AliquotsActivity : AppCompatActivity() {
         val accessToken = retrieveToken()
         val url = URL(collectionUrl)
 
-        val injectId = checkExistenceInDirectus(extractId)
+        val injectId = checkExistenceInDirectus(aliquotId)
 
         val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
 
         if (isPrinterConnected == "yes") {
-            println(PrinterDetailsSingleton.printerDetails.printerStatusMessage)
-            readyToSend = PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
-
+            readyToSend =
+                PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                        || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+            if (PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow") {
+                showToast("Printer battery is low, please charge it")
+            }
         }
 
         if (injectId != null && readyToSend) {
@@ -378,7 +390,7 @@ class AliquotsActivity : AppCompatActivity() {
 
                 val data = JSONObject().apply {
                     put("aliquot_id", injectId)
-                    put("lab_extract_id", extractId)
+                    put("lab_Aliquot_id", aliquotId)
                     put("aliquot_volume_microliter", volume)
                     put("mobile_container_id", boxId)
                 }
@@ -422,26 +434,22 @@ class AliquotsActivity : AppCompatActivity() {
                     }
 
                     // 'response' contains the response from the server
-                    //showToast("$injectId correctly added to database")
+                    showToast("$injectId correctly added to database")
 
                     // print label here
                     val printerDetails = PrinterDetailsSingleton.printerDetails
                     if (isPrinterConnected == "yes") {
-                        readyToSend = PrinterDetailsSingleton.printerDetails.printerStatusMessage == PrinterDetailsSingleton.printerDetails.printerStatusMessage
-
+                        readyToSend =
+                            PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                                    || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
                     }
                     if (isPrinterConnected == "yes" && readyToSend) {
 
                         if (printerDetails.printerModel == "M211") {
-                            // Specify the name of the template file you want to use.
                             selectedFileName = "template_dbgi_m211"
-                            showToast("M211 model detected")
                         } else if (printerDetails.printerModel == "M511") {
                             selectedFileName = "template_dbgi_m511"
-                            showToast("M511 model detected")
                         }
-
-                        showToast("model: $selectedFileName")
 
                         // Initialize an input stream by opening the specified file.
                         val iStream = resources.openRawResource(
@@ -452,7 +460,7 @@ class AliquotsActivity : AppCompatActivity() {
                         )
                         val parts = injectId.split("_")
                         val sample = "_" + parts[1]
-                        val extract = "_" + parts[2]
+                        val aliquot = "_" + parts[2]
                         val injetemp = "_" + parts[3]
 
                         // Call the SDK method ".getTemplate()" to retrieve its Template Object
@@ -469,8 +477,8 @@ class AliquotsActivity : AppCompatActivity() {
                                     placeholder.value = sample
                                 }
 
-                                "extract" -> {
-                                    placeholder.value = extract
+                                "Aliquot" -> {
+                                    placeholder.value = aliquot
                                 }
 
                                 "injection/temp" -> {
@@ -480,7 +488,7 @@ class AliquotsActivity : AppCompatActivity() {
                         }
 
                         val printingOptions = PrintingOptions()
-                        //printingOptions.cutOption = CutOption.EndOfJob
+                        printingOptions.cutOption = CutOption.EndOfJob
                         printingOptions.numberOfCopies = 1
                         val r = Runnable {
                             runOnUiThread {
@@ -510,16 +518,17 @@ class AliquotsActivity : AppCompatActivity() {
 
                             if (upStillPlace > 0) {
                                 // Automatically launch the QR scanning when last sample correctly added to the database
-                                emptyPlace.visibility = View.VISIBLE
-                                emptyPlace.text =
+                                boxEmptyPlace.visibility = View.VISIBLE
+                                boxEmptyPlace.text =
                                     "This box should still contain $upStillPlace empty places"
                                 delay(1500)
-                                scanButtonExtract.performClick()
+                                scanButtonAliquot.performClick()
                             } else {
-                                emptyPlace.text = "Box is full, scan another one to continue"
+                                boxEmptyPlace.text = "Box is full, scan another one to continue"
                                 scanButtonBox.text = "scan another box"
-                                scanButtonExtract.text = "Begin to scan extracts"
-                                scanButtonExtract.visibility = View.INVISIBLE
+                                scanButtonAliquotLabel.visibility = View.INVISIBLE
+                                scanButtonAliquot.text = "Value"
+                                scanButtonAliquot.visibility = View.INVISIBLE
 
                             }
 
@@ -531,12 +540,12 @@ class AliquotsActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
-                        return sendDataToDirectus(extractId, volume, boxId)
+                        return sendDataToDirectus(aliquotId, volume, boxId)
                     }
                 } else {
-                    showToast("Database error, please try again")
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             } finally {
                 urlConnection.disconnect()
@@ -545,11 +554,12 @@ class AliquotsActivity : AppCompatActivity() {
             showToast("No more available injection labels")
         } else {
             showToast("Printer disconnected, please reconnect it and scan the label again")
+            goToPrinterConnectionActivity()
         }
     }
 
     @SuppressLint("DiscouragedApi", "SetTextI18n")
-    suspend fun sendBlankToDirectus(extractId: String, volume: String, boxId: String) {
+    suspend fun sendBlankToDirectus(aliquotId: String, volume: String, boxId: String) {
 
         // Define the table url
         val collectionUrl = "http://directus.dbgi.org/items/Blank_Aliquots"
@@ -557,9 +567,20 @@ class AliquotsActivity : AppCompatActivity() {
         val accessToken = retrieveToken()
         val url = URL(collectionUrl)
 
-        val injectId = checkExistenceInDirectus(extractId)
+        val injectId = checkExistenceInDirectus(aliquotId)
 
-        if (injectId != null) {
+        val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+
+        if (isPrinterConnected == "yes") {
+            readyToSend =
+                PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                        || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+            if (PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow") {
+                showToast("Printer battery is low, please charge it")
+            }
+        }
+
+        if (injectId != null && readyToSend) {
 
             val urlConnection =
                 withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
@@ -574,7 +595,7 @@ class AliquotsActivity : AppCompatActivity() {
 
                 val data = JSONObject().apply {
                     put("aliquot_id", injectId)
-                    put("blk_id", extractId)
+                    put("blk_id", aliquotId)
                     put("aliquot_volume_microliter", volume)
                     put("mobile_container_id", boxId)
                     put("status", "OK")
@@ -622,11 +643,18 @@ class AliquotsActivity : AppCompatActivity() {
                     showToast("$injectId correctly added to database")
 
                     // print label here
-                    val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+                    val printerDetails = PrinterDetailsSingleton.printerDetails
                     if (isPrinterConnected == "yes") {
-                        val printerDetails = PrinterDetailsSingleton.printerDetails
-                        // Specify the name of the template file you want to use.
-                        val selectedFileName = "template_dbgi_batch"
+                        readyToSend =
+                            printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                                    || printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+                    }
+                    if (isPrinterConnected == "yes" && readyToSend) {
+                        if (printerDetails.printerModel == "M211") {
+                            selectedFileName = "template_dbgi_batch_m211"
+                        } else if (printerDetails.printerModel == "M511") {
+                            selectedFileName = "template_dbgi_batch_m511"
+                        }
 
                         // Initialize an input stream by opening the specified file.
                         val iStream = resources.openRawResource(
@@ -672,6 +700,8 @@ class AliquotsActivity : AppCompatActivity() {
                         }
                         val printThread = Thread(r)
                         printThread.start()
+                    } else {
+                        showToast("Printer disconnected, data added to database.")
                     }
 
                     // Check if there is still enough place in the rack before initiating the QR code reader
@@ -686,15 +716,16 @@ class AliquotsActivity : AppCompatActivity() {
 
                             if(upStillPlace > 0){
                                 // Automatically launch the QR scanning when last sample correctly added to the database
-                                emptyPlace.visibility = View.VISIBLE
-                                emptyPlace.text = "This box should still contain $upStillPlace empty places"
+                                boxEmptyPlace.visibility = View.VISIBLE
+                                boxEmptyPlace.text = "This box should still contain $upStillPlace empty places"
                                 delay(1500)
-                                scanButtonExtract.performClick()
+                                scanButtonAliquot.performClick()
                             } else {
-                                emptyPlace.text = "Box is full, scan another one to continue"
+                                boxEmptyPlace.text = "Box is full, scan another one to continue"
                                 scanButtonBox.text = "scan another box"
-                                scanButtonExtract.text = "Begin to scan extracts"
-                                scanButtonExtract.visibility = View.INVISIBLE
+                                scanButtonAliquotLabel.visibility = View.INVISIBLE
+                                scanButtonAliquot.text = "Value"
+                                scanButtonAliquot.visibility = View.INVISIBLE
 
                             }
 
@@ -706,18 +737,21 @@ class AliquotsActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
-                        return sendBlankToDirectus(extractId, volume, boxId)
+                        return sendBlankToDirectus(aliquotId, volume, boxId)
                     }
                 } else {
-                    showToast("Database error, please try again")
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             } finally {
                 urlConnection.disconnect()
             }
-        } else {
+        } else if (injectId == null) {
             showToast("No more available injection labels")
+        } else {
+            showToast("Printer disconnected, please reconnect it and scan the label again")
+            goToPrinterConnectionActivity()
         }
     }
 
@@ -727,7 +761,7 @@ class AliquotsActivity : AppCompatActivity() {
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
             val url =
-                URL("http://directus.dbgi.org/items/Lab_Extracts/?filter[mobile_container_id][_eq]=$boxId")
+                URL("http://directus.dbgi.org/items/Lab_Aliquots/?filter[mobile_container_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -757,14 +791,15 @@ class AliquotsActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return@withContext checkBoxLoadExt(boxId)
                     } else {
                         showToast("Connection error")
+                        goToConnectionActivity()
                     }
                 } else {
-                    showToast("Error: $responseCode")
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             } finally {
                 urlConnection.disconnect()
@@ -807,14 +842,15 @@ class AliquotsActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return@withContext checkBoxLoadAl(boxId)
                     } else {
                         showToast("Connection error")
+                        goToConnectionActivity()
                     }
                 } else {
-                    showToast("Error: $responseCode")
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             } finally {
                 urlConnection.disconnect()
@@ -826,7 +862,7 @@ class AliquotsActivity : AppCompatActivity() {
 
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
-            val url = URL("http://directus.dbgi.org/items/Blank_Extracts/?filter[mobile_container_id][_eq]=$boxId")
+            val url = URL("http://directus.dbgi.org/items/Blank_Aliquots/?filter[mobile_container_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -856,14 +892,15 @@ class AliquotsActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return@withContext checkBoxLoadBa(boxId)
                     } else {
                         showToast("Connection error")
+                        goToConnectionActivity()
                     }
                 } else {
-                    showToast("Error: $responseCode")
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             } finally {
                 urlConnection.disconnect()
@@ -874,17 +911,38 @@ class AliquotsActivity : AppCompatActivity() {
     // Manage errors information to guide the user
     @SuppressLint("SetTextI18n")
     private fun handleInvalidScanResult(stillPlace: Int, boxValue: Int) {
-        emptyPlace.visibility = View.VISIBLE
+        boxEmptyPlace.visibility = View.VISIBLE
         when {
             stillPlace < 1 -> {
-                emptyPlace.text = "This box is full, please scan another one"
+                boxEmptyPlace.text = "This box is full, please scan another one"
                 scanButtonBox.text = "Value"
-                scanButtonExtract.text = "Begin to scan samples"
+                scanButtonAliquot.text = "Begin to scan samples"
             }
             boxValue < 0 -> {
-                emptyPlace.text = "Database error, please check your connection."
+                showToast("Connection error")
+                goToConnectionActivity()
             }
         }
-        emptyPlace.setTextColor(Color.RED)
+        boxEmptyPlace.setTextColor(Color.RED)
+    }
+
+    private fun goToConnectionActivity(){
+        val intent = Intent(this, DirectusConnectionActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToPrinterConnectionActivity(){
+
+        val accessToken = intent.getStringExtra("ACCESS_TOKEN")
+        val username = intent.getStringExtra("USERNAME")
+        val password = intent.getStringExtra("PASSWORD")
+        val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+
+        val intent = Intent(this,ManagePrinterActivity::class.java)
+        intent.putExtra("ACCESS_TOKEN", accessToken)
+        intent.putExtra("USERNAME", username)
+        intent.putExtra("PASSWORD", password)
+        intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+        startActivity(intent)
     }
 }

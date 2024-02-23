@@ -46,18 +46,21 @@ import java.net.URL
 @Suppress("NAME_SHADOWING")
 class ExtractionActivity : AppCompatActivity() {
 
-    private lateinit var buttonNewBatch: Button
-    private lateinit var newExtractionMethod: TextView
+    private lateinit var newBatchButton: Button
     private lateinit var extractionMethodLabel: TextView
-    private lateinit var volumeInput: EditText
+    private lateinit var newExtractionMethodLabel: TextView
     private lateinit var extractionMethodSpinner: Spinner
-    private lateinit var extractionMethodBatch: TextView
-    private lateinit var extractionMethodBox: TextView
-    private lateinit var extractionInformation: TextView
-    private lateinit var scanButtonBatch: Button
+    private lateinit var extractionMethodDescription: TextView
+    private lateinit var solventVolumeLabel: TextView
+    private lateinit var solventVolume: EditText
+    private lateinit var scanButtonBoxLabel: TextView
     private lateinit var scanButtonBox: Button
-    private lateinit var scanButtonSample: Button
-    private lateinit var emptyPlace: TextView
+    private lateinit var boxEmptyPlace: TextView
+    private lateinit var scanButtonBatchLabel: TextView
+    private lateinit var scanButtonBatch: Button
+    private lateinit var scanButtonExtractLabel: TextView
+    private lateinit var scanButtonExtract: Button
+
     private lateinit var previewView: PreviewView
     private lateinit var flashlightButton: Button
     private lateinit var scanStatus: TextView
@@ -69,28 +72,35 @@ class ExtractionActivity : AppCompatActivity() {
     private var hasTriedAgain = false
     private var lastAccessToken: String? = null
     private var isQrScannerActive = false
+    private var selectedFileName: String = ""
+    private var readyToSend = true
 
     @SuppressLint("CutPasteId", "MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_extraction)
 
+        title = "Extraction mode"
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
         // Initialize views
-        buttonNewBatch = findViewById(R.id.buttonNewBatch)
-        newExtractionMethod = findViewById(R.id.newExtractionMethod)
+        newBatchButton = findViewById(R.id.newBatchButton)
         extractionMethodLabel = findViewById(R.id.extractionMethodLabel)
-        volumeInput = findViewById(R.id.volumeInput)
+        newExtractionMethodLabel = findViewById(R.id.newExtractionMethodLabel)
         extractionMethodSpinner = findViewById(R.id.extractionMethodSpinner)
-        extractionMethodBox = findViewById(R.id.extractionMethodBox)
-        extractionMethodBatch = findViewById(R.id.extractionMethodBatch)
-        extractionInformation = findViewById(R.id.extractionInformation)
-        scanButtonBatch = findViewById(R.id.scanButtonBatch)
+        extractionMethodDescription = findViewById(R.id.extractionMethodDescription)
+        solventVolumeLabel = findViewById(R.id.solventVolumeLabel)
+        solventVolume = findViewById(R.id.solventVolume)
+        scanButtonBoxLabel = findViewById(R.id.scanButtonBoxLabel)
         scanButtonBox = findViewById(R.id.scanButtonBox)
-        scanButtonSample = findViewById(R.id.scanButtonSample)
-        emptyPlace = findViewById(R.id.emptyPlace)
+        boxEmptyPlace = findViewById(R.id.boxEmptyPlace)
+        scanButtonBatchLabel = findViewById(R.id.scanButtonBatchLabel)
+        scanButtonBatch = findViewById(R.id.scanButtonBatch)
+        scanButtonExtractLabel = findViewById(R.id.scanButtonExtractLabel)
+        scanButtonExtract = findViewById(R.id.scanButtonExtract)
+
         previewView = findViewById(R.id.previewView)
         flashlightButton = findViewById(R.id.flashlightButton)
         scanStatus = findViewById(R.id.scanStatus)
@@ -100,7 +110,7 @@ class ExtractionActivity : AppCompatActivity() {
         // stores the original token
         retrieveToken(token)
 
-        volumeInput.addTextChangedListener(object : TextWatcher {
+        solventVolume.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -110,24 +120,24 @@ class ExtractionActivity : AppCompatActivity() {
                 val inputVolume = inputText.toInt()
 
                 if (inputVolume > 0) {
-                    extractionMethodBox.visibility = View.VISIBLE
+                    scanButtonBoxLabel.visibility = View.VISIBLE
                     scanButtonBox.visibility = View.VISIBLE
                 } else {
-                    extractionMethodBox.visibility = View.INVISIBLE
+                    scanButtonBoxLabel.visibility = View.INVISIBLE
                     scanButtonBox.visibility = View.INVISIBLE
                 }
             }
         })
 
         // Set up button to generate a new batch identifier
-        buttonNewBatch.setOnClickListener {
+        newBatchButton.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 generateNewBatch()
             }
         }
 
         // Make the link clickable
-        val linkTextView: TextView = newExtractionMethod
+        val linkTextView: TextView = newExtractionMethodLabel
         val spannableString = SpannableString(linkTextView.text)
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
@@ -146,9 +156,11 @@ class ExtractionActivity : AppCompatActivity() {
         extractionMethodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position > 0) { // Check if a valid option (not "Choose an option") is selected
-                    volumeInput.visibility = View.VISIBLE
+                    solventVolumeLabel.visibility = View.VISIBLE
+                    solventVolume.visibility = View.VISIBLE
                 } else {
-                    volumeInput.visibility = View.INVISIBLE
+                    solventVolumeLabel.visibility = View.INVISIBLE
+                    solventVolume.visibility = View.INVISIBLE
                 }
             }
 
@@ -160,22 +172,24 @@ class ExtractionActivity : AppCompatActivity() {
         // Set up button click listener for Box QR Scanner
         scanButtonBox.setOnClickListener {
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(volumeInput.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(solventVolume.windowToken, 0)
             isBoxScanActive = true
             isObjectScanActive = false
             isBatchActive = false
             isQrScannerActive = true
             previewView.visibility = View.VISIBLE
-            scanStatus.text = "Scan the box"
+            scanStatus.text = "Scan box"
             flashlightButton.visibility = View.VISIBLE
-            buttonNewBatch.visibility = View.INVISIBLE
-            newExtractionMethod.visibility = View.INVISIBLE
+            newBatchButton.visibility = View.INVISIBLE
+            newExtractionMethodLabel.visibility = View.INVISIBLE
             extractionMethodSpinner.visibility = View.INVISIBLE
-            volumeInput.visibility = View.INVISIBLE
+            solventVolumeLabel.visibility = View.INVISIBLE
+            solventVolume.visibility = View.INVISIBLE
             extractionMethodLabel.visibility = View.INVISIBLE
             scanButtonBox.visibility = View.INVISIBLE
-            if (scanButtonSample.text != "Begin to scan samples") {
-                scanButtonSample.visibility = View.INVISIBLE
+            if (scanButtonExtract.text != "Value") {
+                scanButtonExtractLabel.visibility = View.INVISIBLE
+                scanButtonExtract.visibility = View.INVISIBLE
             }
             QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedBox ->
 
@@ -184,16 +198,18 @@ class ExtractionActivity : AppCompatActivity() {
                 isQrScannerActive = false
                 previewView.visibility = View.INVISIBLE
                 flashlightButton.visibility = View.INVISIBLE
-                buttonNewBatch.visibility = View.VISIBLE
-                newExtractionMethod.visibility = View.VISIBLE
+                newBatchButton.visibility = View.VISIBLE
+                newExtractionMethodLabel.visibility = View.VISIBLE
                 extractionMethodSpinner.visibility = View.VISIBLE
-                volumeInput.visibility = View.VISIBLE
+                solventVolumeLabel.visibility = View.VISIBLE
+                solventVolume.visibility = View.VISIBLE
                 extractionMethodLabel.visibility = View.VISIBLE
                 scanButtonBox.visibility = View.VISIBLE
                 scanButtonBox.text = scannedBox
                 scanStatus.text = ""
-                if (scanButtonSample.text != "Begin to scan samples"){
-                    scanButtonSample.visibility = View.VISIBLE
+                if (scanButtonExtract.text != "Value"){
+                    scanButtonExtractLabel.visibility = View.VISIBLE
+                    scanButtonExtract.visibility = View.VISIBLE
                 }
                 manageScan()
             }
@@ -206,12 +222,13 @@ class ExtractionActivity : AppCompatActivity() {
             isObjectScanActive = false
             isQrScannerActive = true
             previewView.visibility = View.VISIBLE
-            scanStatus.text = "Scan the batch"
+            scanStatus.text = "Scan batch"
             flashlightButton.visibility = View.VISIBLE
-            buttonNewBatch.visibility = View.INVISIBLE
-            newExtractionMethod.visibility = View.INVISIBLE
+            newBatchButton.visibility = View.INVISIBLE
+            newExtractionMethodLabel.visibility = View.INVISIBLE
             extractionMethodSpinner.visibility = View.INVISIBLE
-            volumeInput.visibility = View.INVISIBLE
+            solventVolumeLabel.visibility = View.INVISIBLE
+            solventVolume.visibility = View.INVISIBLE
             extractionMethodLabel.visibility = View.INVISIBLE
             scanButtonBox.visibility = View.INVISIBLE
             scanButtonBatch.visibility = View.INVISIBLE
@@ -222,10 +239,11 @@ class ExtractionActivity : AppCompatActivity() {
                 isQrScannerActive = false
                 previewView.visibility = View.INVISIBLE
                 flashlightButton.visibility = View.INVISIBLE
-                buttonNewBatch.visibility = View.VISIBLE
-                newExtractionMethod.visibility = View.VISIBLE
+                newBatchButton.visibility = View.VISIBLE
+                newExtractionMethodLabel.visibility = View.VISIBLE
                 extractionMethodSpinner.visibility = View.VISIBLE
-                volumeInput.visibility = View.VISIBLE
+                solventVolumeLabel.visibility = View.VISIBLE
+                solventVolume.visibility = View.VISIBLE
                 extractionMethodLabel.visibility = View.VISIBLE
                 scanButtonBox.visibility = View.VISIBLE
                 scanButtonBatch.visibility = View.VISIBLE
@@ -236,22 +254,24 @@ class ExtractionActivity : AppCompatActivity() {
         }
 
         // Set up button click listener for Object QR Scanner
-        scanButtonSample.setOnClickListener {
+        scanButtonExtract.setOnClickListener {
             isObjectScanActive = true
             isBoxScanActive = false
             isBatchActive = false
             isQrScannerActive = true
             previewView.visibility = View.VISIBLE
-            scanStatus.text = "Scan the sample"
+            scanStatus.text = "Scan extract"
             flashlightButton.visibility = View.VISIBLE
-            buttonNewBatch.visibility = View.INVISIBLE
-            newExtractionMethod.visibility = View.INVISIBLE
+            newBatchButton.visibility = View.INVISIBLE
+            newExtractionMethodLabel.visibility = View.INVISIBLE
             extractionMethodSpinner.visibility = View.INVISIBLE
-            volumeInput.visibility = View.INVISIBLE
+            solventVolumeLabel.visibility = View.INVISIBLE
+            solventVolume.visibility = View.INVISIBLE
             extractionMethodLabel.visibility = View.INVISIBLE
             scanButtonBox.visibility = View.INVISIBLE
             scanButtonBatch.visibility = View.INVISIBLE
-            scanButtonSample.visibility = View.INVISIBLE
+            scanButtonExtractLabel.visibility = View.INVISIBLE
+            scanButtonExtract.visibility = View.INVISIBLE
             QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedSample ->
 
                 // Stop the scanning process after receiving the result
@@ -259,15 +279,17 @@ class ExtractionActivity : AppCompatActivity() {
                 isQrScannerActive = false
                 previewView.visibility = View.INVISIBLE
                 flashlightButton.visibility = View.INVISIBLE
-                buttonNewBatch.visibility = View.VISIBLE
-                newExtractionMethod.visibility = View.VISIBLE
+                newBatchButton.visibility = View.VISIBLE
+                newExtractionMethodLabel.visibility = View.VISIBLE
                 extractionMethodSpinner.visibility = View.VISIBLE
-                volumeInput.visibility = View.VISIBLE
+                solventVolumeLabel.visibility = View.VISIBLE
+                solventVolume.visibility = View.VISIBLE
                 extractionMethodLabel.visibility = View.VISIBLE
                 scanButtonBox.visibility = View.VISIBLE
                 scanButtonBatch.visibility = View.VISIBLE
-                scanButtonSample.visibility = View.VISIBLE
-                scanButtonSample.text = scannedSample
+                scanButtonExtractLabel.visibility = View.VISIBLE
+                scanButtonExtract.visibility = View.VISIBLE
+                scanButtonExtract.text = scannedSample
                 scanStatus.text = ""
                 manageScan()
             }
@@ -286,14 +308,18 @@ class ExtractionActivity : AppCompatActivity() {
                     val boxValueExt = checkBoxLoadExt(box)
                     val boxValueAl = checkBoxLoadAl(box)
                     val boxValueBa = checkBoxLoadBa(box)
-                    val stillPlace = 81 - boxValueExt - boxValueAl - boxValueBa
+                    val parts = box.split("_")
+                    val size = parts[1]
+                    val sizeNumber = size.split("x")
+                    val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
+                    val stillPlace = places - boxValueExt - boxValueAl - boxValueBa
                     val boxValue = boxValueAl + boxValueExt + boxValueBa
                     if (boxValue >= 0 && stillPlace > 0) {
-                        extractionMethodBatch.visibility = View.VISIBLE
+                        scanButtonBatchLabel.visibility = View.VISIBLE
                         scanButtonBatch.visibility = View.VISIBLE
-                        emptyPlace.visibility = View.VISIBLE
-                        emptyPlace.setTextColor(Color.GRAY)
-                        emptyPlace.text =
+                        boxEmptyPlace.visibility = View.VISIBLE
+                        boxEmptyPlace.setTextColor(Color.GRAY)
+                        boxEmptyPlace.text =
                                     "This box should still contain $stillPlace empty places"
                     } else {
                         handleInvalidScanResult(stillPlace, boxValue)
@@ -305,26 +331,30 @@ class ExtractionActivity : AppCompatActivity() {
                     val baBoxValueExt = checkBoxLoadExt(box)
                     val baBoxValueAl = checkBoxLoadAl(box)
                     val baBoxValueBa = checkBoxLoadBa(box)
-                    val baStillPlace = 81 - baBoxValueExt - baBoxValueAl - baBoxValueBa
+                    val parts = box.split("_")
+                    val size = parts[1]
+                    val sizeNumber = size.split("x")
+                    val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
+                    val baStillPlace = places - baBoxValueExt - baBoxValueAl - baBoxValueBa
                     val boxValue = baBoxValueAl + baBoxValueExt + baBoxValueBa
                     if (boxValue >= 0 && baStillPlace > 0) {
-                        scanButtonSample.visibility = View.VISIBLE
-                        emptyPlace.visibility = View.VISIBLE
-                        emptyPlace.setTextColor(Color.GRAY)
-                        emptyPlace.text =
+                        scanButtonExtractLabel.visibility = View.VISIBLE
+                        scanButtonExtract.visibility = View.VISIBLE
+                        boxEmptyPlace.visibility = View.VISIBLE
+                        boxEmptyPlace.setTextColor(Color.GRAY)
+                        boxEmptyPlace.text =
                                 "This box should still contain $baStillPlace empty places"
                     } else {
                             handleInvalidScanResult(baStillPlace, boxValue)
                     }
                 } else if (isObjectScanActive) {
                     val boxId = scanButtonBox.text.toString()
-                    val sampleId = scanButtonSample.text.toString()
+                    val sampleId = scanButtonExtract.text.toString()
                     val selectedValue = extractionMethodSpinner.selectedItem.toString()
-                    showToast("selected method: $selectedValue")
                     val batchSample = scanButtonBatch.text.toString()
                     val parts = batchSample.split("_")
                     val batchId = parts[0] + "_" + parts[1] + "_" + parts[3]
-                    val inputVolume = volumeInput.text.toString()
+                    val inputVolume = solventVolume.text.toString()
                     withContext(Dispatchers.IO) {
                         sendDataToDirectus(sampleId, boxId, selectedValue, batchId, inputVolume)
                     }
@@ -345,220 +375,32 @@ class ExtractionActivity : AppCompatActivity() {
         val url = URL(collectionUrl)
         val urlConnection = withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
 
-        try {
-            urlConnection.requestMethod = "PATCH"
-            urlConnection.setRequestProperty("Content-Type", "application/json")
-            urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
+        val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
 
-            val data = JSONObject().apply {
-                put("mobile_container_id", boxId)
-                put("extraction_method", extractionMethod)
-                put("batch_id", batchId)
-                put("solvent_volume_micro", inputVolume)
+        if (isPrinterConnected == "yes") {
+            readyToSend =
+                PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                        || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+            if (PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow") {
+                showToast("Printer battery is low, please charge it")
             }
-
-            val outputStream: OutputStream = urlConnection.outputStream
-            val writer = BufferedWriter(withContext(Dispatchers.IO) {
-                OutputStreamWriter(outputStream, "UTF-8")
-            })
-            withContext(Dispatchers.IO) {
-                writer.write(data.toString())
-            }
-            withContext(Dispatchers.IO) {
-                writer.flush()
-            }
-            withContext(Dispatchers.IO) {
-                writer.close()
-            }
-
-            val responseCode = urlConnection.responseCode
-
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                hasTriedAgain = false
-                val inputStream = urlConnection.inputStream
-                val bufferedReader = BufferedReader(
-                    withContext(
-                        Dispatchers.IO
-                    ) {
-                        InputStreamReader(inputStream, "UTF-8")
-                    })
-                val response = StringBuilder()
-                var line: String?
-                while (withContext(Dispatchers.IO) {
-                        bufferedReader.readLine()
-                }.also { line = it } != null) {
-                    response.append(line)
-                }
-                withContext(Dispatchers.IO) {
-                    bufferedReader.close()
-                }
-                withContext(Dispatchers.IO) {
-                    inputStream.close()
-                }
-
-                // 'response' contains the response from the server
-                showToast("Database correctly updated")
-
-                // print label here
-                val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
-                if (isPrinterConnected == "yes") {
-                    val printerDetails = PrinterDetailsSingleton.printerDetails
-                    // Specify the name of the template file you want to use.
-                    val selectedFileName = "template_dbgi"
-
-                    // Initialize an input stream by opening the specified file.
-                    val iStream = resources.openRawResource(
-                        resources.getIdentifier(
-                            selectedFileName, "raw",
-                            packageName
-                        )
-                    )
-                    val parts = withoutTemp.split("_")
-                    val sample = "_" + parts[1]
-                    val extract = "_" + parts[2]
-                    val injetemp = ""
-
-                    // Call the SDK method ".getTemplate()" to retrieve its Template Object
-                    val template =
-                        TemplateFactory.getTemplate(iStream, this@ExtractionActivity)
-                    // Simple way to iterate through any placeholders to set desired values.
-                    for (placeholder in template.templateData) {
-                        when (placeholder.name) {
-                            "QR" -> {
-                                placeholder.value = withoutTemp
-                            }
-                            "sample" -> {
-                                placeholder.value = sample
-                            }
-                            "extract" -> {
-                                placeholder.value = extract
-                            }
-                            "injection/temp" -> {
-                                placeholder.value = injetemp
-                            }
-                        }
-                    }
-
-                    val printingOptions = PrintingOptions()
-                    printingOptions.cutOption = CutOption.EndOfJob
-                    printingOptions.numberOfCopies = 1
-                    val r = Runnable {
-                        runOnUiThread {
-                            printerDetails.print(
-                                this,
-                                template,
-                                printingOptions,
-                                null
-                            )
-                        }
-                    }
-                    val printThread = Thread(r)
-                    printThread.start()
-                }
-
-                // Check if there is still enough place in the rack before initiating the QR code reader
-                CoroutineScope(Dispatchers.IO).launch {
-                    val box = scanButtonBox.text.toString()
-                    val upBoxValueExt = checkBoxLoadExt(box)
-                    val upBoxValueAl = checkBoxLoadAl(box)
-                    val upBoxValueBa = checkBoxLoadBa(box)
-                    val upStillPlace = 81 - upBoxValueExt - upBoxValueAl - upBoxValueBa
-
-                    withContext(Dispatchers.Main) {
-
-                        if(upStillPlace > 0){
-                            // Automatically launch the QR scanning when last sample correctly added to the database
-                            emptyPlace.visibility = View.VISIBLE
-                            emptyPlace.text = "This box should still contain $upStillPlace empty places"
-                            delay(1500)
-                            scanButtonSample.performClick()
-                        } else {
-                            emptyPlace.text = "Box is full, scan another one to continue"
-                            scanButtonBox.text = "scan another box"
-                            scanButtonSample.text = "Begin to scan samples"
-                            scanButtonSample.visibility = View.INVISIBLE
-
-                        }
-
-                    }
-                }
-            } else if (!hasTriedAgain) {
-                hasTriedAgain = true
-                val newAccessToken = getNewAccessToken()
-                if (newAccessToken != null) {
-                    retrieveToken(newAccessToken)
-                    showToast("connection to directus lost, reconnecting...")
-                    val batchSample = scanButtonBatch.text.toString()
-                    val parts = batchSample.split("_")
-                    val batchId = parts[0] + "_" + parts[1] + "_" + parts[3]
-                    // Retry the operation with the new access token
-                    return sendDataToDirectus(extractId, boxId, extractionMethod, batchId, inputVolume)
-                }
-            } else {
-                showToast("Database error, please try again")
-            }
-        } finally {
-            urlConnection.disconnect()
         }
-    }
 
+        if (readyToSend) {
 
-    // Function to send data to Directus
-    @SuppressLint("SetTextI18n", "DiscouragedApi")
-    private suspend fun generateNewBatch() {
-        val accessToken = retrieveToken()
-        // Define the table url
-        val collectionUrl = "http://directus.dbgi.org/items/Batch/"
-
-        val url = URL(collectionUrl)
-        val urlConnection2 =
-            withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
-        try {
-            val sortParam = "sort=-batch_id"
-            val urlWithSort = URL("$collectionUrl?$sortParam")
-            val urlConnection =
-                withContext(Dispatchers.IO) { urlWithSort.openConnection() as HttpURLConnection }
-
-            urlConnection.requestMethod = "GET"
-            urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
-
-            val responseCode = urlConnection.responseCode
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Read the response body
-                val inputStream = urlConnection.inputStream
-                val bufferedReader = BufferedReader(withContext(Dispatchers.IO) {
-                    InputStreamReader(inputStream, "UTF-8")
-                })
-                val response = StringBuilder()
-                var line: String?
-                while (withContext(Dispatchers.IO) {
-                        bufferedReader.readLine()
-                    }.also { line = it } != null) {
-                    response.append(line)
-                }
-
-                val jsonData = response.toString()
-                val jsonResponse = JSONObject(jsonData)
-                val lastValue =
-                    jsonResponse.getJSONArray("data").getJSONObject(0).getString("batch_id")
-                val lastNumber = lastValue.split("_")[2].toInt()
-
-                // Define the first number of the list (last number + 1)
-                val firstNumber = lastNumber + 1
-
-                // Create a list with the asked codes beginning with the first number
-                val batchId = String.format("dbgi_batch_%06d", firstNumber)
-                urlConnection.disconnect()
-                urlConnection2.requestMethod = "POST"
-                urlConnection2.setRequestProperty("Content-Type", "application/json")
-                urlConnection2.setRequestProperty("Authorization", "Bearer $accessToken")
+            try {
+                urlConnection.requestMethod = "PATCH"
+                urlConnection.setRequestProperty("Content-Type", "application/json")
+                urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
 
                 val data = JSONObject().apply {
-                    put("Reserved", "True")
+                    put("mobile_container_id", boxId)
+                    put("extraction_method", extractionMethod)
                     put("batch_id", batchId)
+                    put("solvent_volume_micro", inputVolume)
                 }
 
-                val outputStream: OutputStream = urlConnection2.outputStream
+                val outputStream: OutputStream = urlConnection.outputStream
                 val writer = BufferedWriter(withContext(Dispatchers.IO) {
                     OutputStreamWriter(outputStream, "UTF-8")
                 })
@@ -572,7 +414,7 @@ class ExtractionActivity : AppCompatActivity() {
                     writer.close()
                 }
 
-                val responseCode = urlConnection2.responseCode
+                val responseCode = urlConnection.responseCode
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     hasTriedAgain = false
@@ -598,18 +440,21 @@ class ExtractionActivity : AppCompatActivity() {
                     }
 
                     // 'response' contains the response from the server
-                    showToast("$batchId correctly added to database")
-
-                    val parts = batchId.split("_")
-                    val batchSample = parts[0] + "_" + parts[1] + "_" + "blk" + "_" + parts[2]
-                    showToast("batch sample: $batchSample")
+                    showToast("$extractId correctly updated")
 
                     // print label here
-                    val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+                    val printerDetails = PrinterDetailsSingleton.printerDetails
                     if (isPrinterConnected == "yes") {
-                        val printerDetails = PrinterDetailsSingleton.printerDetails
-                        // Specify the name of the template file you want to use.
-                        val selectedFileName = "template_dbgi_batch"
+                        readyToSend =
+                            printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                                    || printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+                    }
+                    if (isPrinterConnected == "yes" && readyToSend) {
+                        if (printerDetails.printerModel == "M211") {
+                            selectedFileName = "template_dbgi_m211"
+                        } else if (printerDetails.printerModel == "M511") {
+                            selectedFileName = "template_dbgi_m511"
+                        }
 
                         // Initialize an input stream by opening the specified file.
                         val iStream = resources.openRawResource(
@@ -618,9 +463,10 @@ class ExtractionActivity : AppCompatActivity() {
                                 packageName
                             )
                         )
-                        //val parts = batchId.split("_")
-                        val sample = "_" + parts[2]
-                        //val batchSample = parts[0] + "_" + parts[1] + "_" + "blk" + "_" + parts[2]
+                        val parts = withoutTemp.split("_")
+                        val sample = "_" + parts[1]
+                        val extract = "_" + parts[2]
+                        val injetemp = " "
 
                         // Call the SDK method ".getTemplate()" to retrieve its Template Object
                         val template =
@@ -629,14 +475,19 @@ class ExtractionActivity : AppCompatActivity() {
                         for (placeholder in template.templateData) {
                             when (placeholder.name) {
                                 "QR" -> {
-                                    placeholder.value = batchSample
+                                    placeholder.value = withoutTemp
                                 }
 
                                 "sample" -> {
                                     placeholder.value = sample
                                 }
-                                "injection" -> {
-                                    placeholder.value = " "
+
+                                "extract" -> {
+                                    placeholder.value = extract
+                                }
+
+                                "injection/temp" -> {
+                                    placeholder.value = injetemp
                                 }
                             }
                         }
@@ -656,22 +507,262 @@ class ExtractionActivity : AppCompatActivity() {
                         }
                         val printThread = Thread(r)
                         printThread.start()
+                    } else {
+                        showToast("Printer disconnected, data added to database.")
+                    }
+
+                    // Check if there is still enough place in the rack before initiating the QR code reader
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val box = scanButtonBox.text.toString()
+                        val upBoxValueExt = checkBoxLoadExt(box)
+                        val upBoxValueAl = checkBoxLoadAl(box)
+                        val upBoxValueBa = checkBoxLoadBa(box)
+                        val upStillPlace = 81 - upBoxValueExt - upBoxValueAl - upBoxValueBa
+
+                        withContext(Dispatchers.Main) {
+
+                            if (upStillPlace > 0) {
+                                // Automatically launch the QR scanning when last sample correctly added to the database
+                                boxEmptyPlace.visibility = View.VISIBLE
+                                boxEmptyPlace.text =
+                                    "This box should still contain $upStillPlace empty places"
+                                delay(1500)
+                                scanButtonExtract.performClick()
+                            } else {
+                                boxEmptyPlace.text = "Box is full, scan another one to continue"
+                                scanButtonBox.text = "scan another box"
+                                scanButtonExtract.text = "Value"
+                                scanButtonExtractLabel.visibility = View.INVISIBLE
+                                scanButtonExtract.visibility = View.INVISIBLE
+                            }
+                        }
                     }
                 } else if (!hasTriedAgain) {
                     hasTriedAgain = true
                     val newAccessToken = getNewAccessToken()
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
+                        val batchSample = scanButtonBatch.text.toString()
+                        val parts = batchSample.split("_")
+                        val batchId = parts[0] + "_" + parts[1] + "_" + parts[3]
                         // Retry the operation with the new access token
-                        return generateNewBatch()
-                    } else {
-                        showToast("Database error, please try again")
+                        return sendDataToDirectus(
+                            extractId,
+                            boxId,
+                            extractionMethod,
+                            batchId,
+                            inputVolume
+                        )
+                    }
+                } else {
+                    showToast("Connection error")
+                    goToConnectionActivity()
+                }
+            } finally {
+                urlConnection.disconnect()
+            }
+        } else {
+            showToast("Printer disconnected, please reconnect it and scan the label again")
+            goToPrinterConnectionActivity()
+        }
+    }
+
+
+    // Function to send data to Directus
+    @SuppressLint("SetTextI18n", "DiscouragedApi")
+    private suspend fun generateNewBatch() {
+        val accessToken = retrieveToken()
+        // Define the table url
+        val collectionUrl = "http://directus.dbgi.org/items/Batch/"
+
+        val url = URL(collectionUrl)
+        val urlConnection2 =
+            withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
+
+        val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+
+        if (isPrinterConnected == "yes") {
+            readyToSend =
+                PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                        || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+            if (PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow") {
+                showToast("Printer battery is low, please charge it")
+            }
+        }
+
+        if (readyToSend) {
+
+            try {
+                val sortParam = "sort=-batch_id"
+                val urlWithSort = URL("$collectionUrl?$sortParam")
+                val urlConnection =
+                    withContext(Dispatchers.IO) { urlWithSort.openConnection() as HttpURLConnection }
+
+                urlConnection.requestMethod = "GET"
+                urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
+
+                val responseCode = urlConnection.responseCode
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Read the response body
+                    val inputStream = urlConnection.inputStream
+                    val bufferedReader = BufferedReader(withContext(Dispatchers.IO) {
+                        InputStreamReader(inputStream, "UTF-8")
+                    })
+                    val response = StringBuilder()
+                    var line: String?
+                    while (withContext(Dispatchers.IO) {
+                            bufferedReader.readLine()
+                        }.also { line = it } != null) {
+                        response.append(line)
+                    }
+
+                    val jsonData = response.toString()
+                    val jsonResponse = JSONObject(jsonData)
+                    val lastValue =
+                        jsonResponse.getJSONArray("data").getJSONObject(0).getString("batch_id")
+                    val lastNumber = lastValue.split("_")[2].toInt()
+
+                    // Define the first number of the list (last number + 1)
+                    val firstNumber = lastNumber + 1
+
+                    // Create a list with the asked codes beginning with the first number
+                    val batchId = String.format("dbgi_batch_%06d", firstNumber)
+                    urlConnection.disconnect()
+                    urlConnection2.requestMethod = "POST"
+                    urlConnection2.setRequestProperty("Content-Type", "application/json")
+                    urlConnection2.setRequestProperty("Authorization", "Bearer $accessToken")
+
+                    val data = JSONObject().apply {
+                        put("Reserved", "True")
+                        put("batch_id", batchId)
+                    }
+
+                    val outputStream: OutputStream = urlConnection2.outputStream
+                    val writer = BufferedWriter(withContext(Dispatchers.IO) {
+                        OutputStreamWriter(outputStream, "UTF-8")
+                    })
+                    withContext(Dispatchers.IO) {
+                        writer.write(data.toString())
+                    }
+                    withContext(Dispatchers.IO) {
+                        writer.flush()
+                    }
+                    withContext(Dispatchers.IO) {
+                        writer.close()
+                    }
+
+                    val responseCode = urlConnection2.responseCode
+
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        hasTriedAgain = false
+                        val inputStream = urlConnection.inputStream
+                        val bufferedReader = BufferedReader(
+                            withContext(
+                                Dispatchers.IO
+                            ) {
+                                InputStreamReader(inputStream, "UTF-8")
+                            })
+                        val response = StringBuilder()
+                        var line: String?
+                        while (withContext(Dispatchers.IO) {
+                                bufferedReader.readLine()
+                            }.also { line = it } != null) {
+                            response.append(line)
+                        }
+                        withContext(Dispatchers.IO) {
+                            bufferedReader.close()
+                        }
+                        withContext(Dispatchers.IO) {
+                            inputStream.close()
+                        }
+
+                        // 'response' contains the response from the server
+                        showToast("$batchId correctly added to database")
+
+                        // print label here
+                        val printerDetails = PrinterDetailsSingleton.printerDetails
+                        if (isPrinterConnected == "yes") {
+                            readyToSend =
+                                printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                                        || printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+                        }
+                        if (isPrinterConnected == "yes" && readyToSend) {
+
+                            if (printerDetails.printerModel == "M211") {
+                                selectedFileName = "template_dbgi_batch_m211"
+                            } else if (printerDetails.printerModel == "M511") {
+                                selectedFileName = "template_dbgi_batch_m511"
+                            }
+
+                            // Initialize an input stream by opening the specified file.
+                            val iStream = resources.openRawResource(
+                                resources.getIdentifier(
+                                    selectedFileName, "raw",
+                                    packageName
+                                )
+                            )
+                            val parts = batchId.split("_")
+                            val batchSample =
+                                parts[0] + "_" + parts[1] + "_" + "blk" + "_" + parts[2]
+                            val sample = "_" + parts[2]
+
+                            // Call the SDK method ".getTemplate()" to retrieve its Template Object
+                            val template =
+                                TemplateFactory.getTemplate(iStream, this)
+                            // Simple way to iterate through any placeholders to set desired values.
+                            for (placeholder in template.templateData) {
+                                when (placeholder.name) {
+                                    "QR" -> {
+                                        placeholder.value = batchSample
+                                    }
+
+                                    "sample" -> {
+                                        placeholder.value = sample
+                                    }
+
+                                    "injection" -> {
+                                        placeholder.value = " "
+                                    }
+                                }
+                            }
+
+                            val printingOptions = PrintingOptions()
+                            printingOptions.cutOption = CutOption.EndOfLabel
+                            printingOptions.numberOfCopies = 2
+                            val r = Runnable {
+                                runOnUiThread {
+                                    printerDetails.print(
+                                        this,
+                                        template,
+                                        printingOptions,
+                                        null
+                                    )
+                                }
+                            }
+                            val printThread = Thread(r)
+                            printThread.start()
+                        } else {
+                            showToast("Printer disconnected, data added to database.")
+                        }
+                    } else if (!hasTriedAgain) {
+                        hasTriedAgain = true
+                        val newAccessToken = getNewAccessToken()
+                        if (newAccessToken != null) {
+                            retrieveToken(newAccessToken)
+                            // Retry the operation with the new access token
+                            return generateNewBatch()
+                        } else {
+                            showToast("Connection error")
+                            goToConnectionActivity()
+                        }
                     }
                 }
+            } finally {
+                urlConnection2.disconnect()
             }
-        } finally {
-            urlConnection2.disconnect()
+        } else {
+            showToast("Printer disconnected, please reconnect it and scan the label again")
+            goToPrinterConnectionActivity()
         }
     }
 
@@ -719,7 +810,7 @@ class ExtractionActivity : AppCompatActivity() {
                     val descriptions = HashMap<String, String>()
 
                     // Add "Choose an option" to the list of values
-                    values.add("Choose an option")
+                    values.add("Choose a method")
 
                     for (i in 0 until jsonArray.length()) {
                         val jsonObject = jsonArray.getJSONObject(i)
@@ -752,18 +843,21 @@ class ExtractionActivity : AppCompatActivity() {
                                     if (position > 0) { // Check if a valid option (not "Choose an option") is selected
                                         val selectedValue = values[position]
                                         val selectedDescription = descriptions[selectedValue]
-                                        extractionInformation.visibility = View.VISIBLE
-                                        extractionInformation.text = selectedDescription
-                                        volumeInput.visibility = View.VISIBLE
+                                        extractionMethodDescription.visibility = View.VISIBLE
+                                        extractionMethodDescription.text = selectedDescription
+                                        solventVolumeLabel.visibility = View.VISIBLE
+                                        solventVolume.visibility = View.VISIBLE
                                     } else {
-                                        extractionInformation.visibility = View.INVISIBLE
-                                        volumeInput.visibility = View.INVISIBLE
+                                        extractionMethodDescription.visibility = View.INVISIBLE
+                                        solventVolumeLabel.visibility = View.INVISIBLE
+                                        solventVolume.visibility = View.INVISIBLE
                                     }
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>?) {
                                     //newExtractionMethod.text = "No suitable referenced method? add it by following this link and restart the application"
-                                    volumeInput.visibility = View.INVISIBLE
+                                    solventVolumeLabel.visibility = View.INVISIBLE
+                                    solventVolume.visibility = View.INVISIBLE
                                 }
                             }
                     }
@@ -773,18 +867,21 @@ class ExtractionActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return@launch fetchValuesAndPopulateSpinner()
                     } else {
                         showToast("Connection error")
+                        goToConnectionActivity()
                     }
                 } else {
-                    showToast("Error: $responseCode")
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                showToast("$e")
+                goToConnectionActivity()
             }
         }
     }
@@ -797,15 +894,17 @@ class ExtractionActivity : AppCompatActivity() {
                     isQrScannerActive = false
                     previewView.visibility = View.INVISIBLE
                     flashlightButton.visibility = View.INVISIBLE
-                    buttonNewBatch.visibility = View.VISIBLE
-                    newExtractionMethod.visibility = View.VISIBLE
+                    newBatchButton.visibility = View.VISIBLE
+                    newExtractionMethodLabel.visibility = View.VISIBLE
                     extractionMethodSpinner.visibility = View.VISIBLE
-                    volumeInput.visibility = View.VISIBLE
+                    solventVolumeLabel.visibility = View.VISIBLE
+                    solventVolume.visibility = View.VISIBLE
                     extractionMethodLabel.visibility = View.VISIBLE
                     scanButtonBox.visibility = View.VISIBLE
                     scanStatus.text = ""
                     if (isObjectScanActive){
-                        scanButtonSample.visibility = View.VISIBLE
+                        scanButtonExtractLabel.visibility = View.VISIBLE
+                        scanButtonExtract.visibility = View.VISIBLE
                         scanButtonBatch.visibility = View.VISIBLE
                     } else if (isBatchActive){
                         scanButtonBatch.visibility = View.VISIBLE
@@ -820,7 +919,7 @@ class ExtractionActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
     private fun showToast(toast: String?) {
-        runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_LONG).show() }
+        runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_SHORT).show() }
     }
 
     @SuppressLint("SetTextI18n")
@@ -872,13 +971,15 @@ class ExtractionActivity : AppCompatActivity() {
                     val accessToken = data.getString("access_token")
                     deferred.complete(accessToken)
                 } else {
-                    emptyPlace.text = "Database error, please check your connection."
+                    showToast("Connection error")
+                    goToConnectionActivity()
                     deferred.complete(null)
                 }
             }catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    emptyPlace.text = "Database error, please check your connection."
+                    showToast("$e")
+                    goToConnectionActivity()
                     deferred.complete(null)
                 }
             }
@@ -922,14 +1023,15 @@ class ExtractionActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return@withContext checkBoxLoadExt(boxId)
                     } else {
                         showToast("Connection error")
+                        goToConnectionActivity()
                     }
                 } else {
-                    showToast("Error: $responseCode")
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             } finally {
                 urlConnection.disconnect()
@@ -972,14 +1074,15 @@ class ExtractionActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return@withContext checkBoxLoadAl(boxId)
                     } else {
                         showToast("Connection error")
+                        goToConnectionActivity()
                     }
                 } else {
-                    showToast("Error: $responseCode")
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             } finally {
                 urlConnection.disconnect()
@@ -1021,14 +1124,15 @@ class ExtractionActivity : AppCompatActivity() {
 
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return@withContext checkBoxLoadBa(boxId)
                     } else {
                         showToast("Connection error")
+                        goToConnectionActivity()
                     }
                 } else {
-                    showToast("Error: $responseCode")
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             } finally {
                 urlConnection.disconnect()
@@ -1040,18 +1144,19 @@ class ExtractionActivity : AppCompatActivity() {
     // Manage errors information to guide the user
     @SuppressLint("SetTextI18n")
     private fun handleInvalidScanResult(stillPlace: Int, boxValue: Int) {
-        emptyPlace.visibility = View.VISIBLE
+        boxEmptyPlace.visibility = View.VISIBLE
         when {
             stillPlace < 1 -> {
-                emptyPlace.text = "This box is full, please scan another one"
+                boxEmptyPlace.text = "This box is full, please scan another one"
                 scanButtonBox.text = "Value"
-                scanButtonSample.text = "Begin to scan samples"
+                scanButtonExtract.text = "Value"
             }
             boxValue < 0 -> {
-                emptyPlace.text = "Database error, please check your connection."
+                showToast("Connection error")
+                goToConnectionActivity()
             }
         }
-        emptyPlace.setTextColor(Color.RED)
+        boxEmptyPlace.setTextColor(Color.RED)
     }
 
     @SuppressLint("SetTextI18n")
@@ -1076,7 +1181,7 @@ class ExtractionActivity : AppCompatActivity() {
                     put("mobile_container_id", boxId)
                     put("extraction_method", selectedValue)
                     put("status", "OK")
-                    put("solvent_volume_microliter", volumeInput.text.toString())
+                    put("solvent_volume_microliter", solventVolume.text.toString())
                     put("batch_id", batch)
                 }
 
@@ -1126,13 +1231,13 @@ class ExtractionActivity : AppCompatActivity() {
                     val newAccessToken = getNewAccessToken()
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
-                        showToast("connection to directus lost, reconnecting...")
                         // Retry the operation with the new access token
                         return@withContext sendBatchToDirectus(batchSample, boxId)
                     }
                 } else {
                     showToast("batch already added to database")
-                    scanButtonSample.visibility = View.INVISIBLE
+                    scanButtonExtractLabel.visibility = View.INVISIBLE
+                    scanButtonExtract.visibility = View.INVISIBLE
                 }
             } finally {
                 urlConnection.disconnect()
@@ -1145,5 +1250,25 @@ class ExtractionActivity : AppCompatActivity() {
             lastAccessToken = token
         }
         return lastAccessToken ?: "null"
+    }
+
+    private fun goToConnectionActivity(){
+        val intent = Intent(this, DirectusConnectionActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToPrinterConnectionActivity(){
+
+        val accessToken = intent.getStringExtra("ACCESS_TOKEN")
+        val username = intent.getStringExtra("USERNAME")
+        val password = intent.getStringExtra("PASSWORD")
+        val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+
+        val intent = Intent(this,ManagePrinterActivity::class.java)
+        intent.putExtra("ACCESS_TOKEN", accessToken)
+        intent.putExtra("USERNAME", username)
+        intent.putExtra("PASSWORD", password)
+        intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+        startActivity(intent)
     }
 }

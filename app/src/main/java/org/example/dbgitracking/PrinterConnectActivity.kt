@@ -19,6 +19,8 @@ class PrinterConnectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_printer_connect)
 
+        title = "Printer connection screen"
+
         // Initialize views
         connectButton = findViewById(R.id.connectButton)
         ignoreButton = findViewById(R.id.ignoreButton)

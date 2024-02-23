@@ -1,11 +1,11 @@
-// QR code reader is deprecated, this avoid warnings.
-// Maybe a good point to change the QR code reader to a not deprecated one in the future.
+// Activity that permits to add falcons in the database and associate them to a rack.
 
 // Links the screen to the application
 package org.example.dbgitracking
 
 // Imports
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
@@ -33,38 +33,41 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 // Create the class for the actual screen
-class SampleActivity : AppCompatActivity() {
+@Suppress("DEPRECATION")
+class FalconActivity : AppCompatActivity() {
 
     // Initiate the displayed objects
-    private lateinit var sampleMethodRack: TextView
     private lateinit var scanButtonRack: Button
     private lateinit var emptyPlace: TextView
-    private lateinit var scanButtonSample: Button
+    private lateinit var textFalcon: TextView
+    private lateinit var scanButtonFalcon: Button
     private lateinit var previewView: PreviewView
     private lateinit var flashlightButton: Button
     private lateinit var scanStatus: TextView
+
     private var isRackScanActive = false
     private var isObjectScanActive = false
     private var hasTriedAgain = false
     private var isQrScannerActive = false
     private var lastAccessToken: String? = null
 
-
     @OptIn(ExperimentalGetImage::class) @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Create the connection with the XML file to add the displayed objects
-        setContentView(R.layout.activity_sample)
+        setContentView(R.layout.activity_falcon)
+
+        title = "Falcon mode"
 
         // Add the back arrow to this screen
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
         // Initialize objects views
-        sampleMethodRack = findViewById(R.id.sampleMethodRack)
         scanButtonRack = findViewById(R.id.scanButtonRack)
         emptyPlace = findViewById(R.id.emptyPlace)
-        scanButtonSample = findViewById(R.id.scanButtonSample)
+        textFalcon = findViewById(R.id.textFalcon)
+        scanButtonFalcon = findViewById(R.id.scanButtonFalcon)
         previewView = findViewById(R.id.previewView)
         flashlightButton = findViewById(R.id.flashlightButton)
         scanStatus = findViewById(R.id.scanStatus)
@@ -74,16 +77,17 @@ class SampleActivity : AppCompatActivity() {
         // stores the original token
         retrieveToken(token)
 
-        // Set up button click listener for Box QR Scanner
+        // Set up button click listener for Rack QR Scanner
         scanButtonRack.setOnClickListener {
             isRackScanActive = true
             isObjectScanActive = false
             isQrScannerActive = true
             previewView.visibility = View.VISIBLE
-            scanStatus.text = "Scan the rack"
+            scanStatus.text = "Scan a rack"
             flashlightButton.visibility = View.VISIBLE
             scanButtonRack.visibility = View.INVISIBLE
-            scanButtonSample.visibility = View.INVISIBLE
+            textFalcon.visibility = View.INVISIBLE
+            scanButtonFalcon.visibility = View.INVISIBLE
             QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedRack ->
 
                 // Stop the scanning process after receiving the result
@@ -92,23 +96,25 @@ class SampleActivity : AppCompatActivity() {
                 previewView.visibility = View.INVISIBLE
                 flashlightButton.visibility = View.INVISIBLE
                 scanButtonRack.visibility = View.VISIBLE
-                scanButtonSample.visibility = View.VISIBLE
+                textFalcon.visibility = View.VISIBLE
+                scanButtonFalcon.visibility = View.VISIBLE
                 scanStatus.text = ""
                 scanButtonRack.text = scannedRack
                 manageScan()
             }
         }
 
-        // Set up button click listener for Object QR Scanner
-        scanButtonSample.setOnClickListener {
+        // Set up button click listener for falcon QR Scanner
+        scanButtonFalcon.setOnClickListener {
             isRackScanActive = false
             isObjectScanActive = true
             isQrScannerActive = true
             previewView.visibility = View.VISIBLE
-            scanStatus.text = "Scan the sample"
+            scanStatus.text = "Scan a falcon"
             flashlightButton.visibility = View.VISIBLE
             scanButtonRack.visibility = View.INVISIBLE
-            scanButtonSample.visibility = View.INVISIBLE
+            textFalcon.visibility = View.INVISIBLE
+            scanButtonFalcon.visibility = View.INVISIBLE
             QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedSample ->
 
                 // Stop the scanning process after receiving the result
@@ -117,9 +123,10 @@ class SampleActivity : AppCompatActivity() {
                 previewView.visibility = View.INVISIBLE
                 flashlightButton.visibility = View.INVISIBLE
                 scanButtonRack.visibility = View.VISIBLE
-                scanButtonSample.visibility = View.VISIBLE
+                textFalcon.visibility = View.VISIBLE
+                scanButtonFalcon.visibility = View.VISIBLE
                 scanStatus.text = ""
-                scanButtonSample.text = scannedSample
+                scanButtonFalcon.text = scannedSample
                 manageScan()
             }
         }
@@ -132,20 +139,33 @@ class SampleActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
                         if (isRackScanActive) {
+                            // permits to calculate places in container using columnsxrows present in container name
                             val rack = scanButtonRack.text.toString()
                             val rackValue = checkRackLoad(rack)
-                            val stillPlace = 24 - rackValue
+                            val parts = rack.split("_")
+                            val size = parts[1]
+                            val sizeNumber = size.split("x")
+                            val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
+                            val stillPlace = places - rackValue
                             if (rackValue >= 0 && stillPlace > 0){
-                                scanButtonSample.visibility = View.VISIBLE
+                                textFalcon.visibility = View.VISIBLE
+                                scanButtonFalcon.visibility = View.VISIBLE
                                 emptyPlace.visibility = View.VISIBLE
                                 emptyPlace.setTextColor(Color.GRAY)
                                 emptyPlace.text = "This rack should still contain $stillPlace empty places"
+                            } else if (stillPlace < 1){
+                                emptyPlace.visibility = View.VISIBLE
+                                emptyPlace.text = "This rack is full, please scan another one"
+                                scanButtonRack.text = "Value"
+                                scanButtonFalcon.text = "Begin to scan samples"
+                                emptyPlace.setTextColor(Color.RED)
                             } else {
-                                handleInvalidScanResult(stillPlace, rackValue)
+                                showToast("Connection error")
+                                goToConnectionActivity()
                             }
                         } else if (isObjectScanActive) {
                             val rackId = scanButtonRack.text.toString()
-                            val sampleId = scanButtonSample.text.toString()
+                            val sampleId = scanButtonFalcon.text.toString()
                             withContext(Dispatchers.IO) {
                                 sendDataToDirectus(sampleId, rackId)
                             }
@@ -192,6 +212,7 @@ class SampleActivity : AppCompatActivity() {
                         return@withContext checkRackLoad(rackId)
                     } else {
                         showToast("Connection error")
+                        goToConnectionActivity()
                     }
                 } else {
                     showToast("Error: $responseCode")
@@ -276,7 +297,11 @@ class SampleActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val rack = scanButtonRack.text.toString()
                     val upRackValue = checkRackLoad(rack)
-                    val upStillPlace = 24 - upRackValue
+                    val parts = rack.split("_")
+                    val size = parts[1]
+                    val sizeNumber = size.split("x")
+                    val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
+                    val upStillPlace = places - upRackValue
 
                     withContext(Dispatchers.Main) {
 
@@ -285,13 +310,14 @@ class SampleActivity : AppCompatActivity() {
                             emptyPlace.visibility = View.VISIBLE
                             emptyPlace.text = "This rack should still contain $upStillPlace empty places"
                             hasTriedAgain = false
-                            delay(1500)
-                            scanButtonSample.performClick()
+                            delay(500)
+                            scanButtonFalcon.performClick()
                         } else {
                             emptyPlace.text = "Rack is full, scan another one to continue"
                             scanButtonRack.text = "scan another rack"
-                            scanButtonSample.text = "Begin to scan samples"
-                            scanButtonSample.visibility = View.INVISIBLE
+                            scanButtonFalcon.text = "Begin to scan samples"
+                            textFalcon.visibility = View.INVISIBLE
+                            scanButtonFalcon.visibility = View.INVISIBLE
 
                         }
 
@@ -307,7 +333,8 @@ class SampleActivity : AppCompatActivity() {
                         return sendDataToDirectus(sampleId, rackId)
                     }
                 // Request failed
-                showToast("Connection lost, kill the app and reconnect")
+                showToast("Connection error")
+                goToConnectionActivity()
             } else {
                 updateDataToDirectus(sampleId, rackId)
             }
@@ -388,7 +415,11 @@ class SampleActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val rack = scanButtonRack.text.toString()
                     val upRackValue = checkRackLoad(rack)
-                    val upStillPlace = 24 - upRackValue
+                    val parts = rack.split("_")
+                    val size = parts[1]
+                    val sizeNumber = size.split("x")
+                    val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
+                    val upStillPlace = places - upRackValue
 
                     withContext(Dispatchers.Main) {
 
@@ -397,13 +428,14 @@ class SampleActivity : AppCompatActivity() {
                             emptyPlace.visibility = View.VISIBLE
                             emptyPlace.text = "This rack should still contain $upStillPlace empty places"
                             hasTriedAgain = false
-                            delay(1500)
-                            scanButtonSample.performClick()
+                            delay(500)
+                            scanButtonFalcon.performClick()
                         } else {
                             emptyPlace.text = "Rack is full, scan another one to continue"
                             scanButtonRack.text = "scan another rack"
-                            scanButtonSample.text = "Begin to scan samples"
-                            scanButtonSample.visibility = View.INVISIBLE
+                            scanButtonFalcon.text = "Begin to scan samples"
+                            textFalcon.visibility = View.INVISIBLE
+                            scanButtonFalcon.visibility = View.INVISIBLE
 
                         }
 
@@ -419,33 +451,16 @@ class SampleActivity : AppCompatActivity() {
                     return sendDataToDirectus(sampleId, rackId)
                 }
                 // Request failed
-                showToast("Connection lost, kill the app and reconnect")
+                showToast("Connection error")
+                goToConnectionActivity()
             } else {
-                showToast("unknown error, kill the application and retry")
+                showToast("unknown error")
+                goToConnectionActivity()
             }
         } finally {
             urlConnection.disconnect()
         }
     }
-
-    // Manage errors information to guide the user
-    @SuppressLint("SetTextI18n")
-    private fun handleInvalidScanResult(stillPlace: Int, rackValue: Int) {
-        emptyPlace.visibility = View.VISIBLE
-        when {
-            stillPlace < 1 -> {
-                emptyPlace.text = "This rack is full, please scan another one"
-                scanButtonRack.text = "Value"
-                scanButtonSample.text = "Begin to scan samples"
-            }
-            rackValue < 0 -> {
-                emptyPlace.text = "Database error, please check your connection."
-            }
-        }
-        emptyPlace.setTextColor(Color.RED)
-    }
-
-
 
     // Connect the back arrow to the action to go back to home page
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -459,7 +474,8 @@ class SampleActivity : AppCompatActivity() {
                     scanButtonRack.visibility = View.VISIBLE
                     scanStatus.text = ""
                     if (isObjectScanActive){
-                        scanButtonSample.visibility = View.VISIBLE
+                        textFalcon.visibility = View.VISIBLE
+                        scanButtonFalcon.visibility = View.VISIBLE
                     }
                     true
                 } else {
@@ -471,6 +487,7 @@ class SampleActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // If actual access token is deprecated, perform a connection to obtain a new one.
     @SuppressLint("SetTextI18n")
     private suspend fun getNewAccessToken(): String? {
         // Start a coroutine to perform the network operation
@@ -520,15 +537,13 @@ class SampleActivity : AppCompatActivity() {
                     val accessToken = data.getString("access_token")
                     deferred.complete(accessToken)
                 } else {
-                    emptyPlace.text = "Database error, please check your connection."
-                    deferred.complete(null)
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
             }catch (e: Exception) {
                 e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    emptyPlace.text = "Database error, please check your connection."
-                    deferred.complete(null)
-                }
+                showToast("$e")
+                goToConnectionActivity()
             }
         }
         return deferred.await()
@@ -543,5 +558,10 @@ class SampleActivity : AppCompatActivity() {
             lastAccessToken = token
         }
         return lastAccessToken ?: "null"
+    }
+
+    private fun goToConnectionActivity(){
+        val intent = Intent(this, DirectusConnectionActivity::class.java)
+        startActivity(intent)
     }
 }

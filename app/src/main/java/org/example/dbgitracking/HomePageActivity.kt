@@ -22,6 +22,8 @@ class HomePageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
+        title = "Home screen"
+
         sampleButton = findViewById(R.id.sampleButton)
         weightingButton = findViewById(R.id.weightingButton)
         extractionButton = findViewById(R.id.extractionButton)
@@ -36,7 +38,7 @@ class HomePageActivity : AppCompatActivity() {
 
         // Set up button click listeners here
         sampleButton.setOnClickListener {
-            val intent = Intent(this, SampleActivity::class.java)
+            val intent = Intent(this, FalconActivity::class.java)
             intent.putExtra("ACCESS_TOKEN", accessToken)
             intent.putExtra("USERNAME", username)
             intent.putExtra("PASSWORD", password)

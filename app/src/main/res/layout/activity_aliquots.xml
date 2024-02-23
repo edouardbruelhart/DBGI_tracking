@@ -5,21 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/Spacing"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:text=""
+        android:textSize="20sp"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
     <EditText
-        android:id="@+id/volumeInput"
+        android:id="@+id/aliquotVolume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Enter the aliquot's volume (microliters)"
+        android:hint="Enter aliquot's volume (µl)"
         android:inputType="number"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Spacing"
         tools:ignore="HardcodedText,MissingConstraints"
         android:autofillHints="" />
 
     <TextView
-        android:id="@+id/scanBoxLabel"
+        android:id="@+id/scanButtonBoxLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Scan the box's QR code"
@@ -29,7 +42,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/volumeInput"
+        app:layout_constraintTop_toBottomOf="@id/aliquotVolume"
         android:layout_marginTop="150dp"
         tools:ignore="HardcodedText" />
 
@@ -41,12 +54,12 @@
         android:text="Value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scanBoxLabel"
+        app:layout_constraintTop_toBottomOf="@id/scanButtonBoxLabel"
         android:layout_marginTop="16dp"
         tools:ignore="HardcodedText" />
 
     <TextView
-        android:id="@+id/emptyPlace"
+        android:id="@+id/boxEmptyPlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -60,12 +73,27 @@
         android:layout_marginStart="15dp"
         tools:ignore="HardcodedText,MissingConstraints" />
 
+    <TextView
+        android:id="@+id/scanButtonAliquotLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:visibility="invisible"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/boxEmptyPlace"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="15dp"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
     <Button
-        android:id="@+id/scanButtonExtract"
+        android:id="@+id/scanButtonAliquot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Begin to scan extracts"
-        app:layout_constraintTop_toBottomOf="@id/emptyPlace"
+        app:layout_constraintTop_toBottomOf="@id/scanButtonAliquotLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="invisible"

@@ -2,10 +2,12 @@ package org.example.dbgitracking
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
+@Suppress("DEPRECATION")
 class WarningActivity : AppCompatActivity() {
 
     private lateinit var warningMessage: TextView
@@ -14,6 +16,11 @@ class WarningActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_warning)
+
+        title = "Warning screen"
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
         // Initialize views
         warningMessage = findViewById(R.id.warningMessage)
@@ -67,4 +74,15 @@ class WarningActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

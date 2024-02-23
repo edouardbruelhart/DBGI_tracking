@@ -23,13 +23,10 @@ public final class ActivityWeightingBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
-  public final Button actionButton;
+  public final TextView Spacing;
 
   @NonNull
   public final TextView chooseWeightLabel;
-
-  @NonNull
-  public final TextView emptyPlace;
 
   @NonNull
   public final TextView extractionMethodLabel;
@@ -38,40 +35,38 @@ public final class ActivityWeightingBinding implements ViewBinding {
   public final Button flashlightButton;
 
   @NonNull
-  public final EditText numberInput;
-
-  @NonNull
   public final PreviewView previewView;
 
   @NonNull
-  public final Button scanButtonSample;
+  public final Button scanButtonFalcon;
 
   @NonNull
   public final TextView scanStatus;
 
   @NonNull
-  public final TextView scannedInfoTextView;
+  public final Button submitButton;
+
+  @NonNull
+  public final EditText targetWeightInput;
 
   @NonNull
   public final EditText weightInput;
 
-  private ActivityWeightingBinding(@NonNull ConstraintLayout rootView, @NonNull Button actionButton,
-      @NonNull TextView chooseWeightLabel, @NonNull TextView emptyPlace,
-      @NonNull TextView extractionMethodLabel, @NonNull Button flashlightButton,
-      @NonNull EditText numberInput, @NonNull PreviewView previewView,
-      @NonNull Button scanButtonSample, @NonNull TextView scanStatus,
-      @NonNull TextView scannedInfoTextView, @NonNull EditText weightInput) {
+  private ActivityWeightingBinding(@NonNull ConstraintLayout rootView, @NonNull TextView Spacing,
+      @NonNull TextView chooseWeightLabel, @NonNull TextView extractionMethodLabel,
+      @NonNull Button flashlightButton, @NonNull PreviewView previewView,
+      @NonNull Button scanButtonFalcon, @NonNull TextView scanStatus, @NonNull Button submitButton,
+      @NonNull EditText targetWeightInput, @NonNull EditText weightInput) {
     this.rootView = rootView;
-    this.actionButton = actionButton;
+    this.Spacing = Spacing;
     this.chooseWeightLabel = chooseWeightLabel;
-    this.emptyPlace = emptyPlace;
     this.extractionMethodLabel = extractionMethodLabel;
     this.flashlightButton = flashlightButton;
-    this.numberInput = numberInput;
     this.previewView = previewView;
-    this.scanButtonSample = scanButtonSample;
+    this.scanButtonFalcon = scanButtonFalcon;
     this.scanStatus = scanStatus;
-    this.scannedInfoTextView = scannedInfoTextView;
+    this.submitButton = submitButton;
+    this.targetWeightInput = targetWeightInput;
     this.weightInput = weightInput;
   }
 
@@ -102,21 +97,15 @@ public final class ActivityWeightingBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.actionButton;
-      Button actionButton = ViewBindings.findChildViewById(rootView, id);
-      if (actionButton == null) {
+      id = R.id.Spacing;
+      TextView Spacing = ViewBindings.findChildViewById(rootView, id);
+      if (Spacing == null) {
         break missingId;
       }
 
       id = R.id.chooseWeightLabel;
       TextView chooseWeightLabel = ViewBindings.findChildViewById(rootView, id);
       if (chooseWeightLabel == null) {
-        break missingId;
-      }
-
-      id = R.id.emptyPlace;
-      TextView emptyPlace = ViewBindings.findChildViewById(rootView, id);
-      if (emptyPlace == null) {
         break missingId;
       }
 
@@ -132,21 +121,15 @@ public final class ActivityWeightingBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.numberInput;
-      EditText numberInput = ViewBindings.findChildViewById(rootView, id);
-      if (numberInput == null) {
-        break missingId;
-      }
-
       id = R.id.previewView;
       PreviewView previewView = ViewBindings.findChildViewById(rootView, id);
       if (previewView == null) {
         break missingId;
       }
 
-      id = R.id.scanButtonSample;
-      Button scanButtonSample = ViewBindings.findChildViewById(rootView, id);
-      if (scanButtonSample == null) {
+      id = R.id.scanButtonFalcon;
+      Button scanButtonFalcon = ViewBindings.findChildViewById(rootView, id);
+      if (scanButtonFalcon == null) {
         break missingId;
       }
 
@@ -156,9 +139,15 @@ public final class ActivityWeightingBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.scannedInfoTextView;
-      TextView scannedInfoTextView = ViewBindings.findChildViewById(rootView, id);
-      if (scannedInfoTextView == null) {
+      id = R.id.submitButton;
+      Button submitButton = ViewBindings.findChildViewById(rootView, id);
+      if (submitButton == null) {
+        break missingId;
+      }
+
+      id = R.id.targetWeightInput;
+      EditText targetWeightInput = ViewBindings.findChildViewById(rootView, id);
+      if (targetWeightInput == null) {
         break missingId;
       }
 
@@ -168,9 +157,9 @@ public final class ActivityWeightingBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityWeightingBinding((ConstraintLayout) rootView, actionButton,
-          chooseWeightLabel, emptyPlace, extractionMethodLabel, flashlightButton, numberInput,
-          previewView, scanButtonSample, scanStatus, scannedInfoTextView, weightInput);
+      return new ActivityWeightingBinding((ConstraintLayout) rootView, Spacing, chooseWeightLabel,
+          extractionMethodLabel, flashlightButton, previewView, scanButtonFalcon, scanStatus,
+          submitButton, targetWeightInput, weightInput);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

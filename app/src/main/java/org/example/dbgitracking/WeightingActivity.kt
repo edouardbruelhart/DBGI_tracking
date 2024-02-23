@@ -8,6 +8,7 @@ package org.example.dbgitracking
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -40,289 +41,324 @@ import java.net.URL
 
 
 // Create the class for the actual screen
+@Suppress("DEPRECATION")
 class WeightingActivity : AppCompatActivity() {
 
     // Initiate the displayed objects
     private lateinit var chooseWeightLabel: TextView
-    private lateinit var weightInput: EditText
+    private lateinit var targetWeightInput: EditText
     private lateinit var extractionMethodLabel: TextView
-    private lateinit var scanButtonSample: Button
-    private var isObjectScanActive = false
-    private lateinit var scannedInfoTextView: TextView
-    private lateinit var numberInput: EditText
-    private lateinit var actionButton: Button
-    private lateinit var emptyPlace: TextView
-    private var hasTriedAgain = false
-    private var lastAccessToken: String? = null
+    private lateinit var scanButtonFalcon: Button
+    private lateinit var weightInput: EditText
+    private lateinit var submitButton: Button
+
+    // Initiate scanner view
     private lateinit var previewView: PreviewView
     private lateinit var flashlightButton: Button
     private lateinit var scanStatus: TextView
+
+    private var isObjectScanActive = false
+    private var hasTriedAgain = false
+    private var lastAccessToken: String? = null
     private var isQrScannerActive = false
+    private var selectedFileName: String = ""
+    private var readyToSend = true
 
 @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // Create the connection with the XML file to add the displayed objects
-        setContentView(R.layout.activity_weighting)
+    super.onCreate(savedInstanceState)
+    // Create the connection with the XML file to add the displayed objects
+    setContentView(R.layout.activity_weighting)
 
-        // Add the back arrow to this screen
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
+    title = "Weighting mode"
 
-        // Initialize objects views
-        chooseWeightLabel = findViewById(R.id.chooseWeightLabel)
-        weightInput = findViewById(R.id.weightInput)
-        extractionMethodLabel = findViewById(R.id.extractionMethodLabel)
-        scanButtonSample = findViewById(R.id.scanButtonSample)
-        scannedInfoTextView = findViewById(R.id.scannedInfoTextView)
-        numberInput = findViewById(R.id.numberInput)
-        actionButton = findViewById(R.id.actionButton)
-        emptyPlace = findViewById(R.id.emptyPlace)
-        previewView = findViewById(R.id.previewView)
-        flashlightButton = findViewById(R.id.flashlightButton)
-        scanStatus = findViewById(R.id.scanStatus)
+    // Add the back arrow to this screen
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
-        val token = intent.getStringExtra("ACCESS_TOKEN").toString()
+    // Initialize objects views
+    chooseWeightLabel = findViewById(R.id.chooseWeightLabel)
+    targetWeightInput = findViewById(R.id.targetWeightInput)
+    extractionMethodLabel = findViewById(R.id.extractionMethodLabel)
+    scanButtonFalcon = findViewById(R.id.scanButtonFalcon)
+    weightInput = findViewById(R.id.weightInput)
+    submitButton = findViewById(R.id.submitButton)
+    previewView = findViewById(R.id.previewView)
+    flashlightButton = findViewById(R.id.flashlightButton)
+    scanStatus = findViewById(R.id.scanStatus)
 
-        // stores the original token
-        retrieveToken(token)
+    val token = intent.getStringExtra("ACCESS_TOKEN").toString()
 
-        weightInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    // stores the original token
+    retrieveToken(token)
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    targetWeightInput.addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun afterTextChanged(s: Editable?) {
-                val inputText = s.toString()
-                if (inputText != "") {
-                    inputText.toInt()
-                }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
-                weightInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
-                extractionMethodLabel.visibility = View.VISIBLE // Show actionButton if valid
-                scanButtonSample.visibility = View.VISIBLE
+        override fun afterTextChanged(s: Editable?) {
+            val inputText = s.toString()
+            if (inputText != "") {
+                inputText.toInt()
             }
-        })
 
-        // Set up button click listener for Object QR Scanner
-        scanButtonSample.setOnClickListener {
-            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(weightInput.windowToken, 0)
+            targetWeightInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
+            extractionMethodLabel.visibility = View.VISIBLE // Show submitButton if valid
+            scanButtonFalcon.visibility = View.VISIBLE
+        }
+    })
+
+    // Set up button click listener for Object QR Scanner
+    scanButtonFalcon.setOnClickListener {
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(targetWeightInput.windowToken, 0)
+        chooseWeightLabel.visibility = View.INVISIBLE
+        isObjectScanActive = true
+        isQrScannerActive = true
+        previewView.visibility = View.VISIBLE
+        scanStatus.text = "Scan falcon"
+        flashlightButton.visibility = View.VISIBLE
+        targetWeightInput.visibility = View.INVISIBLE
+        scanButtonFalcon.visibility = View.INVISIBLE
+        submitButton.visibility = View.INVISIBLE
+        QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedSample ->
+
+            // Stop the scanning process after receiving the result
+            QRCodeScannerUtility.stopScanning()
+            isQrScannerActive = false
+            previewView.visibility = View.INVISIBLE
+            flashlightButton.visibility = View.INVISIBLE
+            scanButtonFalcon.visibility = View.VISIBLE
+            scanButtonFalcon.text = "Value"
+            weightInput.visibility = View.VISIBLE
+            submitButton.visibility = View.VISIBLE
+            weightInput.text = null
+            scanStatus.text = ""
+            scanButtonFalcon.text = scannedSample
+            //manageScan()
+        }
+    }
+
+    // Add a TextWatcher to the numberInput for real-time validation. Permits to constrain the user entry from 47.5 to 52.5
+    weightInput.addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+        override fun afterTextChanged(s: Editable?) {
+            targetWeightInput.visibility = View.INVISIBLE
             chooseWeightLabel.visibility = View.INVISIBLE
-            isObjectScanActive = true
-            isQrScannerActive = true
-            previewView.visibility = View.VISIBLE
-            scanStatus.text = "Scan the sample"
-            flashlightButton.visibility = View.VISIBLE
-            weightInput.visibility = View.INVISIBLE
-            scanButtonSample.visibility = View.INVISIBLE
-            actionButton.visibility = View.INVISIBLE
-            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedSample ->
+            val inputText = s.toString()
+            val inputNumber = inputText.toFloatOrNull()
+            val weightNumber = targetWeightInput.text.toString()
+            val smallNumber = weightNumber.toInt() - weightNumber.toDouble() * 5 / 100
+            val bigNumber = weightNumber.toInt() + weightNumber.toDouble() * 5 / 100
 
-                // Stop the scanning process after receiving the result
-                QRCodeScannerUtility.stopScanning()
-                isQrScannerActive = false
-                previewView.visibility = View.INVISIBLE
-                flashlightButton.visibility = View.INVISIBLE
-                scanButtonSample.visibility = View.VISIBLE
-                scanButtonSample.text = "Value"
-                numberInput.visibility = View.VISIBLE
-                actionButton.visibility = View.VISIBLE
-                numberInput.text = null
-                scanStatus.text = ""
-                scanButtonSample.text = scannedSample
-                //manageScan()
+            if (inputNumber != null && inputNumber >= smallNumber && inputNumber <= bigNumber) {
+                weightInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
+                submitButton.visibility = View.VISIBLE // Show submitButton if valid
+            } else {
+                weightInput.setBackgroundResource(android.R.color.holo_red_light) // Set background to red if not valid
+                submitButton.visibility = View.INVISIBLE // Hide submitButton if not valid
             }
         }
+    })
 
-        // Add a TextWatcher to the numberInput for real-time validation. Permits to constrain the user entry from 47.5 to 52.5
-        numberInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    submitButton.setOnClickListener {
+        val inputText = weightInput.text.toString()
+        val inputNumber = inputText.toFloatOrNull()
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        if (inputNumber != null && inputNumber >= 47.5 && inputNumber <= 52.5) {
 
-            override fun afterTextChanged(s: Editable?) {
-                weightInput.visibility = View.INVISIBLE
-                chooseWeightLabel.visibility = View.INVISIBLE
-                val inputText = s.toString()
-                val inputNumber = inputText.toFloatOrNull()
-                val weightNumber = weightInput.text.toString()
-                val smallNumber = weightNumber.toInt() - weightNumber.toDouble()*5/100
-                val bigNumber = weightNumber.toInt() + weightNumber.toDouble()*5/100
+            // Define the table url
+            val collectionUrl = "http://directus.dbgi.org/items/Lab_Extracts"
 
-                if (inputNumber != null && inputNumber >= smallNumber && inputNumber <= bigNumber) {
-                    numberInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
-                    actionButton.visibility = View.VISIBLE // Show actionButton if valid
-                } else {
-                    numberInput.setBackgroundResource(android.R.color.holo_red_light) // Set background to red if not valid
-                    actionButton.visibility = View.INVISIBLE // Hide actionButton if not valid
-                }
-            }
-        })
+            // Function to send data to Directus
+            @SuppressLint("DiscouragedApi")
+            suspend fun sendDataToDirectus(sampleId: String, weight: String) {
+                val accessToken = retrieveToken()
 
-        actionButton.setOnClickListener {
-            val inputText = numberInput.text.toString()
-            val inputNumber = inputText.toFloatOrNull()
+                val url = URL(collectionUrl)
 
-            if (inputNumber != null && inputNumber >= 47.5 && inputNumber <= 52.5) {
+                val extractId = checkExistenceInDirectus(sampleId)
 
-                // Define the table url
-                val collectionUrl = "http://directus.dbgi.org/items/Lab_Extracts"
+                val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
 
-                // Function to send data to Directus
-                @SuppressLint("DiscouragedApi")
-                suspend fun sendDataToDirectus(sampleId: String, weight: String) {
-                    val accessToken = retrieveToken()
-
-                    val url = URL(collectionUrl)
-
-                    val extractId = checkExistenceInDirectus(sampleId)
-
-                    if (extractId != null) {
-
-                        val urlConnection =
-                            withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
-
-                        try {
-                            urlConnection.requestMethod = "POST"
-                            urlConnection.setRequestProperty("Content-Type", "application/json")
-                            urlConnection.setRequestProperty(
-                                "Authorization",
-                                "Bearer $accessToken"
-                            )
-
-                            val data = JSONObject().apply {
-                                put("lab_extract_id", extractId)
-                                put("field_sample_id", sampleId)
-                                put("dried_plant_weight", weight)
-                            }
-
-                            val outputStream: OutputStream = urlConnection.outputStream
-                            val writer = BufferedWriter(withContext(Dispatchers.IO) {
-                                OutputStreamWriter(outputStream, "UTF-8")
-                            })
-                            withContext(Dispatchers.IO) {
-                                writer.write(data.toString())
-                            }
-                            withContext(Dispatchers.IO) {
-                                writer.flush()
-                            }
-                            withContext(Dispatchers.IO) {
-                                writer.close()
-                            }
-
-                            val responseCode = urlConnection.responseCode
-                            if (responseCode == HttpURLConnection.HTTP_OK) {
-                                hasTriedAgain = false
-                                val inputStream = urlConnection.inputStream
-                                val bufferedReader = BufferedReader(
-                                    withContext(
-                                        Dispatchers.IO
-                                    ) {
-                                        InputStreamReader(inputStream, "UTF-8")
-                                    })
-                                val response = StringBuilder()
-                                var line: String?
-                                while (withContext(Dispatchers.IO) {
-                                        bufferedReader.readLine()
-                                    }.also { line = it } != null) {
-                                    response.append(line)
-                                }
-                                withContext(Dispatchers.IO) {
-                                    bufferedReader.close()
-                                }
-                                withContext(Dispatchers.IO) {
-                                    inputStream.close()
-                                }
-
-                                // 'response' contains the response from the server
-                                showToast("$extractId correctly added to database")
-                                // print label here
-                                val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
-                                if (isPrinterConnected == "yes") {
-                                    val printerDetails = PrinterDetailsSingleton.printerDetails
-                                    // Specify the name of the template file you want to use.
-                                    val selectedFileName = "template_dbgi"
-
-                                    // Initialize an input stream by opening the specified file.
-                                    val iStream = resources.openRawResource(
-                                        resources.getIdentifier(
-                                            selectedFileName, "raw",
-                                            packageName
-                                        )
-                                    )
-                                    val parts = extractId.split("_")
-                                    val sample = "_" + parts[1]
-                                    val extract = "_" + parts[2]
-                                    val injetemp = "_tmp"
-                                    val weightId = extractId + "_tmp"
-
-                                    // Call the SDK method ".getTemplate()" to retrieve its Template Object
-                                    val template =
-                                        TemplateFactory.getTemplate(iStream, this@WeightingActivity)
-                                    // Simple way to iterate through any placeholders to set desired values.
-                                    for (placeholder in template.templateData) {
-                                        when (placeholder.name) {
-                                            "QR" -> {
-                                                placeholder.value = weightId
-                                            }
-                                            "sample" -> {
-                                                placeholder.value = sample
-                                            }
-                                            "extract" -> {
-                                                placeholder.value = extract
-                                            }
-                                            "injection/temp" -> {
-                                                placeholder.value = injetemp
-                                            }
-                                        }
-                                    }
-
-                                    val printingOptions = PrintingOptions()
-                                    printingOptions.cutOption = CutOption.EndOfJob
-                                    printingOptions.numberOfCopies = 1
-                                    val r = Runnable {
-                                        runOnUiThread {
-                                            printerDetails.print(
-                                                this,
-                                                template,
-                                                printingOptions,
-                                                null
-                                            )
-                                        }
-                                    }
-                                    val printThread = Thread(r)
-                                    printThread.start()
-                                }
-
-
-                                // Start a coroutine to delay the next scan by 5 seconds
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    delay(1500)
-                                    scanButtonSample.performClick()
-                                }
-                            } else if (!hasTriedAgain) {
-                                    hasTriedAgain = true
-                                    val newAccessToken = getNewAccessToken()
-
-                                    if (newAccessToken != null) {
-                                        retrieveToken(newAccessToken)
-                                        showToast("connection to directus lost, reconnecting...")
-                                        // Retry the operation with the new access token
-                                        return sendDataToDirectus(sampleId, weight)
-                                    }
-                                }
-                        } finally {
-                            urlConnection.disconnect()
-                        }
-                    } else {
-                        showToast("No more available extraction labels")
+                if (isPrinterConnected == "yes") {
+                    readyToSend =
+                        PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                                || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+                    if (PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow") {
+                        showToast("Printer battery is low, please charge it")
                     }
                 }
 
+                if (extractId != null && readyToSend) {
+
+                    val urlConnection =
+                        withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
+
+                    try {
+                        urlConnection.requestMethod = "POST"
+                        urlConnection.setRequestProperty("Content-Type", "application/json")
+                        urlConnection.setRequestProperty(
+                            "Authorization",
+                            "Bearer $accessToken"
+                        )
+
+                        val data = JSONObject().apply {
+                            put("lab_extract_id", extractId)
+                            put("field_sample_id", sampleId)
+                            put("dried_plant_weight", weight)
+                        }
+
+                        val outputStream: OutputStream = urlConnection.outputStream
+                        val writer = BufferedWriter(withContext(Dispatchers.IO) {
+                            OutputStreamWriter(outputStream, "UTF-8")
+                        })
+                        withContext(Dispatchers.IO) {
+                            writer.write(data.toString())
+                        }
+                        withContext(Dispatchers.IO) {
+                            writer.flush()
+                        }
+                        withContext(Dispatchers.IO) {
+                            writer.close()
+                        }
+
+                        val responseCode = urlConnection.responseCode
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            hasTriedAgain = false
+                            val inputStream = urlConnection.inputStream
+                            val bufferedReader = BufferedReader(
+                                withContext(
+                                    Dispatchers.IO
+                                ) {
+                                    InputStreamReader(inputStream, "UTF-8")
+                                })
+                            val response = StringBuilder()
+                            var line: String?
+                            while (withContext(Dispatchers.IO) {
+                                    bufferedReader.readLine()
+                                }.also { line = it } != null) {
+                                response.append(line)
+                            }
+                            withContext(Dispatchers.IO) {
+                                bufferedReader.close()
+                            }
+                            withContext(Dispatchers.IO) {
+                                inputStream.close()
+                            }
+
+                            // 'response' contains the response from the server
+                            showToast("$extractId correctly added to database")
+
+                            // print label here
+                            val printerDetails = PrinterDetailsSingleton.printerDetails
+                            if (isPrinterConnected == "yes") {
+                                readyToSend =
+                                    PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                                            || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+                            }
+                            if (isPrinterConnected == "yes" && readyToSend) {
+
+                                if (printerDetails.printerModel == "M211") {
+                                    selectedFileName = "template_dbgi_m211"
+                                } else if (printerDetails.printerModel == "M511") {
+                                    selectedFileName = "template_dbgi_m511"
+                                }
+
+                                // Initialize an input stream by opening the specified file.
+                                val iStream = resources.openRawResource(
+                                    resources.getIdentifier(
+                                        selectedFileName, "raw",
+                                        packageName
+                                    )
+                                )
+                                val parts = extractId.split("_")
+                                val sample = "_" + parts[1]
+                                val extract = "_" + parts[2]
+                                val injetemp = "_tmp"
+                                val weightId = extractId + "_tmp"
+
+                                // Call the SDK method ".getTemplate()" to retrieve its Template Object
+                                val template =
+                                    TemplateFactory.getTemplate(iStream, this)
+                                // Simple way to iterate through any placeholders to set desired values.
+                                for (placeholder in template.templateData) {
+                                    when (placeholder.name) {
+                                        "QR" -> {
+                                            placeholder.value = weightId
+                                        }
+
+                                        "sample" -> {
+                                            placeholder.value = sample
+                                        }
+
+                                        "extract" -> {
+                                            placeholder.value = extract
+                                        }
+
+                                        "injection/temp" -> {
+                                            placeholder.value = injetemp
+                                        }
+                                    }
+                                }
+
+                                val printingOptions = PrintingOptions()
+                                printingOptions.cutOption = CutOption.EndOfJob
+                                printingOptions.numberOfCopies = 1
+                                val r = Runnable {
+                                    runOnUiThread {
+                                        printerDetails.print(
+                                            this,
+                                            template,
+                                            printingOptions,
+                                            null
+                                        )
+                                    }
+                                }
+                                val printThread = Thread(r)
+                                printThread.start()
+                            } else {
+                                showToast("Printer disconnected, data added to database.")
+                            }
+
+
+                            // Start a coroutine to delay the next scan by 5 seconds
+                            CoroutineScope(Dispatchers.Main).launch {
+                                delay(1500)
+                                scanButtonFalcon.performClick()
+                            }
+                        } else if (!hasTriedAgain) {
+                            hasTriedAgain = true
+                            val newAccessToken = getNewAccessToken()
+
+                            if (newAccessToken != null) {
+                                retrieveToken(newAccessToken)
+                                // Retry the operation with the new access token
+                                return sendDataToDirectus(sampleId, weight)
+                            }
+                        } else {
+                            showToast("Connection error")
+                            goToConnectionActivity()
+                        }
+                    } finally {
+                        urlConnection.disconnect()
+                    }
+                } else if (extractId == null) {
+                    showToast("No more available extraction labels")
+                }  else {
+                    showToast("Printer disconnected, please reconnect it and scan the label again")
+                    goToPrinterConnectionActivity()
+                }
+            }
+
                 // Usage
                 CoroutineScope(Dispatchers.IO).launch {
-                    sendDataToDirectus(scanButtonSample.text.toString(), inputNumber.toString())
+                    sendDataToDirectus(scanButtonFalcon.text.toString(), inputNumber.toString())
                 }
             }
         }
@@ -372,7 +408,6 @@ class WeightingActivity : AppCompatActivity() {
 
                         if (newAccessToken != null) {
                             retrieveToken(newAccessToken)
-                            showToast("connection to directus lost, reconnecting...")
                             // Retry the operation with the new access token
                             return checkExistenceInDirectus(sampleId)
                         }
@@ -393,11 +428,11 @@ class WeightingActivity : AppCompatActivity() {
                     isQrScannerActive = false
                     previewView.visibility = View.INVISIBLE
                     flashlightButton.visibility = View.INVISIBLE
-                    weightInput.visibility = View.VISIBLE
+                    targetWeightInput.visibility = View.VISIBLE
                     chooseWeightLabel.visibility = View.VISIBLE
                     scanStatus.text = ""
                     if (isObjectScanActive){
-                        scanButtonSample.visibility = View.VISIBLE
+                        scanButtonFalcon.visibility = View.VISIBLE
                     }
                     true
                 } else {
@@ -410,7 +445,7 @@ class WeightingActivity : AppCompatActivity() {
     }
 
     private fun showToast(toast: String?) {
-        runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_LONG).show() }
+        runOnUiThread {Toast.makeText(this, toast, Toast.LENGTH_SHORT).show()}
     }
 
     @SuppressLint("SetTextI18n")
@@ -462,13 +497,17 @@ class WeightingActivity : AppCompatActivity() {
                     val accessToken = data.getString("access_token")
                     deferred.complete(accessToken)
                 } else {
-                    emptyPlace.text = "Database error, please check your connection."
-                    deferred.complete(null)
+                    withContext(Dispatchers.Main) {
+                        showToast("Connection error")
+                        goToConnectionActivity()
+                        deferred.complete(null)
+                    }
                 }
             }catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    emptyPlace.text = "Database error, please check your connection."
+                    showToast("$e")
+                    goToConnectionActivity()
                     deferred.complete(null)
                 }
             }
@@ -481,5 +520,25 @@ class WeightingActivity : AppCompatActivity() {
             lastAccessToken = token
         }
         return lastAccessToken ?: "null"
+    }
+
+    private fun goToConnectionActivity(){
+        val intent = Intent(this, DirectusConnectionActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun goToPrinterConnectionActivity(){
+
+        val accessToken = intent.getStringExtra("ACCESS_TOKEN")
+        val username = intent.getStringExtra("USERNAME")
+        val password = intent.getStringExtra("PASSWORD")
+        val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+
+        val intent = Intent(this,ManagePrinterActivity::class.java)
+        intent.putExtra("ACCESS_TOKEN", accessToken)
+        intent.putExtra("USERNAME", username)
+        intent.putExtra("PASSWORD", password)
+        intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
+        startActivity(intent)
     }
 }

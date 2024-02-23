@@ -1,86 +1,74 @@
 [
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_sample.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_sample.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_location.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_location.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_wait_connection.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_wait_connection.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\printer_list_item.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\printer_list_item.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_signaling_man.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_signaling_man.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_printer_connect.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_printer_connect.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_find.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_find.xml"
+        "merged": "org.example.dbgitracking.app-mergeDebugResources-55:/layout/activity_extraction.xml",
+        "source": "org.example.dbgitracking.app-main-58:/layout/activity_extraction.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_signaling_scan.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_signaling_scan.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_directus_connection.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_directus_connection.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_manage_printer.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_manage_printer.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_move.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_move.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_warning.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_warning.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_weighting.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_weighting.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_main.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_main.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_warning.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_warning.xml"
     },
     {
-        "merged": "org.example.dbgitracking.app-mergeDebugResources-52:/layout/activity_home_page.xml",
-        "source": "org.example.dbgitracking.app-main-55:/layout/activity_home_page.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_home_page.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_home_page.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\printer_list_item.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\printer_list_item.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_signaling_scan.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_signaling_scan.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_weighting.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_weighting.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_signaling.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_signaling.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_aliquots.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_aliquots.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_extraction.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_extraction.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_home_page.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_home_page.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_injection.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_injection.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_extraction.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_extraction.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_signaling_man.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_signaling_man.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_injection.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_injection.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_find.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_find.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_directus_connection.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_directus_connection.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_manage_printer.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_manage_printer.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_printer_connect.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_printer_connect.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_aliquots.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_aliquots.xml"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_location.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_location.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_permissions.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_permissions.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_move.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_move.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-52:\\layout\\activity_signaling.xml",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-55:\\layout\\activity_signaling.xml"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-mergeDebugResources-55:\\layout\\activity_falcon.xml",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_falcon.xml"
     }
 ]

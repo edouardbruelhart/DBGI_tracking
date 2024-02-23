@@ -30,6 +30,8 @@ class ManagePrinterActivity : AppCompatActivity(), PrinterUpdateListener, Printe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_printer)
 
+        title = "Printer management screen"
+
         // Initialize the ListView
         printerListView = findViewById(R.id.printerListView)
 

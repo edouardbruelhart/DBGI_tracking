@@ -7,7 +7,6 @@
     <color name="teal_200">#1BEDED</color>
     <color name="teal_700">#36BEF4</color>
     <color name="white">#FFFFFFFF</color>
-    <dimen name="fab_margin">16dp</dimen>
     <string name="app_name">DBGI tracking</string>
     <string name="first_fragment_label">First Fragment</string>
     <string name="lorem_ipsum">
