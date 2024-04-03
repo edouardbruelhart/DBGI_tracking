@@ -36,6 +36,7 @@ import java.net.URL
 
 class AliquotsActivity : AppCompatActivity() {
 
+    private lateinit var aliquotVolumeLabel: TextView
     private lateinit var aliquotVolume: EditText
     private lateinit var scanButtonBoxLabel: TextView
     private lateinit var scanButtonBox: Button
@@ -54,6 +55,7 @@ class AliquotsActivity : AppCompatActivity() {
     private var isQrScannerActive = false
     private var selectedFileName: String = ""
     private var readyToSend = true
+    private var localBoxValue: Int = 81
 
     @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +68,7 @@ class AliquotsActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
         // Initialize views
+        aliquotVolumeLabel = findViewById(R.id.aliquotVolumeLabel)
         aliquotVolume = findViewById(R.id.aliquotVolume)
         scanButtonBoxLabel = findViewById(R.id.scanButtonBoxLabel)
         scanButtonBox = findViewById(R.id.scanButtonBox)
@@ -170,12 +173,17 @@ class AliquotsActivity : AppCompatActivity() {
                     val box = scanButtonBox.text.toString()
                     val boxValueExt = checkBoxLoadExt(box)
                     val boxValueAl = checkBoxLoadAl(box)
-                    val boxValueBa = checkBoxLoadBa(box)
-                    val stillPlace = 81 - boxValueExt - boxValueAl - boxValueBa
-                    val boxValue = boxValueAl + boxValueExt + boxValueBa
+                    val parts = box.split("_")
+                    val size = parts[1]
+                    val sizeNumber = size.split("x")
+                    val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
+                    val stillPlace = places - boxValueExt - boxValueAl
+                    val boxValue = boxValueAl + boxValueExt
+                    localBoxValue = stillPlace
                     if (boxValue >= 0 && stillPlace > 0) {
                         scanButtonAliquotLabel.visibility = View.VISIBLE
                         scanButtonAliquot.visibility = View.VISIBLE
+                        aliquotVolumeLabel.visibility = View.INVISIBLE
                         aliquotVolume.visibility = View.INVISIBLE
                         boxEmptyPlace.visibility = View.VISIBLE
                         boxEmptyPlace.setTextColor(Color.GRAY)
@@ -183,6 +191,7 @@ class AliquotsActivity : AppCompatActivity() {
                             "This box should still contain $stillPlace empty places"
                     } else {
                         handleInvalidScanResult(stillPlace, boxValue)
+                        aliquotVolumeLabel.visibility = View.VISIBLE
                         aliquotVolume.visibility = View.VISIBLE
                     }
 
@@ -190,25 +199,11 @@ class AliquotsActivity : AppCompatActivity() {
                     val inputNumber = aliquotVolume.text.toString()
                     // Usage
                     CoroutineScope(Dispatchers.IO).launch {
-                        // Assuming 'scanButtonSample.text' and 'scanButtonRack.text' are already defined
-                        if (scanButtonAliquot.text.toString()
-                                .matches(Regex("^dbgi_\\d{6}_\\d{2}\$"))
-                        ) {
-                            showToast("sending data to directus...")
-                            sendDataToDirectus(
-                                scanButtonAliquot.text.toString(),
-                                inputNumber.toInt().toString(),
-                                scanButtonBox.text.toString()
-                            )
-                        } else if (scanButtonAliquot.text.toString()
-                                .matches(Regex("^dbgi_batch_blk_\\d{6}\$"))
-                        ) {
-                            sendBlankToDirectus(
-                                scanButtonAliquot.text.toString(),
-                                inputNumber.toInt().toString(),
-                                scanButtonBox.text.toString()
-                            )
-                        }
+                        sendDataToDirectus(
+                            scanButtonAliquot.text.toString(),
+                            inputNumber.toInt().toString(),
+                            scanButtonBox.text.toString()
+                        )
                     }
                 }
             }
@@ -274,8 +269,23 @@ class AliquotsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
-                return true
+                return if (isQrScannerActive){
+                    QRCodeScannerUtility.stopScanning()
+                    isQrScannerActive = false
+                    previewView.visibility = View.INVISIBLE
+                    flashlightButton.visibility = View.INVISIBLE
+                    scanButtonBoxLabel.visibility = View.VISIBLE
+                    scanButtonBox.visibility = View.VISIBLE
+                    scanStatus.text = ""
+                    if (isObjectScanActive){
+                        scanButtonAliquotLabel.visibility = View.VISIBLE
+                        scanButtonAliquot.visibility = View.VISIBLE
+                    }
+                    true
+                } else {
+                    onBackPressed()
+                    true
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -366,12 +376,13 @@ class AliquotsActivity : AppCompatActivity() {
 
         val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
 
-        if (isPrinterConnected == "yes") {
-            readyToSend =
-                PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
-                        || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
-            if (PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow") {
-                showToast("Printer battery is low, please charge it")
+        runOnUiThread {
+            if (isPrinterConnected == "yes") {
+                readyToSend =
+                    PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized" || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+                if (PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow") {
+                    showToast("Printer battery is low, please charge it")
+                }
             }
         }
 
@@ -390,7 +401,7 @@ class AliquotsActivity : AppCompatActivity() {
 
                 val data = JSONObject().apply {
                     put("aliquot_id", injectId)
-                    put("lab_Aliquot_id", aliquotId)
+                    put("lab_extract_id", aliquotId)
                     put("aliquot_volume_microliter", volume)
                     put("mobile_container_id", boxId)
                 }
@@ -445,10 +456,14 @@ class AliquotsActivity : AppCompatActivity() {
                     }
                     if (isPrinterConnected == "yes" && readyToSend) {
 
-                        if (printerDetails.printerModel == "M211") {
+                        if (printerDetails.printerModel == "M211" && scanButtonAliquot.text.toString().matches(Regex("^dbgi_\\d{6}_\\d{2}\$"))) {
                             selectedFileName = "template_dbgi_m211"
-                        } else if (printerDetails.printerModel == "M511") {
+                        } else if (printerDetails.printerModel == "M511" && scanButtonAliquot.text.toString().matches(Regex("^dbgi_\\d{6}_\\d{2}\$"))) {
                             selectedFileName = "template_dbgi_m511"
+                        } else if (printerDetails.printerModel == "M211" && scanButtonAliquot.text.toString().matches(Regex("^dbgi_batch_blk_\\d{6}\$"))) {
+                            selectedFileName = "template_dbgi_batch_m211"
+                        } else if (printerDetails.printerModel == "M511" && scanButtonAliquot.text.toString().matches(Regex("^dbgi_batch_blk_\\d{6}\$"))) {
+                            selectedFileName = "template_dbgi_batch_m511"
                         }
 
                         // Initialize an input stream by opening the specified file.
@@ -458,69 +473,104 @@ class AliquotsActivity : AppCompatActivity() {
                                 packageName
                             )
                         )
-                        val parts = injectId.split("_")
-                        val sample = "_" + parts[1]
-                        val aliquot = "_" + parts[2]
-                        val injetemp = "_" + parts[3]
 
-                        // Call the SDK method ".getTemplate()" to retrieve its Template Object
-                        val template =
-                            TemplateFactory.getTemplate(iStream, this@AliquotsActivity)
-                        // Simple way to iterate through any placeholders to set desired values.
-                        for (placeholder in template.templateData) {
-                            when (placeholder.name) {
-                                "QR" -> {
-                                    placeholder.value = injectId
-                                }
+                        if (scanButtonAliquot.text.toString().matches(Regex("^dbgi_\\d{6}_\\d{2}\$"))) {
+                            val parts = injectId.split("_")
+                            val sample = "_" + parts[1]
+                            val aliquot = "_" + parts[2]
+                            val injetemp = "_" + parts[3]
+                            // Call the SDK method ".getTemplate()" to retrieve its Template Object
+                            val template =
+                                TemplateFactory.getTemplate(iStream, this@AliquotsActivity)
+                            // Simple way to iterate through any placeholders to set desired values.
+                            for (placeholder in template.templateData) {
+                                when (placeholder.name) {
+                                    "QR" -> {
+                                        placeholder.value = injectId
+                                    }
 
-                                "sample" -> {
-                                    placeholder.value = sample
-                                }
+                                    "sample" -> {
+                                        placeholder.value = sample
+                                    }
 
-                                "Aliquot" -> {
-                                    placeholder.value = aliquot
-                                }
+                                    "extract" -> {
+                                        placeholder.value = aliquot
+                                    }
 
-                                "injection/temp" -> {
-                                    placeholder.value = injetemp
+                                    "injection/temp" -> {
+                                        placeholder.value = injetemp
+                                    }
                                 }
                             }
-                        }
 
-                        val printingOptions = PrintingOptions()
-                        printingOptions.cutOption = CutOption.EndOfJob
-                        printingOptions.numberOfCopies = 1
-                        val r = Runnable {
-                            runOnUiThread {
-                                printerDetails.print(
-                                    this,
-                                    template,
-                                    printingOptions,
-                                    null
-                                )
+                            val printingOptions = PrintingOptions()
+                            printingOptions.cutOption = CutOption.EndOfJob
+                            printingOptions.numberOfCopies = 1
+                            val r = Runnable {
+                                runOnUiThread {
+                                    printerDetails.print(
+                                        this,
+                                        template,
+                                        printingOptions,
+                                        null
+                                    )
+                                }
                             }
+                            val printThread = Thread(r)
+                            printThread.start()
+                        } else if (scanButtonAliquot.text.toString().matches(Regex("^dbgi_batch_blk_\\d{6}\$"))) {
+                            val parts = injectId.split("_")
+                            val sample = "_" + parts[3]
+                            val injection = "_" + parts[4]
+                            // Call the SDK method ".getTemplate()" to retrieve its Template Object
+                            val template =
+                                TemplateFactory.getTemplate(iStream, this@AliquotsActivity)
+                            // Simple way to iterate through any placeholders to set desired values.
+                            for (placeholder in template.templateData) {
+                                when (placeholder.name) {
+                                    "QR" -> {
+                                        placeholder.value = injectId
+                                    }
+                                    "sample" -> {
+                                        placeholder.value = sample
+                                    }
+                                    "injection" -> {
+                                        placeholder.value = injection
+                                    }
+                                }
+                            }
+
+                            val printingOptions = PrintingOptions()
+                            printingOptions.cutOption = CutOption.EndOfJob
+                            printingOptions.numberOfCopies = 1
+                            val r = Runnable {
+                                runOnUiThread {
+                                    printerDetails.print(
+                                        this,
+                                        template,
+                                        printingOptions,
+                                        null
+                                    )
+                                }
+                            }
+                            val printThread = Thread(r)
+                            printThread.start()
                         }
-                        val printThread = Thread(r)
-                        printThread.start()
                     } else {
                         showToast("Printer disconnected, data added to database.")
                     }
 
                     // Check if there is still enough place in the rack before initiating the QR code reader
                     CoroutineScope(Dispatchers.IO).launch {
-                        val box = scanButtonBox.text.toString()
-                        val upBoxValueExt = checkBoxLoadExt(box)
-                        val upBoxValueAl = checkBoxLoadAl(box)
-                        val upBoxValueBa = checkBoxLoadBa(box)
-                        val upStillPlace = 81 - upBoxValueExt - upBoxValueAl - upBoxValueBa
+                        localBoxValue--
 
                         withContext(Dispatchers.Main) {
 
-                            if (upStillPlace > 0) {
+                            if (localBoxValue > 0) {
                                 // Automatically launch the QR scanning when last sample correctly added to the database
                                 boxEmptyPlace.visibility = View.VISIBLE
                                 boxEmptyPlace.text =
-                                    "This box should still contain $upStillPlace empty places"
+                                    "This box should still contain $localBoxValue empty places"
                                 delay(1500)
                                 scanButtonAliquot.performClick()
                             } else {
@@ -558,210 +608,13 @@ class AliquotsActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("DiscouragedApi", "SetTextI18n")
-    suspend fun sendBlankToDirectus(aliquotId: String, volume: String, boxId: String) {
-
-        // Define the table url
-        val collectionUrl = "http://directus.dbgi.org/items/Blank_Aliquots"
-
-        val accessToken = retrieveToken()
-        val url = URL(collectionUrl)
-
-        val injectId = checkExistenceInDirectus(aliquotId)
-
-        val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
-
-        if (isPrinterConnected == "yes") {
-            readyToSend =
-                PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
-                        || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
-            if (PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow") {
-                showToast("Printer battery is low, please charge it")
-            }
-        }
-
-        if (injectId != null && readyToSend) {
-
-            val urlConnection =
-                withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
-
-            try {
-                urlConnection.requestMethod = "POST"
-                urlConnection.setRequestProperty("Content-Type", "application/json")
-                urlConnection.setRequestProperty(
-                    "Authorization",
-                    "Bearer $accessToken"
-                )
-
-                val data = JSONObject().apply {
-                    put("aliquot_id", injectId)
-                    put("blk_id", aliquotId)
-                    put("aliquot_volume_microliter", volume)
-                    put("mobile_container_id", boxId)
-                    put("status", "OK")
-                }
-
-                val outputStream: OutputStream = urlConnection.outputStream
-                val writer = BufferedWriter(withContext(Dispatchers.IO) {
-                    OutputStreamWriter(outputStream, "UTF-8")
-                })
-                withContext(Dispatchers.IO) {
-                    writer.write(data.toString())
-                }
-                withContext(Dispatchers.IO) {
-                    writer.flush()
-                }
-                withContext(Dispatchers.IO) {
-                    writer.close()
-                }
-
-                val responseCode = urlConnection.responseCode
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    hasTriedAgain = false
-                    val inputStream = urlConnection.inputStream
-                    val bufferedReader = BufferedReader(
-                        withContext(
-                            Dispatchers.IO
-                        ) {
-                            InputStreamReader(inputStream, "UTF-8")
-                        })
-                    val response = StringBuilder()
-                    var line: String?
-                    while (withContext(Dispatchers.IO) {
-                            bufferedReader.readLine()
-                        }.also { line = it } != null) {
-                        response.append(line)
-                    }
-                    withContext(Dispatchers.IO) {
-                        bufferedReader.close()
-                    }
-                    withContext(Dispatchers.IO) {
-                        inputStream.close()
-                    }
-
-                    // 'response' contains the response from the server
-                    showToast("$injectId correctly added to database")
-
-                    // print label here
-                    val printerDetails = PrinterDetailsSingleton.printerDetails
-                    if (isPrinterConnected == "yes") {
-                        readyToSend =
-                            printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
-                                    || printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
-                    }
-                    if (isPrinterConnected == "yes" && readyToSend) {
-                        if (printerDetails.printerModel == "M211") {
-                            selectedFileName = "template_dbgi_batch_m211"
-                        } else if (printerDetails.printerModel == "M511") {
-                            selectedFileName = "template_dbgi_batch_m511"
-                        }
-
-                        // Initialize an input stream by opening the specified file.
-                        val iStream = resources.openRawResource(
-                            resources.getIdentifier(
-                                selectedFileName, "raw",
-                                packageName
-                            )
-                        )
-                        val parts = injectId.split("_")
-                        val sample = "_" + parts[3]
-                        val injection = "_" + parts[4]
-
-                        // Call the SDK method ".getTemplate()" to retrieve its Template Object
-                        val template =
-                            TemplateFactory.getTemplate(iStream, this@AliquotsActivity)
-                        // Simple way to iterate through any placeholders to set desired values.
-                        for (placeholder in template.templateData) {
-                            when (placeholder.name) {
-                                "QR" -> {
-                                    placeholder.value = injectId
-                                }
-                                "sample" -> {
-                                    placeholder.value = sample
-                                }
-                                "injection" -> {
-                                    placeholder.value = injection
-                                }
-                            }
-                        }
-
-                        val printingOptions = PrintingOptions()
-                        printingOptions.cutOption = CutOption.EndOfJob
-                        printingOptions.numberOfCopies = 1
-                        val r = Runnable {
-                            runOnUiThread {
-                                printerDetails.print(
-                                    this,
-                                    template,
-                                    printingOptions,
-                                    null
-                                )
-                            }
-                        }
-                        val printThread = Thread(r)
-                        printThread.start()
-                    } else {
-                        showToast("Printer disconnected, data added to database.")
-                    }
-
-                    // Check if there is still enough place in the rack before initiating the QR code reader
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val box = scanButtonBox.text.toString()
-                        val upBoxValueExt = checkBoxLoadExt(box)
-                        val upBoxValueAl = checkBoxLoadAl(box)
-                        val upBoxValueBa = checkBoxLoadBa(box)
-                        val upStillPlace = 81 - upBoxValueExt - upBoxValueAl - upBoxValueBa
-
-                        withContext(Dispatchers.Main) {
-
-                            if(upStillPlace > 0){
-                                // Automatically launch the QR scanning when last sample correctly added to the database
-                                boxEmptyPlace.visibility = View.VISIBLE
-                                boxEmptyPlace.text = "This box should still contain $upStillPlace empty places"
-                                delay(1500)
-                                scanButtonAliquot.performClick()
-                            } else {
-                                boxEmptyPlace.text = "Box is full, scan another one to continue"
-                                scanButtonBox.text = "scan another box"
-                                scanButtonAliquotLabel.visibility = View.INVISIBLE
-                                scanButtonAliquot.text = "Value"
-                                scanButtonAliquot.visibility = View.INVISIBLE
-
-                            }
-
-                        }
-                    }
-                } else if (!hasTriedAgain) {
-                    hasTriedAgain = true
-                    val newAccessToken = getNewAccessToken()
-
-                    if (newAccessToken != null) {
-                        retrieveToken(newAccessToken)
-                        // Retry the operation with the new access token
-                        return sendBlankToDirectus(aliquotId, volume, boxId)
-                    }
-                } else {
-                    showToast("Connection error")
-                    goToConnectionActivity()
-                }
-            } finally {
-                urlConnection.disconnect()
-            }
-        } else if (injectId == null) {
-            showToast("No more available injection labels")
-        } else {
-            showToast("Printer disconnected, please reconnect it and scan the label again")
-            goToPrinterConnectionActivity()
-        }
-    }
-
     // Function to ask how many samples are already present in the rack to directus
     private suspend fun checkBoxLoadExt(boxId: String): Int {
 
         return withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
             val url =
-                URL("http://directus.dbgi.org/items/Lab_Aliquots/?filter[mobile_container_id][_eq]=$boxId")
+                URL("http://directus.dbgi.org/items/Lab_Extracts/?filter[mobile_container_id][_eq]=$boxId")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try {
@@ -844,56 +697,6 @@ class AliquotsActivity : AppCompatActivity() {
                         retrieveToken(newAccessToken)
                         // Retry the operation with the new access token
                         return@withContext checkBoxLoadAl(boxId)
-                    } else {
-                        showToast("Connection error")
-                        goToConnectionActivity()
-                    }
-                } else {
-                    showToast("Connection error")
-                    goToConnectionActivity()
-                }
-            } finally {
-                urlConnection.disconnect()
-            } as Int
-        }
-    }
-
-    private suspend fun checkBoxLoadBa(boxId: String): Int {
-
-        return withContext(Dispatchers.IO) {
-            val accessToken = retrieveToken()
-            val url = URL("http://directus.dbgi.org/items/Blank_Aliquots/?filter[mobile_container_id][_eq]=$boxId")
-            val urlConnection = url.openConnection() as HttpURLConnection
-
-            try {
-                urlConnection.requestMethod = "GET"
-                urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
-
-                val responseCode = urlConnection.responseCode
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    // Read the response body
-                    val inputStream = urlConnection.inputStream
-                    val bufferedReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
-                    val response = StringBuilder()
-                    var line: String?
-                    while (bufferedReader.readLine().also { line = it } != null) {
-                        response.append(line)
-                    }
-
-                    // Parse the response JSON to get the count
-                    val jsonObject = JSONObject(response.toString())
-                    val dataArray = jsonObject.getJSONArray("data")
-
-                    // Return the number of sorted elements
-                    dataArray.length()
-                } else if (!hasTriedAgain) {
-                    hasTriedAgain = true
-                    val newAccessToken = getNewAccessToken()
-
-                    if (newAccessToken != null) {
-                        retrieveToken(newAccessToken)
-                        // Retry the operation with the new access token
-                        return@withContext checkBoxLoadBa(boxId)
                     } else {
                         showToast("Connection error")
                         goToConnectionActivity()

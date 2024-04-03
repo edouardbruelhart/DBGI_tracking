@@ -3247,6 +3247,8 @@ id adjust_height
 id adjust_width
 id alertTitle
 id aligned
+id aliquotVolume
+id aliquotVolumeLabel
 id aliquotsButton
 id all
 id allStates
@@ -3594,8 +3596,8 @@ id save_non_transition_alpha
 id save_overlay_view
 id sawtooth
 id scale
-id scanBoxLabel
 id scanButtonAliquot
+id scanButtonAliquotLabel
 id scanButtonBatch
 id scanButtonBatchLabel
 id scanButtonBox
@@ -3735,7 +3737,6 @@ id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
-id volumeInput
 id warningMessage
 id weightInput
 id weightingButton

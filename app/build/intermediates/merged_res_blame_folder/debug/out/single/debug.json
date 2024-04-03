@@ -4,6 +4,14 @@
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xhdpi\\ic_launcher_foreground.webp"
     },
     {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_weighting.xml.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_weighting.xml"
+    },
+    {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\drawable_minilogo_dbgi.png.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\drawable\\minilogo_dbgi.png"
+    },
+    {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
@@ -24,72 +32,12 @@
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xxhdpi\\ic_launcher_foreground.webp"
-    },
-    {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xxxhdpi\\ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-hdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-hdpi\\ic_launcher_foreground.webp"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_signaling_scan.xml.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_signaling_scan.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-mdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-mdpi\\ic_launcher_foreground.webp"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-anydpi-v26\\ic_launcher.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\raw_template_dbgi_batch_m211.BWT.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\raw\\template_dbgi_batch_m211.BWT"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_move.xml.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_move.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\raw_template_dbgi_m211.BWT.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\raw\\template_dbgi_m211.BWT"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_signaling_man.xml.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_signaling_man.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xxhdpi\\ic_launcher_round.webp"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_directus_connection.xml.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_directus_connection.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-mdpi\\ic_launcher_round.webp"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\raw_template_dbgi_m511.BWT.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\raw\\template_dbgi_m511.BWT"
-    },
-    {
-        "merged": "org.example.dbgitracking.app-merged_res-56:/layout_activity_extraction.xml.flat",
-        "source": "org.example.dbgitracking.app-main-58:/layout/activity_extraction.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_weighting.xml.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_weighting.xml"
-    },
-    {
-        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\drawable_minilogo_dbgi.png.flat",
-        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\drawable\\minilogo_dbgi.png"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xxhdpi\\ic_launcher_foreground.webp"
     },
     {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_falcon.xml.flat",
@@ -116,8 +64,8 @@
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
-        "merged": "org.example.dbgitracking.app-merged_res-56:/raw_template_dbgi_batch_m211.BWT.flat",
-        "source": "org.example.dbgitracking.app-main-58:/raw/template_dbgi_batch_m211.BWT"
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-hdpi\\ic_launcher_foreground.webp"
     },
     {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_extraction.xml.flat",
@@ -130,6 +78,22 @@
     {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_manage_printer.xml.flat",
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_manage_printer.xml"
+    },
+    {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_signaling_scan.xml.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_signaling_scan.xml"
+    },
+    {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-mdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\raw_template_dbgi_batch_m211.BWT.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\raw\\template_dbgi_batch_m211.BWT"
     },
     {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\xml_backup_rules.xml.flat",
@@ -152,12 +116,24 @@
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_move.xml.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_move.xml"
+    },
+    {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\raw_template_dbgi_m211.BWT.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\raw\\template_dbgi_m211.BWT"
+    },
+    {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_signaling_man.xml.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_signaling_man.xml"
     },
     {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_injection.xml.flat",
@@ -168,12 +144,28 @@
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\printer_list_item.xml"
     },
     {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_location.xml.flat",
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_location.xml"
     },
     {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_directus_connection.xml.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_directus_connection.xml"
+    },
+    {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-hdpi_ic_launcher_round.webp.flat",
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\raw_template_dbgi_m511.BWT.flat",
+        "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\raw\\template_dbgi_m511.BWT"
     },
     {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\mipmap-xxhdpi_ic_launcher.webp.flat",
@@ -186,9 +178,5 @@
     {
         "merged": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-merged_res-56:\\layout_activity_signaling.xml.flat",
         "source": "C:\\Users\\edoua\\.gradle\\daemon\\8.0\\org.example.dbgitracking.app-main-58:\\layout\\activity_signaling.xml"
-    },
-    {
-        "merged": "org.example.dbgitracking.app-merged_res-56:/raw_template_dbgi_m511.BWT.flat",
-        "source": "org.example.dbgitracking.app-main-58:/raw/template_dbgi_m511.BWT"
     }
 ]

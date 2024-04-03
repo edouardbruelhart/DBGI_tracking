@@ -23,7 +23,16 @@ public final class ActivityAliquotsBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
-  public final TextView emptyPlace;
+  public final TextView Spacing;
+
+  @NonNull
+  public final EditText aliquotVolume;
+
+  @NonNull
+  public final TextView aliquotVolumeLabel;
+
+  @NonNull
+  public final TextView boxEmptyPlace;
 
   @NonNull
   public final Button flashlightButton;
@@ -32,34 +41,38 @@ public final class ActivityAliquotsBinding implements ViewBinding {
   public final PreviewView previewView;
 
   @NonNull
-  public final TextView scanBoxLabel;
+  public final Button scanButtonAliquot;
+
+  @NonNull
+  public final TextView scanButtonAliquotLabel;
 
   @NonNull
   public final Button scanButtonBox;
 
   @NonNull
-  public final Button scanButtonExtract;
+  public final TextView scanButtonBoxLabel;
 
   @NonNull
   public final TextView scanStatus;
 
-  @NonNull
-  public final EditText volumeInput;
-
-  private ActivityAliquotsBinding(@NonNull ConstraintLayout rootView, @NonNull TextView emptyPlace,
-      @NonNull Button flashlightButton, @NonNull PreviewView previewView,
-      @NonNull TextView scanBoxLabel, @NonNull Button scanButtonBox,
-      @NonNull Button scanButtonExtract, @NonNull TextView scanStatus,
-      @NonNull EditText volumeInput) {
+  private ActivityAliquotsBinding(@NonNull ConstraintLayout rootView, @NonNull TextView Spacing,
+      @NonNull EditText aliquotVolume, @NonNull TextView aliquotVolumeLabel,
+      @NonNull TextView boxEmptyPlace, @NonNull Button flashlightButton,
+      @NonNull PreviewView previewView, @NonNull Button scanButtonAliquot,
+      @NonNull TextView scanButtonAliquotLabel, @NonNull Button scanButtonBox,
+      @NonNull TextView scanButtonBoxLabel, @NonNull TextView scanStatus) {
     this.rootView = rootView;
-    this.emptyPlace = emptyPlace;
+    this.Spacing = Spacing;
+    this.aliquotVolume = aliquotVolume;
+    this.aliquotVolumeLabel = aliquotVolumeLabel;
+    this.boxEmptyPlace = boxEmptyPlace;
     this.flashlightButton = flashlightButton;
     this.previewView = previewView;
-    this.scanBoxLabel = scanBoxLabel;
+    this.scanButtonAliquot = scanButtonAliquot;
+    this.scanButtonAliquotLabel = scanButtonAliquotLabel;
     this.scanButtonBox = scanButtonBox;
-    this.scanButtonExtract = scanButtonExtract;
+    this.scanButtonBoxLabel = scanButtonBoxLabel;
     this.scanStatus = scanStatus;
-    this.volumeInput = volumeInput;
   }
 
   @Override
@@ -89,9 +102,27 @@ public final class ActivityAliquotsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.emptyPlace;
-      TextView emptyPlace = ViewBindings.findChildViewById(rootView, id);
-      if (emptyPlace == null) {
+      id = R.id.Spacing;
+      TextView Spacing = ViewBindings.findChildViewById(rootView, id);
+      if (Spacing == null) {
+        break missingId;
+      }
+
+      id = R.id.aliquotVolume;
+      EditText aliquotVolume = ViewBindings.findChildViewById(rootView, id);
+      if (aliquotVolume == null) {
+        break missingId;
+      }
+
+      id = R.id.aliquotVolumeLabel;
+      TextView aliquotVolumeLabel = ViewBindings.findChildViewById(rootView, id);
+      if (aliquotVolumeLabel == null) {
+        break missingId;
+      }
+
+      id = R.id.boxEmptyPlace;
+      TextView boxEmptyPlace = ViewBindings.findChildViewById(rootView, id);
+      if (boxEmptyPlace == null) {
         break missingId;
       }
 
@@ -107,9 +138,15 @@ public final class ActivityAliquotsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.scanBoxLabel;
-      TextView scanBoxLabel = ViewBindings.findChildViewById(rootView, id);
-      if (scanBoxLabel == null) {
+      id = R.id.scanButtonAliquot;
+      Button scanButtonAliquot = ViewBindings.findChildViewById(rootView, id);
+      if (scanButtonAliquot == null) {
+        break missingId;
+      }
+
+      id = R.id.scanButtonAliquotLabel;
+      TextView scanButtonAliquotLabel = ViewBindings.findChildViewById(rootView, id);
+      if (scanButtonAliquotLabel == null) {
         break missingId;
       }
 
@@ -119,9 +156,9 @@ public final class ActivityAliquotsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.scanButtonExtract;
-      Button scanButtonExtract = ViewBindings.findChildViewById(rootView, id);
-      if (scanButtonExtract == null) {
+      id = R.id.scanButtonBoxLabel;
+      TextView scanButtonBoxLabel = ViewBindings.findChildViewById(rootView, id);
+      if (scanButtonBoxLabel == null) {
         break missingId;
       }
 
@@ -131,14 +168,9 @@ public final class ActivityAliquotsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.volumeInput;
-      EditText volumeInput = ViewBindings.findChildViewById(rootView, id);
-      if (volumeInput == null) {
-        break missingId;
-      }
-
-      return new ActivityAliquotsBinding((ConstraintLayout) rootView, emptyPlace, flashlightButton,
-          previewView, scanBoxLabel, scanButtonBox, scanButtonExtract, scanStatus, volumeInput);
+      return new ActivityAliquotsBinding((ConstraintLayout) rootView, Spacing, aliquotVolume,
+          aliquotVolumeLabel, boxEmptyPlace, flashlightButton, previewView, scanButtonAliquot,
+          scanButtonAliquotLabel, scanButtonBox, scanButtonBoxLabel, scanStatus);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

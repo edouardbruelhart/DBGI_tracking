@@ -3246,6 +3246,8 @@ int id adjust_height 0x7f080049
 int id adjust_width 0x7f08004a
 int id alertTitle 0x7f08004b
 int id aligned 0x7f08004c
+int id aliquotVolume 0x7f08024a
+int id aliquotVolumeLabel 0x7f08024c
 int id aliquotsButton 0x7f08004d
 int id all 0x7f08004e
 int id allStates 0x7f08004f
@@ -3593,8 +3595,8 @@ int id save_non_transition_alpha 0x7f0801a6
 int id save_overlay_view 0x7f0801a7
 int id sawtooth 0x7f0801a8
 int id scale 0x7f0801a9
-int id scanBoxLabel 0x7f0801aa
 int id scanButtonAliquot 0x7f0801ab
+int id scanButtonAliquotLabel 0x7f08024b
 int id scanButtonBatch 0x7f0801ac
 int id scanButtonBatchLabel 0x7f080245
 int id scanButtonBox 0x7f0801ad
@@ -3734,7 +3736,6 @@ int id view_tree_saved_state_registry_owner 0x7f08022f
 int id view_tree_view_model_store_owner 0x7f080230
 int id visible 0x7f080231
 int id visible_removing_fragment_view_tag 0x7f080232
-int id volumeInput 0x7f080233
 int id warningMessage 0x7f080234
 int id weightInput 0x7f080235
 int id weightingButton 0x7f080236

@@ -74,6 +74,7 @@ class ExtractionActivity : AppCompatActivity() {
     private var isQrScannerActive = false
     private var selectedFileName: String = ""
     private var readyToSend = true
+    private var localBoxValue: Int = 81
 
     @SuppressLint("CutPasteId", "MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -187,10 +188,6 @@ class ExtractionActivity : AppCompatActivity() {
             solventVolume.visibility = View.INVISIBLE
             extractionMethodLabel.visibility = View.INVISIBLE
             scanButtonBox.visibility = View.INVISIBLE
-            if (scanButtonExtract.text != "Value") {
-                scanButtonExtractLabel.visibility = View.INVISIBLE
-                scanButtonExtract.visibility = View.INVISIBLE
-            }
             QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedBox ->
 
                 // Stop the scanning process after receiving the result
@@ -307,13 +304,14 @@ class ExtractionActivity : AppCompatActivity() {
                     val box = scanButtonBox.text.toString()
                     val boxValueExt = checkBoxLoadExt(box)
                     val boxValueAl = checkBoxLoadAl(box)
-                    val boxValueBa = checkBoxLoadBa(box)
                     val parts = box.split("_")
                     val size = parts[1]
                     val sizeNumber = size.split("x")
                     val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
-                    val stillPlace = places - boxValueExt - boxValueAl - boxValueBa
-                    val boxValue = boxValueAl + boxValueExt + boxValueBa
+                    val stillPlace = places - boxValueExt - boxValueAl
+                    val boxValue = boxValueAl + boxValueExt
+                    localBoxValue = stillPlace
+                    showToast("places: $localBoxValue")
                     if (boxValue >= 0 && stillPlace > 0) {
                         scanButtonBatchLabel.visibility = View.VISIBLE
                         scanButtonBatch.visibility = View.VISIBLE
@@ -330,13 +328,12 @@ class ExtractionActivity : AppCompatActivity() {
                     sendBatchToDirectus(batch, box)
                     val baBoxValueExt = checkBoxLoadExt(box)
                     val baBoxValueAl = checkBoxLoadAl(box)
-                    val baBoxValueBa = checkBoxLoadBa(box)
                     val parts = box.split("_")
                     val size = parts[1]
                     val sizeNumber = size.split("x")
                     val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
-                    val baStillPlace = places - baBoxValueExt - baBoxValueAl - baBoxValueBa
-                    val boxValue = baBoxValueAl + baBoxValueExt + baBoxValueBa
+                    val baStillPlace = places - baBoxValueExt - baBoxValueAl
+                    val boxValue = baBoxValueAl + baBoxValueExt
                     if (boxValue >= 0 && baStillPlace > 0) {
                         scanButtonExtractLabel.visibility = View.VISIBLE
                         scanButtonExtract.visibility = View.VISIBLE
@@ -513,19 +510,16 @@ class ExtractionActivity : AppCompatActivity() {
 
                     // Check if there is still enough place in the rack before initiating the QR code reader
                     CoroutineScope(Dispatchers.IO).launch {
-                        val box = scanButtonBox.text.toString()
-                        val upBoxValueExt = checkBoxLoadExt(box)
-                        val upBoxValueAl = checkBoxLoadAl(box)
-                        val upBoxValueBa = checkBoxLoadBa(box)
-                        val upStillPlace = 81 - upBoxValueExt - upBoxValueAl - upBoxValueBa
+                        localBoxValue--
+                        showToast("places: $localBoxValue")
 
                         withContext(Dispatchers.Main) {
 
-                            if (upStillPlace > 0) {
+                            if (localBoxValue > 0) {
                                 // Automatically launch the QR scanning when last sample correctly added to the database
                                 boxEmptyPlace.visibility = View.VISIBLE
                                 boxEmptyPlace.text =
-                                    "This box should still contain $upStillPlace empty places"
+                                    "This box should still contain $localBoxValue empty places"
                                 delay(1500)
                                 scanButtonExtract.performClick()
                             } else {
@@ -555,8 +549,7 @@ class ExtractionActivity : AppCompatActivity() {
                         )
                     }
                 } else {
-                    showToast("Connection error")
-                    goToConnectionActivity()
+                    showToast("database error, the sample seems to be absent from the database.")
                 }
             } finally {
                 urlConnection.disconnect()
@@ -568,7 +561,7 @@ class ExtractionActivity : AppCompatActivity() {
     }
 
 
-    // Function to send data to Directus
+    // Function to send new batches to Directus
     @SuppressLint("SetTextI18n", "DiscouragedApi")
     private suspend fun generateNewBatch() {
         val accessToken = retrieveToken()
@@ -602,6 +595,8 @@ class ExtractionActivity : AppCompatActivity() {
                 urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
 
                 val responseCode = urlConnection.responseCode
+                showToast("response: $responseCode")
+                showToast("batch id: ")
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     // Read the response body
                     val inputStream = urlConnection.inputStream
@@ -755,6 +750,8 @@ class ExtractionActivity : AppCompatActivity() {
                             showToast("Connection error")
                             goToConnectionActivity()
                         }
+                    } else {
+                        showToast("Please scan a valid extraction blank")
                     }
                 }
             } finally {
@@ -1090,57 +1087,6 @@ class ExtractionActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun checkBoxLoadBa(boxId: String): Int {
-
-        return withContext(Dispatchers.IO) {
-            val accessToken = retrieveToken()
-            val url = URL("http://directus.dbgi.org/items/Blank_Extracts/?filter[mobile_container_id][_eq]=$boxId")
-            val urlConnection = url.openConnection() as HttpURLConnection
-
-            try {
-                urlConnection.requestMethod = "GET"
-                urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
-
-                val responseCode = urlConnection.responseCode
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    // Read the response body
-                    val inputStream = urlConnection.inputStream
-                    val bufferedReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
-                    val response = StringBuilder()
-                    var line: String?
-                    while (bufferedReader.readLine().also { line = it } != null) {
-                        response.append(line)
-                    }
-
-                    // Parse the response JSON to get the count
-                    val jsonObject = JSONObject(response.toString())
-                    val dataArray = jsonObject.getJSONArray("data")
-
-                    // Return the number of sorted elements
-                    dataArray.length()
-                } else if (!hasTriedAgain) {
-                    hasTriedAgain = true
-                    val newAccessToken = getNewAccessToken()
-
-                    if (newAccessToken != null) {
-                        retrieveToken(newAccessToken)
-                        // Retry the operation with the new access token
-                        return@withContext checkBoxLoadBa(boxId)
-                    } else {
-                        showToast("Connection error")
-                        goToConnectionActivity()
-                    }
-                } else {
-                    showToast("Connection error")
-                    goToConnectionActivity()
-                }
-            } finally {
-                urlConnection.disconnect()
-            } as Int
-        }
-    }
-
-
     // Manage errors information to guide the user
     @SuppressLint("SetTextI18n")
     private fun handleInvalidScanResult(stillPlace: Int, boxValue: Int) {
@@ -1167,7 +1113,7 @@ class ExtractionActivity : AppCompatActivity() {
         withContext(Dispatchers.IO) {
             val accessToken = retrieveToken()
             // Define the table url
-            val collectionUrl = "http://directus.dbgi.org/items/Blank_Extracts"
+            val collectionUrl = "http://directus.dbgi.org/items/Lab_Extracts"
             val url = URL(collectionUrl)
             val urlConnection =
                 withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
@@ -1177,11 +1123,12 @@ class ExtractionActivity : AppCompatActivity() {
                 urlConnection.setRequestProperty("Content-Type", "application/json")
                 urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
                 val data = JSONObject().apply {
-                    put("blk_id", batchSample)
+                    put("lab_extract_id", batchSample)
+                    put("field_sample_id", "blank")
                     put("mobile_container_id", boxId)
                     put("extraction_method", selectedValue)
                     put("status", "OK")
-                    put("solvent_volume_microliter", solventVolume.text.toString())
+                    put("solvent_volume_micro", solventVolume.text.toString())
                     put("batch_id", batch)
                 }
 

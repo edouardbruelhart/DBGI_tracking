@@ -12,6 +12,8 @@ drawable ic_launcher_background
 drawable minilogo_dbgi
 id Spacing
 id actionButton
+id aliquotVolume
+id aliquotVolumeLabel
 id aliquotsButton
 id boxEmptyPlace
 id cancelButton
@@ -48,8 +50,8 @@ id printerListView
 id printerNameTextView
 id rackInformation
 id sampleButton
-id scanBoxLabel
 id scanButtonAliquot
+id scanButtonAliquotLabel
 id scanButtonBatch
 id scanButtonBatchLabel
 id scanButtonBox
@@ -70,7 +72,6 @@ id targetWeightInput
 id textFalcon
 id textRack
 id usernameEditText
-id volumeInput
 id warningMessage
 id weightInput
 id weightingButton

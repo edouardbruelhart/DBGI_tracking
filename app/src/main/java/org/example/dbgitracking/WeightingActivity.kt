@@ -134,14 +134,17 @@ class WeightingActivity : AppCompatActivity() {
             scanButtonFalcon.text = "Value"
             weightInput.visibility = View.VISIBLE
             submitButton.visibility = View.VISIBLE
+            weightInput.postDelayed({
+                weightInput.requestFocus()
+                showKeyboard()
+            }, 200)
             weightInput.text = null
             scanStatus.text = ""
             scanButtonFalcon.text = scannedSample
-            //manageScan()
         }
     }
 
-    // Add a TextWatcher to the numberInput for real-time validation. Permits to constrain the user entry from 47.5 to 52.5
+    // Add a TextWatcher to the numberInput for real-time validation. Permits to constrain the user entry to a 5% error from the target weight.
     weightInput.addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -166,11 +169,14 @@ class WeightingActivity : AppCompatActivity() {
         }
     })
 
+    var operationInProgress = false
+
     submitButton.setOnClickListener {
+        submitButton.visibility=View.INVISIBLE
         val inputText = weightInput.text.toString()
         val inputNumber = inputText.toFloatOrNull()
 
-        if (inputNumber != null && inputNumber >= 47.5 && inputNumber <= 52.5) {
+        if (inputNumber != null) {
 
             // Define the table url
             val collectionUrl = "http://directus.dbgi.org/items/Lab_Extracts"
@@ -540,5 +546,9 @@ class WeightingActivity : AppCompatActivity() {
         intent.putExtra("PASSWORD", password)
         intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
         startActivity(intent)
+    }
+    private fun showKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(weightInput, InputMethodManager.SHOW_IMPLICIT)
     }
 }

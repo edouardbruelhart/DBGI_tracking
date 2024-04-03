@@ -50,6 +50,7 @@ class FalconActivity : AppCompatActivity() {
     private var hasTriedAgain = false
     private var isQrScannerActive = false
     private var lastAccessToken: String? = null
+    private var rackPlaces: Int = 24
 
     @OptIn(ExperimentalGetImage::class) @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,6 +148,7 @@ class FalconActivity : AppCompatActivity() {
                             val sizeNumber = size.split("x")
                             val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
                             val stillPlace = places - rackValue
+                            rackPlaces = stillPlace
                             if (rackValue >= 0 && stillPlace > 0){
                                 textFalcon.visibility = View.VISIBLE
                                 scanButtonFalcon.visibility = View.VISIBLE
@@ -295,20 +297,14 @@ class FalconActivity : AppCompatActivity() {
 
                 // Check if there is still enough place in the rack before initiating the QR code reader
                 CoroutineScope(Dispatchers.IO).launch {
-                    val rack = scanButtonRack.text.toString()
-                    val upRackValue = checkRackLoad(rack)
-                    val parts = rack.split("_")
-                    val size = parts[1]
-                    val sizeNumber = size.split("x")
-                    val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
-                    val upStillPlace = places - upRackValue
+                    rackPlaces--
 
                     withContext(Dispatchers.Main) {
 
-                        if(upStillPlace > 0){
+                        if(rackPlaces > 0){
                             // Automatically launch the QR scanning when last sample correctly added to the database
                             emptyPlace.visibility = View.VISIBLE
-                            emptyPlace.text = "This rack should still contain $upStillPlace empty places"
+                            emptyPlace.text = "This rack should still contain $rackPlaces empty places"
                             hasTriedAgain = false
                             delay(500)
                             scanButtonFalcon.performClick()

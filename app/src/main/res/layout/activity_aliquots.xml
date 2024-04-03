@@ -17,19 +17,32 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="HardcodedText,MissingConstraints" />
 
+    <TextView
+        android:id="@+id/aliquotVolumeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter aliquot's volume (µl)"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Spacing"
+        android:layout_marginTop="16dp"
+        tools:ignore="HardcodedText" />
+
     <EditText
         android:id="@+id/aliquotVolume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Enter aliquot's volume (µl)"
+        android:hint="your volume"
         android:inputType="number"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Spacing"
+        app:layout_constraintTop_toBottomOf="@id/aliquotVolumeLabel"
         tools:ignore="HardcodedText,MissingConstraints"
-        android:autofillHints="" />
+        android:autofillHints="125" />
 
     <TextView
         android:id="@+id/scanButtonBoxLabel"
@@ -39,11 +52,10 @@
         android:visibility="invisible"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/aliquotVolume"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="16dp"
         tools:ignore="HardcodedText" />
 
     <Button
@@ -69,7 +81,7 @@
         app:layout_constraintTop_toBottomOf="@id/scanButtonBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="15dp"
         tools:ignore="HardcodedText,MissingConstraints" />
 
@@ -84,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@id/boxEmptyPlace"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="15dp"
         tools:ignore="HardcodedText,MissingConstraints" />
 
