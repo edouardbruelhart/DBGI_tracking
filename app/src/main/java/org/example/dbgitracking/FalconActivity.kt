@@ -43,6 +43,7 @@ class FalconActivity : AppCompatActivity() {
     private lateinit var scanButtonFalcon: Button
     private lateinit var previewView: PreviewView
     private lateinit var flashlightButton: Button
+    private lateinit var absentButton: Button
     private lateinit var scanStatus: TextView
 
     private var isRackScanActive = false
@@ -71,6 +72,7 @@ class FalconActivity : AppCompatActivity() {
         scanButtonFalcon = findViewById(R.id.scanButtonFalcon)
         previewView = findViewById(R.id.previewView)
         flashlightButton = findViewById(R.id.flashlightButton)
+        absentButton = findViewById(R.id.absentButton)
         scanStatus = findViewById(R.id.scanStatus)
 
         val token = intent.getStringExtra("ACCESS_TOKEN").toString()
@@ -86,16 +88,18 @@ class FalconActivity : AppCompatActivity() {
             previewView.visibility = View.VISIBLE
             scanStatus.text = "Scan a rack"
             flashlightButton.visibility = View.VISIBLE
+            absentButton.visibility = View.VISIBLE
             scanButtonRack.visibility = View.INVISIBLE
             textFalcon.visibility = View.INVISIBLE
             scanButtonFalcon.visibility = View.INVISIBLE
-            QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedRack ->
+            QRCodeScannerUtility.initialize(this, previewView, flashlightButton, absentButton) { scannedRack ->
 
                 // Stop the scanning process after receiving the result
                 QRCodeScannerUtility.stopScanning()
                 isQrScannerActive = false
                 previewView.visibility = View.INVISIBLE
                 flashlightButton.visibility = View.INVISIBLE
+                absentButton.visibility = View.INVISIBLE
                 scanButtonRack.visibility = View.VISIBLE
                 textFalcon.visibility = View.VISIBLE
                 scanButtonFalcon.visibility = View.VISIBLE
@@ -133,6 +137,7 @@ class FalconActivity : AppCompatActivity() {
         }
     }
 
+    // Function to store the scanned data.
     @SuppressLint("SetTextI18n")
     fun manageScan() {
 
@@ -140,30 +145,47 @@ class FalconActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
                         if (isRackScanActive) {
-                            // permits to calculate places in container using columnsxrows present in container name
-                            val rack = scanButtonRack.text.toString()
-                            val rackValue = checkRackLoad(rack)
-                            val parts = rack.split("_")
-                            val size = parts[1]
-                            val sizeNumber = size.split("x")
-                            val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
-                            val stillPlace = places - rackValue
-                            rackPlaces = stillPlace
-                            if (rackValue >= 0 && stillPlace > 0){
+                            if (scanButtonRack.text.toString().matches(Regex("^container_\\dx\\d_\\d{6}\$"))) {
+                                // permits to calculate places in container using columnsxrows present in container name
+                                val rack = scanButtonRack.text.toString()
+                                val rackValue = checkRackLoad(rack)
+                                val parts = rack.split("_")
+                                val size = parts[1]
+                                val sizeNumber = size.split("x")
+                                val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
+                                val stillPlace = places - rackValue
+                                rackPlaces = stillPlace
+                                if (rackValue >= 0 && stillPlace > 0) {
+                                    textFalcon.visibility = View.VISIBLE
+                                    scanButtonFalcon.visibility = View.VISIBLE
+                                    emptyPlace.visibility = View.VISIBLE
+                                    emptyPlace.setTextColor(Color.GRAY)
+                                    emptyPlace.text =
+                                        "This rack should still contain $stillPlace empty places"
+                                } else if (stillPlace < 1) {
+                                    emptyPlace.visibility = View.VISIBLE
+                                    emptyPlace.text = "This rack is full, please scan another one"
+                                    scanButtonRack.text = "Value"
+                                    scanButtonFalcon.text = "Begin to scan samples"
+                                    emptyPlace.setTextColor(Color.RED)
+                                } else {
+                                    showToast("Connection error")
+                                    goToConnectionActivity()
+                                }
+                            } else if (scanButtonRack.text.toString() == "absent") {
                                 textFalcon.visibility = View.VISIBLE
                                 scanButtonFalcon.visibility = View.VISIBLE
                                 emptyPlace.visibility = View.VISIBLE
                                 emptyPlace.setTextColor(Color.GRAY)
-                                emptyPlace.text = "This rack should still contain $stillPlace empty places"
-                            } else if (stillPlace < 1){
-                                emptyPlace.visibility = View.VISIBLE
-                                emptyPlace.text = "This rack is full, please scan another one"
-                                scanButtonRack.text = "Value"
-                                scanButtonFalcon.text = "Begin to scan samples"
-                                emptyPlace.setTextColor(Color.RED)
+                                emptyPlace.text =
+                                    "No rack attribution, sample considered as stored individually. You can modify this state at any time by reusing this mode and scanning a valid rack."
                             } else {
-                                showToast("Connection error")
-                                goToConnectionActivity()
+                                textFalcon.visibility = View.INVISIBLE
+                                scanButtonFalcon.visibility = View.INVISIBLE
+                                emptyPlace.visibility = View.VISIBLE
+                                emptyPlace.setTextColor(Color.RED)
+                                emptyPlace.text =
+                                    "Invalid container!"
                             }
                         } else if (isObjectScanActive) {
                             val rackId = scanButtonRack.text.toString()
@@ -252,6 +274,7 @@ class FalconActivity : AppCompatActivity() {
             val data = JSONObject().apply {
                 put("field_sample_id", sampleId)
                 put("mobile_container_id", rackId)
+                put("qfield_link", sampleId)
             }
 
             val outputStream: OutputStream = urlConnection.outputStream
@@ -327,10 +350,11 @@ class FalconActivity : AppCompatActivity() {
                         retrieveToken(newAccessToken)
                         // Retry the operation with the new access token
                         return sendDataToDirectus(sampleId, rackId)
+                    } else {
+                        // Request failed
+                        showToast("Connection error")
+                        goToConnectionActivity()
                     }
-                // Request failed
-                showToast("Connection error")
-                goToConnectionActivity()
             } else {
                 updateDataToDirectus(sampleId, rackId)
             }
@@ -339,6 +363,7 @@ class FalconActivity : AppCompatActivity() {
         }
     }
 
+    // Function that modifies the associated rack if sample is already present in the database.
     @SuppressLint("SetTextI18n")
     private suspend fun updateDataToDirectus(
         sampleId: String,
@@ -409,32 +434,45 @@ class FalconActivity : AppCompatActivity() {
 
                 // Check if there is still enough place in the rack before initiating the QR code reader
                 CoroutineScope(Dispatchers.IO).launch {
-                    val rack = scanButtonRack.text.toString()
-                    val upRackValue = checkRackLoad(rack)
-                    val parts = rack.split("_")
-                    val size = parts[1]
-                    val sizeNumber = size.split("x")
-                    val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
-                    val upStillPlace = places - upRackValue
+                    if (scanButtonRack.text.toString().matches(Regex("^container_\\dx\\d_\\d{6}\$"))) {
+                        val rack = scanButtonRack.text.toString()
+                        val upRackValue = checkRackLoad(rack)
+                        val parts = rack.split("_")
+                        val size = parts[1]
+                        val sizeNumber = size.split("x")
+                        val places = sizeNumber[0].toInt() * sizeNumber[1].toInt()
+                        val upStillPlace = places - upRackValue
 
-                    withContext(Dispatchers.Main) {
+                        withContext(Dispatchers.Main) {
 
-                        if(upStillPlace > 0){
+                            if (upStillPlace > 0) {
+                                // Automatically launch the QR scanning when last sample correctly added to the database
+                                emptyPlace.visibility = View.VISIBLE
+                                emptyPlace.text =
+                                    "This rack should still contain $upStillPlace empty places"
+                                hasTriedAgain = false
+                                delay(500)
+                                scanButtonFalcon.performClick()
+                            } else {
+                                emptyPlace.text = "Rack is full, scan another one to continue"
+                                scanButtonRack.text = "scan another rack"
+                                scanButtonFalcon.text = "Begin to scan samples"
+                                textFalcon.visibility = View.INVISIBLE
+                                scanButtonFalcon.visibility = View.INVISIBLE
+
+                            }
+
+                        }
+                    } else if (scanButtonRack.text.toString() == "absent") {
+                        withContext(Dispatchers.Main) {
                             // Automatically launch the QR scanning when last sample correctly added to the database
                             emptyPlace.visibility = View.VISIBLE
-                            emptyPlace.text = "This rack should still contain $upStillPlace empty places"
+                            emptyPlace.text =
+                                "No rack attribution, sample considered as stored individually. You can modify this state at any time by reusing this mode and scanning a valid rack."
                             hasTriedAgain = false
                             delay(500)
                             scanButtonFalcon.performClick()
-                        } else {
-                            emptyPlace.text = "Rack is full, scan another one to continue"
-                            scanButtonRack.text = "scan another rack"
-                            scanButtonFalcon.text = "Begin to scan samples"
-                            textFalcon.visibility = View.INVISIBLE
-                            scanButtonFalcon.visibility = View.INVISIBLE
-
                         }
-
                     }
                 }
             } else if (!hasTriedAgain) {
@@ -445,42 +483,18 @@ class FalconActivity : AppCompatActivity() {
                     retrieveToken(newAccessToken)
                     // Retry the operation with the new access token
                     return sendDataToDirectus(sampleId, rackId)
+                } else {
+                    // Request failed
+                    showToast("Connection error")
+                    goToConnectionActivity()
                 }
-                // Request failed
-                showToast("Connection error")
-                goToConnectionActivity()
             } else {
-                showToast("unknown error")
-                goToConnectionActivity()
+                // Request failed
+                showToast("database error, the sample seems to be absent from the database.")
             }
         } finally {
             urlConnection.disconnect()
         }
-    }
-
-    // Connect the back arrow to the action to go back to home page
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                return if (isQrScannerActive){
-                    QRCodeScannerUtility.stopScanning()
-                    isQrScannerActive = false
-                    previewView.visibility = View.INVISIBLE
-                    flashlightButton.visibility = View.INVISIBLE
-                    scanButtonRack.visibility = View.VISIBLE
-                    scanStatus.text = ""
-                    if (isObjectScanActive){
-                        textFalcon.visibility = View.VISIBLE
-                        scanButtonFalcon.visibility = View.VISIBLE
-                    }
-                    true
-                } else {
-                    onBackPressed()
-                    true
-                }
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     // If actual access token is deprecated, perform a connection to obtain a new one.
@@ -545,10 +559,7 @@ class FalconActivity : AppCompatActivity() {
         return deferred.await()
     }
 
-    private fun showToast(toast: String?) {
-        runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_LONG).show() }
-    }
-
+    // Function to always store the last generated token.
     private fun retrieveToken(token: String? = null): String {
         if (token != null) {
             lastAccessToken = token
@@ -556,8 +567,38 @@ class FalconActivity : AppCompatActivity() {
         return lastAccessToken ?: "null"
     }
 
+    // Function to redirect user to connection page if connection is lost.
     private fun goToConnectionActivity(){
         val intent = Intent(this, DirectusConnectionActivity::class.java)
         startActivity(intent)
+    }
+
+    // Connect the back arrow to the action to go back to home page
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                return if (isQrScannerActive){
+                    QRCodeScannerUtility.stopScanning()
+                    isQrScannerActive = false
+                    previewView.visibility = View.INVISIBLE
+                    flashlightButton.visibility = View.INVISIBLE
+                    scanButtonRack.visibility = View.VISIBLE
+                    scanStatus.text = ""
+                    if (isObjectScanActive){
+                        textFalcon.visibility = View.VISIBLE
+                        scanButtonFalcon.visibility = View.VISIBLE
+                    }
+                    true
+                } else {
+                    onBackPressed()
+                    true
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    // Function to easily display toasts.
+    private fun showToast(toast: String?) {
+        runOnUiThread { Toast.makeText(this, toast, Toast.LENGTH_LONG).show() }
     }
 }

@@ -34,6 +34,7 @@ object QRCodeScannerUtility {
     private lateinit var camera: Camera
     private lateinit var scanner: BarcodeScanner
     private var flashlightButton: Button? = null
+    private var absentButton: Button? = null
 
     private lateinit var cameraExecutor: ExecutorService
     private var previewView: PreviewView? = null
@@ -42,13 +43,20 @@ object QRCodeScannerUtility {
     private lateinit var sharedPreferences: SharedPreferences
 
     // Modify initialize function to return the scanned value
-    fun initialize(context: Context, previewView: PreviewView, flashlightButton: Button, callback: (String) -> Unit) {
+    fun initialize(context: Context, previewView: PreviewView, flashlightButton: Button, absentButton: Button? = null, callback: (String) -> Unit) {
         this.previewView = previewView
         cameraExecutor = Executors.newSingleThreadExecutor()
         scanner = createBarcodeScanner()
         startCamera(context)
 
         this.flashlightButton = flashlightButton
+        if (absentButton != null) {
+            this.absentButton = absentButton
+            this.absentButton?.setOnClickListener {
+                callback("absent")
+            }
+        }
+
 
         this.flashlightButton?.setOnClickListener {
             toggleFlashlight()
@@ -160,6 +168,10 @@ object QRCodeScannerUtility {
         } else {
             turnOnFlashlight()
         }
+    }
+
+    private fun scanAbsent() {
+
     }
 
     // Function to turn on the flashlight

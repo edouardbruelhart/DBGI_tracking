@@ -1,0 +1,74 @@
+[
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_weighting.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_weighting.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_home_page.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_home_page.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_falcon.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_falcon.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_warning.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_warning.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/printer_list_item.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/printer_list_item.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_move.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_move.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_manage_printer.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_manage_printer.xml"
+    },
+    {
+        "merged": "org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_falcon.xml",
+        "source": "org.example.dbgitracking.app-main-57:/layout/activity_falcon.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_injection.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_injection.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_signaling.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_signaling.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_extraction.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_extraction.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_printer_connect.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_printer_connect.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_find.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_find.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_signaling_scan.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_signaling_scan.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_location.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_location.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_directus_connection.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_directus_connection.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_signaling_man.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_signaling_man.xml"
+    },
+    {
+        "merged": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-mergeReleaseResources-55:/layout/activity_aliquots.xml",
+        "source": "/home/edouard/.gradle/daemon/8.4/org.example.dbgitracking.app-main-57:/layout/activity_aliquots.xml"
+    }
+]

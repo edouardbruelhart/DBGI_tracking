@@ -18,6 +18,7 @@ class HomePageActivity : AppCompatActivity() {
     private lateinit var signalingButton: Button
     private lateinit var findButton: Button
 
+    // Function that is launched when class is called.
     @OptIn(ExperimentalGetImage::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)

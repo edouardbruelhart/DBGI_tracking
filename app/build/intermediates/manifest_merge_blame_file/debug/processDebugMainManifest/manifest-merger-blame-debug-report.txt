@@ -1,0 +1,527 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.example.dbgitracking"
+4    android:versionCode="1"
+5    android:versionName="0.6" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="29"
+9        android:targetSdkVersion="33" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:6:5-67
+11-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:6:22-64
+12    <uses-permission android:name="android.permission.CAMERA" />
+12-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:7:5-65
+12-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:7:22-62
+13    <uses-permission android:name="android.permission.FLASHLIGHT" />
+13-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:8:5-69
+13-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:8:22-66
+14    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+14-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:9:5-76
+14-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:9:22-73
+15    <uses-permission
+15-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:10:5-73
+16        android:name="android.permission.BLUETOOTH_SCAN"
+16-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:10:22-70
+17        android:usesPermissionFlags="neverForLocation" />
+17-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:22:9-55
+18    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+18-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:11:5-79
+18-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:11:22-76
+19
+20    <uses-feature
+20-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:13:5-15:36
+21        android:name="android.hardware.bluetooth"
+21-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:14:9-50
+22        android:required="false" />
+22-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:15:9-33
+23    <uses-feature
+23-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:16:5-18:36
+24        android:name="android.hardware.bluetooth_le"
+24-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:17:9-53
+25        android:required="false" />
+25-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:18:9-33
+26    <uses-feature
+26-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:19:5-21:36
+27        android:name="android.hardware.camera"
+27-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:20:9-47
+28        android:required="false" />
+28-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:21:9-33
+29
+30    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+30-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:10:5-12:40
+30-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:11:9-65
+31    <uses-permission
+31-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:13:5-15:38
+32        android:name="android.permission.READ_EXTERNAL_STORAGE"
+32-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:14:9-64
+33        android:maxSdkVersion="32" />
+33-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:15:9-35
+34    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+34-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:16:5-86
+34-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:16:22-83
+35    <uses-permission
+35-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:17:5-68
+36        android:name="android.permission.BLUETOOTH"
+36-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:17:22-65
+37        android:maxSdkVersion="30" />
+37-->[com.polidea.rxandroidble2:rxandroidble:1.16.0] /home/edouard/.gradle/caches/transforms-3/3e4ff81c1104c4224aaf8a5b6289228a/transformed/jetified-rxandroidble-1.16.0/AndroidManifest.xml:12:9-35
+38    <uses-permission
+38-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:18:5-74
+39        android:name="android.permission.BLUETOOTH_ADMIN"
+39-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:18:22-71
+40        android:maxSdkVersion="30" />
+40-->[com.polidea.rxandroidble2:rxandroidble:1.16.0] /home/edouard/.gradle/caches/transforms-3/3e4ff81c1104c4224aaf8a5b6289228a/transformed/jetified-rxandroidble-1.16.0/AndroidManifest.xml:15:9-35
+41    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+41-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:25:5-81
+41-->[com.bradyid:BradySdk:1.6.0] /home/edouard/.gradle/caches/transforms-3/79e278e55ad529c41031267ad7e6204f/transformed/jetified-BradySdk-1.6.0/AndroidManifest.xml:25:22-78
+42    <uses-permission android:name="android.permission.REORDER_TASKS" /> <!-- Required by older versions of Google Play services to create GCM registration tokens -->
+42-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:24:5-72
+42-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:24:22-69
+43    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+43-->[com.google.android.gms:play-services-gcm:17.0.0] /home/edouard/.gradle/caches/transforms-3/f1de511178c241cff2181a9dced87e74/transformed/jetified-play-services-gcm-17.0.0/AndroidManifest.xml:23:5-82
+43-->[com.google.android.gms:play-services-gcm:17.0.0] /home/edouard/.gradle/caches/transforms-3/f1de511178c241cff2181a9dced87e74/transformed/jetified-play-services-gcm-17.0.0/AndroidManifest.xml:23:22-79
+44
+45    <permission
+45-->[androidx.core:core:1.13.0] /home/edouard/.gradle/caches/transforms-3/53bafbfafa0dcf9bdaf4f299ae80b5cf/transformed/core-1.13.0/AndroidManifest.xml:22:5-24:47
+46        android:name="org.example.dbgitracking.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+46-->[androidx.core:core:1.13.0] /home/edouard/.gradle/caches/transforms-3/53bafbfafa0dcf9bdaf4f299ae80b5cf/transformed/core-1.13.0/AndroidManifest.xml:23:9-81
+47        android:protectionLevel="signature" />
+47-->[androidx.core:core:1.13.0] /home/edouard/.gradle/caches/transforms-3/53bafbfafa0dcf9bdaf4f299ae80b5cf/transformed/core-1.13.0/AndroidManifest.xml:24:9-44
+48
+49    <uses-permission android:name="org.example.dbgitracking.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+49-->[androidx.core:core:1.13.0] /home/edouard/.gradle/caches/transforms-3/53bafbfafa0dcf9bdaf4f299ae80b5cf/transformed/core-1.13.0/AndroidManifest.xml:26:5-97
+49-->[androidx.core:core:1.13.0] /home/edouard/.gradle/caches/transforms-3/53bafbfafa0dcf9bdaf4f299ae80b5cf/transformed/core-1.13.0/AndroidManifest.xml:26:22-94
+50
+51    <queries>
+51-->[androidx.test:runner:1.5.2] /home/edouard/.gradle/caches/transforms-3/173af4e2baf5c30ad75c5ff61f7db297/transformed/runner-1.5.2/AndroidManifest.xml:24:5-28:15
+52        <package android:name="androidx.test.orchestrator" />
+52-->[androidx.test:runner:1.5.2] /home/edouard/.gradle/caches/transforms-3/173af4e2baf5c30ad75c5ff61f7db297/transformed/runner-1.5.2/AndroidManifest.xml:25:9-62
+52-->[androidx.test:runner:1.5.2] /home/edouard/.gradle/caches/transforms-3/173af4e2baf5c30ad75c5ff61f7db297/transformed/runner-1.5.2/AndroidManifest.xml:25:18-59
+53        <package android:name="androidx.test.services" />
+53-->[androidx.test:runner:1.5.2] /home/edouard/.gradle/caches/transforms-3/173af4e2baf5c30ad75c5ff61f7db297/transformed/runner-1.5.2/AndroidManifest.xml:26:9-58
+53-->[androidx.test:runner:1.5.2] /home/edouard/.gradle/caches/transforms-3/173af4e2baf5c30ad75c5ff61f7db297/transformed/runner-1.5.2/AndroidManifest.xml:26:18-55
+54        <package android:name="com.google.android.apps.common.testing.services" />
+54-->[androidx.test:runner:1.5.2] /home/edouard/.gradle/caches/transforms-3/173af4e2baf5c30ad75c5ff61f7db297/transformed/runner-1.5.2/AndroidManifest.xml:27:9-83
+54-->[androidx.test:runner:1.5.2] /home/edouard/.gradle/caches/transforms-3/173af4e2baf5c30ad75c5ff61f7db297/transformed/runner-1.5.2/AndroidManifest.xml:27:18-80
+55    </queries> <!-- required for API 23 - 30, no android:maxSdkVersion because of a potential breaking change -->
+56    <!-- TODO: add android:maxSdkVersion on 2.0.0 -->
+57    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
+57-->[com.polidea.rxandroidble2:rxandroidble:1.16.0] /home/edouard/.gradle/caches/transforms-3/3e4ff81c1104c4224aaf8a5b6289228a/transformed/jetified-rxandroidble-1.16.0/AndroidManifest.xml:18:5-88
+57-->[com.polidea.rxandroidble2:rxandroidble:1.16.0] /home/edouard/.gradle/caches/transforms-3/3e4ff81c1104c4224aaf8a5b6289228a/transformed/jetified-rxandroidble-1.16.0/AndroidManifest.xml:18:29-85
+58    <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
+58-->[com.polidea.rxandroidble2:rxandroidble:1.16.0] /home/edouard/.gradle/caches/transforms-3/3e4ff81c1104c4224aaf8a5b6289228a/transformed/jetified-rxandroidble-1.16.0/AndroidManifest.xml:19:5-86
+58-->[com.polidea.rxandroidble2:rxandroidble:1.16.0] /home/edouard/.gradle/caches/transforms-3/3e4ff81c1104c4224aaf8a5b6289228a/transformed/jetified-rxandroidble-1.16.0/AndroidManifest.xml:19:29-83
+59    <!-- <uses-sdk android:minSdkVersion="14"/> -->
+60    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+60-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/edouard/.gradle/caches/transforms-3/d798378a52795f79e39940749837f157/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:25:5-79
+60-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/edouard/.gradle/caches/transforms-3/d798378a52795f79e39940749837f157/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:25:22-76
+61
+62    <application
+62-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:23:5-110:19
+63        android:allowBackup="true"
+63-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:24:9-35
+64        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+64-->[androidx.core:core:1.13.0] /home/edouard/.gradle/caches/transforms-3/53bafbfafa0dcf9bdaf4f299ae80b5cf/transformed/core-1.13.0/AndroidManifest.xml:28:18-86
+65        android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+65-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:25:9-83
+66        android:dataExtractionRules="@xml/data_extraction_rules"
+66-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:26:9-65
+67        android:debuggable="true"
+68        android:extractNativeLibs="false"
+69        android:fullBackupContent="@xml/backup_rules"
+69-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:27:9-54
+70        android:icon="@mipmap/ic_launcher"
+70-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:28:9-43
+71        android:label="DBGI"
+71-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:29:9-29
+72        android:networkSecurityConfig="@xml/network_security_config"
+72-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:30:9-69
+73        android:roundIcon="@mipmap/ic_launcher"
+73-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:31:9-48
+74        android:supportsRtl="true"
+74-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:32:9-35
+75        android:testOnly="true"
+76        android:theme="@style/Theme.DBGITracking" >
+76-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:33:9-50
+77        <activity
+77-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:35:9-39:57
+78            android:name="org.example.dbgitracking.WarningActivity"
+78-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:36:13-44
+79            android:exported="false"
+79-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:37:13-37
+80            android:label="@string/title_activity_warning"
+80-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:38:13-59
+81            android:theme="@style/Theme.DBGITracking" />
+81-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:39:13-54
+82        <activity
+82-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:40:9-43:40
+83            android:name="org.example.dbgitracking.LocationActivity"
+83-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:41:13-45
+84            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+84-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:42:13-87
+85            android:exported="false" />
+85-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:43:13-37
+86        <activity
+86-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:44:9-47:40
+87            android:name="org.example.dbgitracking.MoveActivity"
+87-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:45:13-41
+88            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+88-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:46:13-87
+89            android:exported="false" />
+89-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:47:13-37
+90        <activity
+90-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:48:9-51:40
+91            android:name="org.example.dbgitracking.SignalingManActivity"
+91-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:49:13-49
+92            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+92-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:50:13-87
+93            android:exported="false" />
+93-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:51:13-37
+94        <activity
+94-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:52:9-55:40
+95            android:name="org.example.dbgitracking.SignalingScanActivity"
+95-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:53:13-50
+96            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+96-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:54:13-87
+97            android:exported="false" />
+97-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:55:13-37
+98        <activity
+98-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:56:9-59:40
+99            android:name="org.example.dbgitracking.WaitConnectionActivity"
+99-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:57:13-51
+100            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+100-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:58:13-87
+101            android:exported="false" />
+101-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:59:13-37
+102        <activity
+102-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:60:9-63:40
+103            android:name="org.example.dbgitracking.PermissionsActivity"
+103-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:61:13-48
+104            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+104-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:62:13-87
+105            android:exported="false" />
+105-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:63:13-37
+106        <activity
+106-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:64:9-67:40
+107            android:name="org.example.dbgitracking.ManagePrinterActivity"
+107-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:65:13-50
+108            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+108-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:66:13-87
+109            android:exported="false" />
+109-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:67:13-37
+110        <activity
+110-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:68:9-71:40
+111            android:name="org.example.dbgitracking.PrinterConnectActivity"
+111-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:69:13-51
+112            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+112-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:70:13-87
+113            android:exported="false" />
+113-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:71:13-37
+114        <activity
+114-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:72:9-75:40
+115            android:name="org.example.dbgitracking.AliquotsActivity"
+115-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:73:13-45
+116            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+116-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:74:13-87
+117            android:exported="false" />
+117-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:75:13-37
+118        <activity
+118-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:76:9-79:40
+119            android:name="org.example.dbgitracking.SignalingActivity"
+119-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:77:13-46
+120            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+120-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:78:13-87
+121            android:exported="false" />
+121-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:79:13-37
+122        <activity
+122-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:80:9-83:40
+123            android:name="org.example.dbgitracking.FalconActivity"
+123-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:81:13-43
+124            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+124-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:82:13-87
+125            android:exported="false" />
+125-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:83:13-37
+126        <activity
+126-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:84:9-87:40
+127            android:name="org.example.dbgitracking.WeightingActivity"
+127-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:85:13-46
+128            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+128-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:86:13-87
+129            android:exported="false" />
+129-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:87:13-37
+130        <activity
+130-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:88:9-91:40
+131            android:name="org.example.dbgitracking.FindActivity"
+131-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:89:13-41
+132            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+132-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:90:13-87
+133            android:exported="false" />
+133-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:91:13-37
+134        <activity
+134-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:92:9-95:40
+135            android:name="org.example.dbgitracking.ExtractionActivity"
+135-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:93:13-47
+136            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+136-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:94:13-87
+137            android:exported="false" />
+137-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:95:13-37
+138        <activity
+138-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:96:9-99:40
+139            android:name="org.example.dbgitracking.HomePageActivity"
+139-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:97:13-45
+140            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+140-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:98:13-87
+141            android:exported="false" />
+141-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:99:13-37
+142        <activity
+142-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:100:9-109:20
+143            android:name="org.example.dbgitracking.DirectusConnectionActivity"
+143-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:101:13-55
+144            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+144-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:102:13-87
+145            android:exported="true" >
+145-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:103:13-36
+146            <intent-filter>
+146-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:104:13-108:29
+147                <action android:name="android.intent.action.MAIN" />
+147-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:105:17-69
+147-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:105:25-66
+148
+149                <category android:name="android.intent.category.LAUNCHER" />
+149-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:107:17-77
+149-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:107:27-74
+150            </intent-filter>
+151        </activity>
+152
+153        <service
+153-->[androidx.camera:camera-camera2:1.3.3] /home/edouard/.gradle/caches/transforms-3/14f98f455e539ee9abfbab8d8b3e00c8/transformed/jetified-camera-camera2-1.3.3/AndroidManifest.xml:24:9-33:19
+154            android:name="androidx.camera.core.impl.MetadataHolderService"
+154-->[androidx.camera:camera-camera2:1.3.3] /home/edouard/.gradle/caches/transforms-3/14f98f455e539ee9abfbab8d8b3e00c8/transformed/jetified-camera-camera2-1.3.3/AndroidManifest.xml:25:13-75
+155            android:enabled="false"
+155-->[androidx.camera:camera-camera2:1.3.3] /home/edouard/.gradle/caches/transforms-3/14f98f455e539ee9abfbab8d8b3e00c8/transformed/jetified-camera-camera2-1.3.3/AndroidManifest.xml:26:13-36
+156            android:exported="false" >
+156-->[androidx.camera:camera-camera2:1.3.3] /home/edouard/.gradle/caches/transforms-3/14f98f455e539ee9abfbab8d8b3e00c8/transformed/jetified-camera-camera2-1.3.3/AndroidManifest.xml:27:13-37
+157            <meta-data
+157-->[androidx.camera:camera-camera2:1.3.3] /home/edouard/.gradle/caches/transforms-3/14f98f455e539ee9abfbab8d8b3e00c8/transformed/jetified-camera-camera2-1.3.3/AndroidManifest.xml:30:13-32:89
+158                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+158-->[androidx.camera:camera-camera2:1.3.3] /home/edouard/.gradle/caches/transforms-3/14f98f455e539ee9abfbab8d8b3e00c8/transformed/jetified-camera-camera2-1.3.3/AndroidManifest.xml:31:17-103
+159                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+159-->[androidx.camera:camera-camera2:1.3.3] /home/edouard/.gradle/caches/transforms-3/14f98f455e539ee9abfbab8d8b3e00c8/transformed/jetified-camera-camera2-1.3.3/AndroidManifest.xml:32:17-86
+160        </service>
+161
+162        <activity
+162-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:27:9-34:20
+163            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
+163-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:28:13-99
+164            android:exported="true"
+164-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:29:13-36
+165            android:theme="@style/WhiteBackgroundTheme" >
+165-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:30:13-56
+166            <intent-filter android:priority="-100" >
+166-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:31:13-33:29
+166-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:31:28-51
+167                <category android:name="android.intent.category.LAUNCHER" />
+167-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:107:17-77
+167-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:107:27-74
+168            </intent-filter>
+169        </activity>
+170        <activity
+170-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:35:9-42:20
+171            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+171-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:36:13-95
+172            android:exported="true"
+172-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:37:13-36
+173            android:theme="@style/WhiteBackgroundTheme" >
+173-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:38:13-56
+174            <intent-filter android:priority="-100" >
+174-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:31:13-33:29
+174-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:31:28-51
+175                <category android:name="android.intent.category.LAUNCHER" />
+175-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:107:17-77
+175-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:107:27-74
+176            </intent-filter>
+177        </activity>
+178        <activity
+178-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:43:9-50:20
+179            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+179-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:44:13-103
+180            android:exported="true"
+180-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:45:13-36
+181            android:theme="@style/WhiteBackgroundDialogTheme" >
+181-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:46:13-62
+182            <intent-filter android:priority="-100" >
+182-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:31:13-33:29
+182-->[androidx.test:core:1.5.0] /home/edouard/.gradle/caches/transforms-3/0e65b9a8176e94eaad1fa431d63f5b04/transformed/jetified-core-1.5.0/AndroidManifest.xml:31:28-51
+183                <category android:name="android.intent.category.LAUNCHER" />
+183-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:107:17-77
+183-->/home/edouard/Bureau/dbgi/DBGI_tracking_android/app/src/main/AndroidManifest.xml:107:27-74
+184            </intent-filter>
+185        </activity>
+186
+187        <service
+187-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.0] /home/edouard/.gradle/caches/transforms-3/455e216da6e4393af201a9fe28054c89/transformed/jetified-play-services-mlkit-barcode-scanning-18.3.0/AndroidManifest.xml:9:9-15:19
+188            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
+188-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.0] /home/edouard/.gradle/caches/transforms-3/455e216da6e4393af201a9fe28054c89/transformed/jetified-play-services-mlkit-barcode-scanning-18.3.0/AndroidManifest.xml:10:13-91
+189            android:directBootAware="true"
+189-->[com.google.mlkit:common:18.9.0] /home/edouard/.gradle/caches/transforms-3/d021e94b87efcef77dbc1b5c97b55a5c/transformed/jetified-common-18.9.0/AndroidManifest.xml:17:13-43
+190            android:exported="false" >
+190-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.0] /home/edouard/.gradle/caches/transforms-3/455e216da6e4393af201a9fe28054c89/transformed/jetified-play-services-mlkit-barcode-scanning-18.3.0/AndroidManifest.xml:11:13-37
+191            <meta-data
+191-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.0] /home/edouard/.gradle/caches/transforms-3/455e216da6e4393af201a9fe28054c89/transformed/jetified-play-services-mlkit-barcode-scanning-18.3.0/AndroidManifest.xml:12:13-14:85
+192                android:name="com.google.firebase.components:com.google.mlkit.vision.barcode.internal.BarcodeRegistrar"
+192-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.0] /home/edouard/.gradle/caches/transforms-3/455e216da6e4393af201a9fe28054c89/transformed/jetified-play-services-mlkit-barcode-scanning-18.3.0/AndroidManifest.xml:13:17-120
+193                android:value="com.google.firebase.components.ComponentRegistrar" />
+193-->[com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.0] /home/edouard/.gradle/caches/transforms-3/455e216da6e4393af201a9fe28054c89/transformed/jetified-play-services-mlkit-barcode-scanning-18.3.0/AndroidManifest.xml:14:17-82
+194            <meta-data
+194-->[com.google.mlkit:vision-common:17.3.0] /home/edouard/.gradle/caches/transforms-3/cd6bb1a8c9f3d1d88e49f39f32fb7b76/transformed/jetified-vision-common-17.3.0/AndroidManifest.xml:12:13-14:85
+195                android:name="com.google.firebase.components:com.google.mlkit.vision.common.internal.VisionCommonRegistrar"
+195-->[com.google.mlkit:vision-common:17.3.0] /home/edouard/.gradle/caches/transforms-3/cd6bb1a8c9f3d1d88e49f39f32fb7b76/transformed/jetified-vision-common-17.3.0/AndroidManifest.xml:13:17-124
+196                android:value="com.google.firebase.components.ComponentRegistrar" />
+196-->[com.google.mlkit:vision-common:17.3.0] /home/edouard/.gradle/caches/transforms-3/cd6bb1a8c9f3d1d88e49f39f32fb7b76/transformed/jetified-vision-common-17.3.0/AndroidManifest.xml:14:17-82
+197            <meta-data
+197-->[com.google.mlkit:common:18.9.0] /home/edouard/.gradle/caches/transforms-3/d021e94b87efcef77dbc1b5c97b55a5c/transformed/jetified-common-18.9.0/AndroidManifest.xml:20:13-22:85
+198                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
+198-->[com.google.mlkit:common:18.9.0] /home/edouard/.gradle/caches/transforms-3/d021e94b87efcef77dbc1b5c97b55a5c/transformed/jetified-common-18.9.0/AndroidManifest.xml:21:17-120
+199                android:value="com.google.firebase.components.ComponentRegistrar" />
+199-->[com.google.mlkit:common:18.9.0] /home/edouard/.gradle/caches/transforms-3/d021e94b87efcef77dbc1b5c97b55a5c/transformed/jetified-common-18.9.0/AndroidManifest.xml:22:17-82
+200        </service>
+201
+202        <provider
+202-->[com.google.mlkit:common:18.9.0] /home/edouard/.gradle/caches/transforms-3/d021e94b87efcef77dbc1b5c97b55a5c/transformed/jetified-common-18.9.0/AndroidManifest.xml:9:9-13:38
+203            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+203-->[com.google.mlkit:common:18.9.0] /home/edouard/.gradle/caches/transforms-3/d021e94b87efcef77dbc1b5c97b55a5c/transformed/jetified-common-18.9.0/AndroidManifest.xml:10:13-78
+204            android:authorities="org.example.dbgitracking.mlkitinitprovider"
+204-->[com.google.mlkit:common:18.9.0] /home/edouard/.gradle/caches/transforms-3/d021e94b87efcef77dbc1b5c97b55a5c/transformed/jetified-common-18.9.0/AndroidManifest.xml:11:13-69
+205            android:exported="false"
+205-->[com.google.mlkit:common:18.9.0] /home/edouard/.gradle/caches/transforms-3/d021e94b87efcef77dbc1b5c97b55a5c/transformed/jetified-common-18.9.0/AndroidManifest.xml:12:13-37
+206            android:initOrder="99" />
+206-->[com.google.mlkit:common:18.9.0] /home/edouard/.gradle/caches/transforms-3/d021e94b87efcef77dbc1b5c97b55a5c/transformed/jetified-common-18.9.0/AndroidManifest.xml:13:13-35
+207
+208        <activity
+208-->[com.google.android.gms:play-services-base:18.1.0] /home/edouard/.gradle/caches/transforms-3/dc4dad7956d2a09cbbab029f6f9d0edf/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:9-22:45
+209            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+209-->[com.google.android.gms:play-services-base:18.1.0] /home/edouard/.gradle/caches/transforms-3/dc4dad7956d2a09cbbab029f6f9d0edf/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:19-85
+210            android:exported="false"
+210-->[com.google.android.gms:play-services-base:18.1.0] /home/edouard/.gradle/caches/transforms-3/dc4dad7956d2a09cbbab029f6f9d0edf/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:22:19-43
+211            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+211-->[com.google.android.gms:play-services-base:18.1.0] /home/edouard/.gradle/caches/transforms-3/dc4dad7956d2a09cbbab029f6f9d0edf/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:21:19-78
+212
+213        <meta-data
+213-->[com.google.android.gms:play-services-basement:18.1.0] /home/edouard/.gradle/caches/transforms-3/216fa1505ada9e61c76176897f01a0ea/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:21:9-23:69
+214            android:name="com.google.android.gms.version"
+214-->[com.google.android.gms:play-services-basement:18.1.0] /home/edouard/.gradle/caches/transforms-3/216fa1505ada9e61c76176897f01a0ea/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:22:13-58
+215            android:value="@integer/google_play_services_version" />
+215-->[com.google.android.gms:play-services-basement:18.1.0] /home/edouard/.gradle/caches/transforms-3/216fa1505ada9e61c76176897f01a0ea/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:23:13-66
+216
+217        <provider
+217-->[androidx.emoji2:emoji2:1.2.0] /home/edouard/.gradle/caches/transforms-3/670af8f995b134a9a83265bc880ce02a/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+218            android:name="androidx.startup.InitializationProvider"
+218-->[androidx.emoji2:emoji2:1.2.0] /home/edouard/.gradle/caches/transforms-3/670af8f995b134a9a83265bc880ce02a/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
+219            android:authorities="org.example.dbgitracking.androidx-startup"
+219-->[androidx.emoji2:emoji2:1.2.0] /home/edouard/.gradle/caches/transforms-3/670af8f995b134a9a83265bc880ce02a/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
+220            android:exported="false" >
+220-->[androidx.emoji2:emoji2:1.2.0] /home/edouard/.gradle/caches/transforms-3/670af8f995b134a9a83265bc880ce02a/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
+221            <meta-data
+221-->[androidx.emoji2:emoji2:1.2.0] /home/edouard/.gradle/caches/transforms-3/670af8f995b134a9a83265bc880ce02a/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+222                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+222-->[androidx.emoji2:emoji2:1.2.0] /home/edouard/.gradle/caches/transforms-3/670af8f995b134a9a83265bc880ce02a/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
+223                android:value="androidx.startup" />
+223-->[androidx.emoji2:emoji2:1.2.0] /home/edouard/.gradle/caches/transforms-3/670af8f995b134a9a83265bc880ce02a/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
+224            <meta-data
+224-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/edouard/.gradle/caches/transforms-3/67dc47231e9b40589fc091e741e34fc0/transformed/jetified-lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+225                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+225-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/edouard/.gradle/caches/transforms-3/67dc47231e9b40589fc091e741e34fc0/transformed/jetified-lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+226                android:value="androidx.startup" />
+226-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/edouard/.gradle/caches/transforms-3/67dc47231e9b40589fc091e741e34fc0/transformed/jetified-lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+227            <meta-data
+227-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+228                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+228-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+229                android:value="androidx.startup" />
+229-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+230        </provider>
+231
+232        <uses-library
+232-->[androidx.window:window:1.0.0] /home/edouard/.gradle/caches/transforms-3/8d8cd98d7910d80f97c2d47c7b9ea928/transformed/jetified-window-1.0.0/AndroidManifest.xml:25:9-27:40
+233            android:name="androidx.window.extensions"
+233-->[androidx.window:window:1.0.0] /home/edouard/.gradle/caches/transforms-3/8d8cd98d7910d80f97c2d47c7b9ea928/transformed/jetified-window-1.0.0/AndroidManifest.xml:26:13-54
+234            android:required="false" />
+234-->[androidx.window:window:1.0.0] /home/edouard/.gradle/caches/transforms-3/8d8cd98d7910d80f97c2d47c7b9ea928/transformed/jetified-window-1.0.0/AndroidManifest.xml:27:13-37
+235        <uses-library
+235-->[androidx.window:window:1.0.0] /home/edouard/.gradle/caches/transforms-3/8d8cd98d7910d80f97c2d47c7b9ea928/transformed/jetified-window-1.0.0/AndroidManifest.xml:28:9-30:40
+236            android:name="androidx.window.sidecar"
+236-->[androidx.window:window:1.0.0] /home/edouard/.gradle/caches/transforms-3/8d8cd98d7910d80f97c2d47c7b9ea928/transformed/jetified-window-1.0.0/AndroidManifest.xml:29:13-51
+237            android:required="false" />
+237-->[androidx.window:window:1.0.0] /home/edouard/.gradle/caches/transforms-3/8d8cd98d7910d80f97c2d47c7b9ea928/transformed/jetified-window-1.0.0/AndroidManifest.xml:30:13-37
+238
+239        <service
+239-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/edouard/.gradle/caches/transforms-3/d798378a52795f79e39940749837f157/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:29:9-35:19
+240            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+240-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/edouard/.gradle/caches/transforms-3/d798378a52795f79e39940749837f157/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:30:13-103
+241            android:exported="false" >
+241-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/edouard/.gradle/caches/transforms-3/d798378a52795f79e39940749837f157/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:31:13-37
+242            <meta-data
+242-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/edouard/.gradle/caches/transforms-3/d798378a52795f79e39940749837f157/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:32:13-34:39
+243                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+243-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/edouard/.gradle/caches/transforms-3/d798378a52795f79e39940749837f157/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:33:17-94
+244                android:value="cct" />
+244-->[com.google.android.datatransport:transport-backend-cct:2.3.3] /home/edouard/.gradle/caches/transforms-3/d798378a52795f79e39940749837f157/transformed/jetified-transport-backend-cct-2.3.3/AndroidManifest.xml:34:17-36
+245        </service>
+246        <service
+246-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/edouard/.gradle/caches/transforms-3/1dc987c8f1f146b398ad192cfabd4f3c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:26:9-30:19
+247            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+247-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/edouard/.gradle/caches/transforms-3/1dc987c8f1f146b398ad192cfabd4f3c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:27:13-117
+248            android:exported="false"
+248-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/edouard/.gradle/caches/transforms-3/1dc987c8f1f146b398ad192cfabd4f3c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:28:13-37
+249            android:permission="android.permission.BIND_JOB_SERVICE" >
+249-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/edouard/.gradle/caches/transforms-3/1dc987c8f1f146b398ad192cfabd4f3c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:29:13-69
+250        </service>
+251
+252        <receiver
+252-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/edouard/.gradle/caches/transforms-3/1dc987c8f1f146b398ad192cfabd4f3c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:32:9-34:40
+253            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+253-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/edouard/.gradle/caches/transforms-3/1dc987c8f1f146b398ad192cfabd4f3c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:33:13-132
+254            android:exported="false" />
+254-->[com.google.android.datatransport:transport-runtime:2.2.6] /home/edouard/.gradle/caches/transforms-3/1dc987c8f1f146b398ad192cfabd4f3c/transformed/jetified-transport-runtime-2.2.6/AndroidManifest.xml:34:13-37
+255        <receiver
+255-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+256            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+256-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+257            android:directBootAware="false"
+257-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+258            android:enabled="true"
+258-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+259            android:exported="true"
+259-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+260            android:permission="android.permission.DUMP" >
+260-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+261            <intent-filter>
+261-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+262                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+262-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+262-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+263            </intent-filter>
+264            <intent-filter>
+264-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+265                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+265-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+265-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+266            </intent-filter>
+267            <intent-filter>
+267-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+268                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+268-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+268-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+269            </intent-filter>
+270            <intent-filter>
+270-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+271                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+271-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+271-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/edouard/.gradle/caches/transforms-3/6ad987189b306ffc8f646caa378cc1d9/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+272            </intent-filter>
+273        </receiver>
+274    </application>
+275
+276</manifest>

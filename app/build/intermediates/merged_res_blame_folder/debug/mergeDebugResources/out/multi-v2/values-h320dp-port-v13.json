@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "org.example.dbgitracking.app-mergeDebugResources-54:/values-h320dp-port-v13/values-h320dp-port-v13.xml",
+            "map": [
+                {
+                    "source": "/home/edouard/.gradle/caches/transforms-3/6509c2c5e41a32f7ee02cf9b340b3bb5/transformed/material-1.11.0/res/values-h320dp-port-v13/values-h320dp-port-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "63",
+                        "endOffsets": "114"
+                    }
+                }
+            ]
+        }
+    ]
+}

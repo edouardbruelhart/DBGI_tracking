@@ -168,206 +168,11 @@ class WeightingActivity : AppCompatActivity() {
             }
         }
     })
-
-    var operationInProgress = false
-
     submitButton.setOnClickListener {
         submitButton.visibility=View.INVISIBLE
         val inputText = weightInput.text.toString()
         val inputNumber = inputText.toFloatOrNull()
-
-        if (inputNumber != null) {
-
-            // Define the table url
-            val collectionUrl = "http://directus.dbgi.org/items/Lab_Extracts"
-
-            // Function to send data to Directus
-            @SuppressLint("DiscouragedApi")
-            suspend fun sendDataToDirectus(sampleId: String, weight: String) {
-                val accessToken = retrieveToken()
-
-                val url = URL(collectionUrl)
-
-                val extractId = checkExistenceInDirectus(sampleId)
-
-                val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
-
-                if (isPrinterConnected == "yes") {
-                    readyToSend =
-                        PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
-                                || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
-                    if (PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow") {
-                        showToast("Printer battery is low, please charge it")
-                    }
-                }
-
-                if (extractId != null && readyToSend) {
-
-                    val urlConnection =
-                        withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
-
-                    try {
-                        urlConnection.requestMethod = "POST"
-                        urlConnection.setRequestProperty("Content-Type", "application/json")
-                        urlConnection.setRequestProperty(
-                            "Authorization",
-                            "Bearer $accessToken"
-                        )
-
-                        val data = JSONObject().apply {
-                            put("lab_extract_id", extractId)
-                            put("field_sample_id", sampleId)
-                            put("dried_plant_weight", weight)
-                        }
-
-                        val outputStream: OutputStream = urlConnection.outputStream
-                        val writer = BufferedWriter(withContext(Dispatchers.IO) {
-                            OutputStreamWriter(outputStream, "UTF-8")
-                        })
-                        withContext(Dispatchers.IO) {
-                            writer.write(data.toString())
-                        }
-                        withContext(Dispatchers.IO) {
-                            writer.flush()
-                        }
-                        withContext(Dispatchers.IO) {
-                            writer.close()
-                        }
-
-                        val responseCode = urlConnection.responseCode
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            hasTriedAgain = false
-                            val inputStream = urlConnection.inputStream
-                            val bufferedReader = BufferedReader(
-                                withContext(
-                                    Dispatchers.IO
-                                ) {
-                                    InputStreamReader(inputStream, "UTF-8")
-                                })
-                            val response = StringBuilder()
-                            var line: String?
-                            while (withContext(Dispatchers.IO) {
-                                    bufferedReader.readLine()
-                                }.also { line = it } != null) {
-                                response.append(line)
-                            }
-                            withContext(Dispatchers.IO) {
-                                bufferedReader.close()
-                            }
-                            withContext(Dispatchers.IO) {
-                                inputStream.close()
-                            }
-
-                            // 'response' contains the response from the server
-                            showToast("$extractId correctly added to database")
-
-                            // print label here
-                            val printerDetails = PrinterDetailsSingleton.printerDetails
-                            if (isPrinterConnected == "yes") {
-                                readyToSend =
-                                    PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
-                                            || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
-                            }
-                            if (isPrinterConnected == "yes" && readyToSend) {
-
-                                if (printerDetails.printerModel == "M211") {
-                                    selectedFileName = "template_dbgi_m211"
-                                } else if (printerDetails.printerModel == "M511") {
-                                    selectedFileName = "template_dbgi_m511"
-                                }
-
-                                // Initialize an input stream by opening the specified file.
-                                val iStream = resources.openRawResource(
-                                    resources.getIdentifier(
-                                        selectedFileName, "raw",
-                                        packageName
-                                    )
-                                )
-                                val parts = extractId.split("_")
-                                val sample = "_" + parts[1]
-                                val extract = "_" + parts[2]
-                                val injetemp = "_tmp"
-                                val weightId = extractId + "_tmp"
-
-                                // Call the SDK method ".getTemplate()" to retrieve its Template Object
-                                val template =
-                                    TemplateFactory.getTemplate(iStream, this)
-                                // Simple way to iterate through any placeholders to set desired values.
-                                for (placeholder in template.templateData) {
-                                    when (placeholder.name) {
-                                        "QR" -> {
-                                            placeholder.value = weightId
-                                        }
-
-                                        "sample" -> {
-                                            placeholder.value = sample
-                                        }
-
-                                        "extract" -> {
-                                            placeholder.value = extract
-                                        }
-
-                                        "injection/temp" -> {
-                                            placeholder.value = injetemp
-                                        }
-                                    }
-                                }
-
-                                val printingOptions = PrintingOptions()
-                                printingOptions.cutOption = CutOption.EndOfJob
-                                printingOptions.numberOfCopies = 1
-                                val r = Runnable {
-                                    runOnUiThread {
-                                        printerDetails.print(
-                                            this,
-                                            template,
-                                            printingOptions,
-                                            null
-                                        )
-                                    }
-                                }
-                                val printThread = Thread(r)
-                                printThread.start()
-                            } else {
-                                showToast("Printer disconnected, data added to database.")
-                            }
-
-
-                            // Start a coroutine to delay the next scan by 5 seconds
-                            CoroutineScope(Dispatchers.Main).launch {
-                                delay(1500)
-                                scanButtonFalcon.performClick()
-                            }
-                        } else if (!hasTriedAgain) {
-                            hasTriedAgain = true
-                            val newAccessToken = getNewAccessToken()
-
-                            if (newAccessToken != null) {
-                                retrieveToken(newAccessToken)
-                                // Retry the operation with the new access token
-                                return sendDataToDirectus(sampleId, weight)
-                            }
-                        } else {
-                            showToast("Connection error")
-                            goToConnectionActivity()
-                        }
-                    } finally {
-                        urlConnection.disconnect()
-                    }
-                } else if (extractId == null) {
-                    showToast("No more available extraction labels")
-                }  else {
-                    showToast("Printer disconnected, please reconnect it and scan the label again")
-                    goToPrinterConnectionActivity()
-                }
-            }
-
-                // Usage
-                CoroutineScope(Dispatchers.IO).launch {
-                    sendDataToDirectus(scanButtonFalcon.text.toString(), inputNumber.toString())
-                }
-            }
-        }
+        CoroutineScope(Dispatchers.IO).launch { sendDataToDirectus(scanButtonFalcon.text.toString(), inputNumber.toString())}}
     }
 
     // Function that permits to control which extracts are already in the database and increment by one to create a unique one
@@ -426,34 +231,192 @@ class WeightingActivity : AppCompatActivity() {
         return null
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                return if (isQrScannerActive){
-                    QRCodeScannerUtility.stopScanning()
-                    isQrScannerActive = false
-                    previewView.visibility = View.INVISIBLE
-                    flashlightButton.visibility = View.INVISIBLE
-                    targetWeightInput.visibility = View.VISIBLE
-                    chooseWeightLabel.visibility = View.VISIBLE
-                    scanStatus.text = ""
-                    if (isObjectScanActive){
-                        scanButtonFalcon.visibility = View.VISIBLE
-                    }
-                    true
-                } else {
-                    onBackPressed()
-                    true
-                }
-            }
+    // Function to send data to Directus
+    @SuppressLint("DiscouragedApi")
+    suspend fun sendDataToDirectus(sampleId: String, weight: String) {
+        // Define the table url
+        val accessToken = retrieveToken()
+        val collectionUrl = "http://directus.dbgi.org/items/Lab_Extracts"
+        val url = URL(collectionUrl)
+        val extractId = checkExistenceInDirectus(sampleId)
+
+        val isPrinterConnected = intent.getStringExtra("IS_PRINTER_CONNECTED")
+
+        if (isPrinterConnected == "yes") {
+            readyToSend =
+                PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                        || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
         }
-        return super.onOptionsItemSelected(item)
+
+        if (extractId != null && readyToSend) {
+
+            val urlConnection =
+                withContext(Dispatchers.IO) { url.openConnection() as HttpURLConnection }
+
+            try {
+                urlConnection.requestMethod = "POST"
+                urlConnection.setRequestProperty("Content-Type", "application/json")
+                urlConnection.setRequestProperty(
+                    "Authorization",
+                    "Bearer $accessToken"
+                )
+
+                val data = JSONObject().apply {
+                    put("lab_extract_id", extractId)
+                    put("field_sample_id", sampleId)
+                    put("dried_plant_weight", weight)
+                }
+
+                val outputStream: OutputStream = urlConnection.outputStream
+                val writer = BufferedWriter(withContext(Dispatchers.IO) {
+                    OutputStreamWriter(outputStream, "UTF-8")
+                })
+                withContext(Dispatchers.IO) {
+                    writer.write(data.toString())
+                }
+                withContext(Dispatchers.IO) {
+                    writer.flush()
+                }
+                withContext(Dispatchers.IO) {
+                    writer.close()
+                }
+
+                val responseCode = urlConnection.responseCode
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    hasTriedAgain = false
+                    val inputStream = urlConnection.inputStream
+                    val bufferedReader = BufferedReader(
+                        withContext(
+                            Dispatchers.IO
+                        ) {
+                            InputStreamReader(inputStream, "UTF-8")
+                        })
+                    val response = StringBuilder()
+                    var line: String?
+                    while (withContext(Dispatchers.IO) {
+                            bufferedReader.readLine()
+                        }.also { line = it } != null) {
+                        response.append(line)
+                    }
+                    withContext(Dispatchers.IO) {
+                        bufferedReader.close()
+                    }
+                    withContext(Dispatchers.IO) {
+                        inputStream.close()
+                    }
+
+                    // 'response' contains the response from the server
+                    showToast("$extractId correctly added to database")
+
+                    // print label here
+                    if (isPrinterConnected == "yes") {
+                        readyToSend =
+                            PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_Initialized"
+                                    || PrinterDetailsSingleton.printerDetails.printerStatusMessage == "PrinterStatus_BatteryLow"
+                    }
+                    if (isPrinterConnected == "yes" && readyToSend) {
+                        val printerDetails = PrinterDetailsSingleton.printerDetails
+
+                        if (printerDetails.printerModel == "M211") {
+                            selectedFileName = "template_dbgi_m211"
+                        } else if (printerDetails.printerModel == "M511") {
+                            selectedFileName = "template_dbgi_m511"
+                        }
+
+                        // Initialize an input stream by opening the specified file.
+                        val iStream = resources.openRawResource(
+                            resources.getIdentifier(
+                                selectedFileName, "raw",
+                                packageName
+                            )
+                        )
+                        val parts = extractId.split("_")
+                        val code = parts[0]
+                        val sample = "_" + parts[1]
+                        val extract = "_" + parts[2]
+                        val injetemp = "_tmp"
+                        val weightId = extractId + "_tmp"
+
+                        // Call the SDK method ".getTemplate()" to retrieve its Template Object
+                        val template =
+                            TemplateFactory.getTemplate(iStream, this)
+                        // Simple way to iterate through any placeholders to set desired values.
+                        for (placeholder in template.templateData) {
+                            when (placeholder.name) {
+                                "dbgi" -> {
+                                    placeholder.value = code
+                                }
+
+                                "QR" -> {
+                                    placeholder.value = weightId
+                                }
+
+                                "sample" -> {
+                                    placeholder.value = sample
+                                }
+
+                                "extract" -> {
+                                    placeholder.value = extract
+                                }
+
+                                "injection/temp" -> {
+                                    placeholder.value = injetemp
+                                }
+                            }
+                        }
+
+                        val printingOptions = PrintingOptions()
+                        printingOptions.cutOption = CutOption.EndOfJob
+                        printingOptions.numberOfCopies = 1
+                        val r = Runnable {
+                            runOnUiThread {
+                                printerDetails.print(
+                                    this,
+                                    template,
+                                    printingOptions,
+                                    null
+                                )
+                            }
+                        }
+                        val printThread = Thread(r)
+                        printThread.start()
+                    } else {
+                        showToast("Printer disconnected, data added to database.")
+                    }
+
+
+                    // Start a coroutine to delay the next scan by 5 seconds
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(1500)
+                        scanButtonFalcon.performClick()
+                    }
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+
+                    if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        // Retry the operation with the new access token
+                        return sendDataToDirectus(sampleId, weight)
+                    } else {
+                        showToast("Connection error")
+                        goToConnectionActivity()
+                    }
+                } else {
+                    showToast("database error, the sample seems to be absent from the database.")
+                }
+            } finally {
+                urlConnection.disconnect()
+            }
+        } else if (extractId == null) {
+            showToast("No more available extraction labels")
+        }  else {
+            showToast("Printer disconnected, please reconnect it and scan the label again")
+            goToPrinterConnectionActivity()
+        }
     }
 
-    private fun showToast(toast: String?) {
-        runOnUiThread {Toast.makeText(this, toast, Toast.LENGTH_SHORT).show()}
-    }
-
+    // Function that asks a new access token to directus if previous one is no more valid.
     @SuppressLint("SetTextI18n")
     private suspend fun getNewAccessToken(): String? {
         // Start a coroutine to perform the network operation
@@ -521,6 +484,7 @@ class WeightingActivity : AppCompatActivity() {
         return deferred.await()
     }
 
+    // Function that always stores the last generated access token.
     private fun retrieveToken(token: String? = null): String {
         if (token != null) {
             lastAccessToken = token
@@ -528,11 +492,13 @@ class WeightingActivity : AppCompatActivity() {
         return lastAccessToken ?: "null"
     }
 
+    // Function that redirects the user to connection activity if connection is lost.
     private fun goToConnectionActivity(){
         val intent = Intent(this, DirectusConnectionActivity::class.java)
         startActivity(intent)
     }
 
+    // Function that redirects user to pinter connection activity if printer connection is lost.
     private fun goToPrinterConnectionActivity(){
 
         val accessToken = intent.getStringExtra("ACCESS_TOKEN")
@@ -547,8 +513,40 @@ class WeightingActivity : AppCompatActivity() {
         intent.putExtra("IS_PRINTER_CONNECTED", isPrinterConnected)
         startActivity(intent)
     }
+
+    // Connect the back arrow to the action to go back to home page
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                return if (isQrScannerActive){
+                    QRCodeScannerUtility.stopScanning()
+                    isQrScannerActive = false
+                    previewView.visibility = View.INVISIBLE
+                    flashlightButton.visibility = View.INVISIBLE
+                    targetWeightInput.visibility = View.VISIBLE
+                    chooseWeightLabel.visibility = View.VISIBLE
+                    scanStatus.text = ""
+                    if (isObjectScanActive){
+                        scanButtonFalcon.visibility = View.VISIBLE
+                    }
+                    true
+                } else {
+                    onBackPressed()
+                    true
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    // Function that permits to automatically show the keyboard to enter sample weight.
     private fun showKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(weightInput, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    // Function that permits to easily display toasts.
+    private fun showToast(toast: String?) {
+        runOnUiThread {Toast.makeText(this, toast, Toast.LENGTH_SHORT).show()}
     }
 }
