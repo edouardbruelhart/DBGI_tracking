@@ -3425,6 +3425,7 @@ id immediateStop
 id included
 id indeterminate
 id info
+id infoLabel
 id infoPrinter
 id informationLabel
 id injectionInformation
@@ -3608,6 +3609,7 @@ id scanButtonExtractLabel
 id scanButtonFalcon
 id scanButtonRack
 id scanButtonSignaling
+id scanFalconLabel
 id scanSignaling
 id scanSignalingLabel
 id scanStatus
@@ -3689,6 +3691,7 @@ id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id tag_window_insets_animation_callback
 id targetWeightInput
+id targetWeightTolerance
 id text
 id text2
 id textEnd
@@ -3707,6 +3710,7 @@ id textinput_helper_text
 id textinput_placeholder
 id textinput_prefix_text
 id textinput_suffix_text
+id tickCheckBox
 id time
 id title
 id titleDividerNoCustom
@@ -3725,6 +3729,8 @@ id transition_transform
 id triangle
 id unchecked
 id uniform
+id unitLabel
+id unitSpinner
 id unlabeled
 id up
 id useLogo

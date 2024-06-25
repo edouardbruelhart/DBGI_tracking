@@ -513,7 +513,6 @@ class ExtractionActivity : AppCompatActivity() {
                         url.openConnection()
                     } as HttpURLConnection
                 urlConnection.requestMethod = "GET"
-                urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
                 withContext(Dispatchers.IO) {
                     urlConnection.connect()
                 }
@@ -536,7 +535,6 @@ class ExtractionActivity : AppCompatActivity() {
                 val responseCode = urlConnection.responseCode
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    hasTriedAgain = false
                     // Parse JSON response
                     val jsonArray = JSONObject(response.toString()).getJSONArray("data")
                     val values = ArrayList<String>()

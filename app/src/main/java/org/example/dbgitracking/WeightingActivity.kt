@@ -15,8 +15,12 @@ import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -45,9 +49,14 @@ import java.net.URL
 class WeightingActivity : AppCompatActivity() {
 
     // Initiate the displayed objects
+    private lateinit var unitSpinner: Spinner
+    private lateinit var unitLabel: TextView
+    private lateinit var tickCheckBox: CheckBox
+    private lateinit var infoLabel: TextView
     private lateinit var chooseWeightLabel: TextView
     private lateinit var targetWeightInput: EditText
-    private lateinit var extractionMethodLabel: TextView
+    private lateinit var targetWeightTolerance: EditText
+    private lateinit var scanFalconLabel: TextView
     private lateinit var scanButtonFalcon: Button
     private lateinit var weightInput: EditText
     private lateinit var submitButton: Button
@@ -57,6 +66,10 @@ class WeightingActivity : AppCompatActivity() {
     private lateinit var flashlightButton: Button
     private lateinit var scanStatus: TextView
 
+    private var choices: List<String> = mutableListOf("choose a unit")
+    private var isTargetWeightInputFilled = false
+    private var isTargetWeightToleranceFilled = false
+    private var multiplication: String = ""
     private var isObjectScanActive = false
     private var hasTriedAgain = false
     private var lastAccessToken: String? = null
@@ -77,9 +90,14 @@ class WeightingActivity : AppCompatActivity() {
     supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
     // Initialize objects views
+    unitLabel = findViewById(R.id.unitLabel)
+    unitSpinner = findViewById(R.id.unitSpinner)
+    tickCheckBox = findViewById(R.id.tickCheckBox)
+    infoLabel = findViewById(R.id.infoLabel)
     chooseWeightLabel = findViewById(R.id.chooseWeightLabel)
     targetWeightInput = findViewById(R.id.targetWeightInput)
-    extractionMethodLabel = findViewById(R.id.extractionMethodLabel)
+    targetWeightTolerance = findViewById(R.id.targetWeightTolerance)
+    scanFalconLabel = findViewById(R.id.scanFalconLabel)
     scanButtonFalcon = findViewById(R.id.scanButtonFalcon)
     weightInput = findViewById(R.id.weightInput)
     submitButton = findViewById(R.id.submitButton)
@@ -92,6 +110,32 @@ class WeightingActivity : AppCompatActivity() {
     // stores the original token
     retrieveToken(token)
 
+    // Fetch extraction methods and populate the extraction method spinner.
+    fetchValuesAndPopulateSpinner()
+
+    // Set the checkbox as checked by default
+    tickCheckBox.isChecked = true
+
+    tickCheckBox.setOnCheckedChangeListener { _, isChecked ->
+        // Do something with the ticked state
+        if (isChecked) {
+            showToast("checked")
+            chooseWeightLabel.visibility = View.VISIBLE
+            targetWeightInput.visibility = View.VISIBLE
+            targetWeightTolerance.visibility = View.VISIBLE
+            scanFalconLabel.visibility = View.INVISIBLE
+            scanButtonFalcon.visibility = View.INVISIBLE
+
+        } else {
+            showToast("not checked")
+            chooseWeightLabel.visibility = View.INVISIBLE
+            targetWeightInput.visibility = View.INVISIBLE
+            targetWeightTolerance.visibility = View.INVISIBLE
+            scanFalconLabel.visibility = View.VISIBLE
+            scanButtonFalcon.visibility = View.VISIBLE
+        }
+    }
+
     targetWeightInput.addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -99,13 +143,20 @@ class WeightingActivity : AppCompatActivity() {
 
         override fun afterTextChanged(s: Editable?) {
             val inputText = s.toString()
-            if (inputText != "") {
-                inputText.toInt()
-            }
+            isTargetWeightInputFilled = inputText.isNotEmpty() && inputText.toDoubleOrNull() != null
+            updateButtonVisibility()
+        }
+    })
 
-            targetWeightInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
-            extractionMethodLabel.visibility = View.VISIBLE // Show submitButton if valid
-            scanButtonFalcon.visibility = View.VISIBLE
+    targetWeightTolerance.addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+        override fun afterTextChanged(s: Editable?) {
+            val inputText = s.toString()
+            isTargetWeightToleranceFilled = inputText.isNotEmpty() && inputText.toDoubleOrNull() != null
+            updateButtonVisibility()
         }
     })
 
@@ -114,6 +165,9 @@ class WeightingActivity : AppCompatActivity() {
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(targetWeightInput.windowToken, 0)
+        unitSpinner.visibility = View.INVISIBLE
+        unitLabel.text = "selected unit: ${unitSpinner.selectedItem}"
+        tickCheckBox.visibility = View.INVISIBLE
         chooseWeightLabel.visibility = View.INVISIBLE
         isObjectScanActive = true
         isQrScannerActive = true
@@ -121,6 +175,7 @@ class WeightingActivity : AppCompatActivity() {
         scanStatus.text = "Scan falcon"
         flashlightButton.visibility = View.VISIBLE
         targetWeightInput.visibility = View.INVISIBLE
+        targetWeightTolerance.visibility = View.INVISIBLE
         scanButtonFalcon.visibility = View.INVISIBLE
         submitButton.visibility = View.INVISIBLE
         QRCodeScannerUtility.initialize(this, previewView, flashlightButton) { scannedSample ->
@@ -152,19 +207,25 @@ class WeightingActivity : AppCompatActivity() {
 
         override fun afterTextChanged(s: Editable?) {
             targetWeightInput.visibility = View.INVISIBLE
+            targetWeightTolerance.visibility = View.INVISIBLE
             chooseWeightLabel.visibility = View.INVISIBLE
-            val inputText = s.toString()
-            val inputNumber = inputText.toFloatOrNull()
-            val weightNumber = targetWeightInput.text.toString()
-            val smallNumber = weightNumber.toInt() - weightNumber.toDouble() * 5 / 100
-            val bigNumber = weightNumber.toInt() + weightNumber.toDouble() * 5 / 100
-
-            if (inputNumber != null && inputNumber >= smallNumber && inputNumber <= bigNumber) {
+            if (tickCheckBox.isChecked){
+                val inputText = s.toString()
+                val inputNumber = inputText.toFloatOrNull()
+                val weightNumber = targetWeightInput.text.toString()
+                val tolerance = targetWeightTolerance.text.toString()
+                val smallNumber = weightNumber.toInt() - tolerance.toDouble()
+                val bigNumber = weightNumber.toInt() + tolerance.toDouble()
+                if (inputNumber != null && inputNumber >= smallNumber && inputNumber <= bigNumber) {
+                    weightInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
+                    submitButton.visibility = View.VISIBLE // Show submitButton if valid
+                } else {
+                    weightInput.setBackgroundResource(android.R.color.holo_red_light) // Set background to red if not valid
+                    submitButton.visibility = View.INVISIBLE // Hide submitButton if not valid
+                }
+            } else {
                 weightInput.setBackgroundResource(android.R.color.transparent) // Set background to transparent if valid
                 submitButton.visibility = View.VISIBLE // Show submitButton if valid
-            } else {
-                weightInput.setBackgroundResource(android.R.color.holo_red_light) // Set background to red if not valid
-                submitButton.visibility = View.INVISIBLE // Hide submitButton if not valid
             }
         }
     })
@@ -172,7 +233,155 @@ class WeightingActivity : AppCompatActivity() {
         submitButton.visibility=View.INVISIBLE
         val inputText = weightInput.text.toString()
         val inputNumber = inputText.toFloatOrNull()
-        CoroutineScope(Dispatchers.IO).launch { sendDataToDirectus(scanButtonFalcon.text.toString(), inputNumber.toString())}}
+        val selectedUnit = unitSpinner.selectedItem.toString()
+        CoroutineScope(Dispatchers.IO).launch { sendDataToDirectus(scanButtonFalcon.text.toString(), inputNumber.toString(), selectedUnit)}}
+    }
+
+    // Function to obtain extraction methods from directus and to populate the spinner.
+    private fun fetchValuesAndPopulateSpinner() {
+        //val accessToken = retrieveToken()
+        val apiUrl =
+            "http://directus.dbgi.org/items/SI_units" // Replace with your collection URL
+        val url = URL(apiUrl)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val urlConnection =
+                    withContext(Dispatchers.IO) {
+                        url.openConnection()
+                    } as HttpURLConnection
+                urlConnection.requestMethod = "GET"
+                withContext(Dispatchers.IO) {
+                    urlConnection.connect()
+                }
+
+                val inputStream = urlConnection.inputStream
+                val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+                val response = StringBuilder()
+                var line: String?
+
+                while (withContext(Dispatchers.IO) {
+                        bufferedReader.readLine()
+                    }.also { line = it } != null) {
+                    response.append(line)
+                }
+
+                withContext(Dispatchers.IO) {
+                    bufferedReader.close()
+                }
+
+                val responseCode = urlConnection.responseCode
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Parse JSON response
+                    val jsonArray = JSONObject(response.toString()).getJSONArray("data")
+                    val values = ArrayList<String>()
+                    val multiplications = HashMap<String, String>()
+
+                    // Add "Choose an option" to the list of values
+                    values.add("choose a unit")
+
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        if (jsonObject.getString("base_unit") == "kilogram") {
+                            val value = jsonObject.getString("unit_name")
+                            val multiplication = jsonObject.getString("multiplication_factor")
+                            values.add(value)
+                            multiplications[value] = multiplication
+                        }
+
+                    }
+
+                    runOnUiThread {
+                        // Populate spinner with values
+                        choices = values // Update choices list
+                        val adapter = ArrayAdapter(
+                            this@WeightingActivity,
+                            android.R.layout.simple_spinner_item,
+                            values
+                        )
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        unitSpinner.adapter = adapter
+
+                        // Add an OnItemSelectedListener to update newExtractionMethod text and handle visibility
+                        unitSpinner.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    if (position > 0) { // Check if a valid option (not "Choose an option") is selected
+                                        tickCheckBox.visibility = View.VISIBLE
+                                        chooseWeightLabel.visibility = View.VISIBLE
+                                        targetWeightInput.visibility = View.VISIBLE
+                                        targetWeightTolerance.visibility = View.VISIBLE
+                                        val unit = unitSpinner.selectedItem.toString()
+                                        multiplication = multiplications[unit].toString()
+                                    } else {
+                                        tickCheckBox.visibility = View.INVISIBLE
+                                        chooseWeightLabel.visibility = View.INVISIBLE
+                                        targetWeightInput.visibility = View.INVISIBLE
+                                        targetWeightTolerance.visibility = View.INVISIBLE
+                                    }
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                                }
+                            }
+                    }
+                } else if (!hasTriedAgain) {
+                    hasTriedAgain = true
+                    val newAccessToken = getNewAccessToken()
+
+                    if (newAccessToken != null) {
+                        retrieveToken(newAccessToken)
+                        // Retry the operation with the new access token
+                        return@launch fetchValuesAndPopulateSpinner()
+                    } else {
+                        showToast("Connection error")
+                        goToConnectionActivity()
+                    }
+                } else {
+                    showToast("Connection error")
+                    goToConnectionActivity()
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                showToast("$e")
+                goToConnectionActivity()
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun updateButtonVisibility() {
+        if (isTargetWeightInputFilled && isTargetWeightToleranceFilled) {
+            scanFalconLabel.visibility = View.VISIBLE
+            scanButtonFalcon.visibility = View.VISIBLE
+            tickCheckBox.visibility = View.INVISIBLE
+            chooseWeightLabel.visibility = View.INVISIBLE
+            val target = targetWeightInput.text.toString()
+            val correctedTarget = target.toInt()*multiplication.toDouble()
+            if (correctedTarget <= 0.00001) {
+                infoLabel.text = "Advised extraction setup: 1 metal bead, 500µl solvent"
+            } else if (correctedTarget in 0.000011..0.00003) {
+                infoLabel.text = "Advised extraction setup: 2 metal beads, 1000µl solvent"
+            } else if (correctedTarget in 0.000031..0.00005) {
+                infoLabel.text = "Advised extraction setup: 3 metal beads, 1500µl solvent"
+            } else {
+                infoLabel.text = "No advised extraction setup."
+            }
+
+        } else {
+            scanFalconLabel.visibility = View.INVISIBLE
+            scanButtonFalcon.visibility = View.INVISIBLE
+            tickCheckBox.visibility = View.VISIBLE
+            chooseWeightLabel.visibility = View.VISIBLE
+        }
     }
 
     // Function that permits to control which extracts are already in the database and increment by one to create a unique one
@@ -233,7 +442,7 @@ class WeightingActivity : AppCompatActivity() {
 
     // Function to send data to Directus
     @SuppressLint("DiscouragedApi")
-    suspend fun sendDataToDirectus(sampleId: String, weight: String) {
+    suspend fun sendDataToDirectus(sampleId: String, weight: String, unit: String) {
         // Define the table url
         val accessToken = retrieveToken()
         val collectionUrl = "http://directus.dbgi.org/items/Lab_Extracts"
@@ -264,7 +473,8 @@ class WeightingActivity : AppCompatActivity() {
                 val data = JSONObject().apply {
                     put("lab_extract_id", extractId)
                     put("field_sample_id", sampleId)
-                    put("dried_plant_weight", weight)
+                    put("dried_weight", weight)
+                    put("dried_weight_unit", unit)
                 }
 
                 val outputStream: OutputStream = urlConnection.outputStream
@@ -397,7 +607,7 @@ class WeightingActivity : AppCompatActivity() {
                     if (newAccessToken != null) {
                         retrieveToken(newAccessToken)
                         // Retry the operation with the new access token
-                        return sendDataToDirectus(sampleId, weight)
+                        return sendDataToDirectus(sampleId, weight, unit)
                     } else {
                         showToast("Connection error")
                         goToConnectionActivity()
@@ -523,8 +733,10 @@ class WeightingActivity : AppCompatActivity() {
                     isQrScannerActive = false
                     previewView.visibility = View.INVISIBLE
                     flashlightButton.visibility = View.INVISIBLE
-                    targetWeightInput.visibility = View.VISIBLE
-                    chooseWeightLabel.visibility = View.VISIBLE
+                    if (weightInput.text.toString() != "") {
+                        weightInput.text = null
+                        submitButton.visibility = View.INVISIBLE
+                    }
                     scanStatus.text = ""
                     if (isObjectScanActive){
                         scanButtonFalcon.visibility = View.VISIBLE

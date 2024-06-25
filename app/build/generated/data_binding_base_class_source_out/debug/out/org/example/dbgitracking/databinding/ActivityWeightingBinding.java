@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,22 +25,22 @@ public final class ActivityWeightingBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
-  public final TextView Spacing;
-
-  @NonNull
   public final TextView chooseWeightLabel;
 
   @NonNull
-  public final TextView extractionMethodLabel;
+  public final Button flashlightButton;
 
   @NonNull
-  public final Button flashlightButton;
+  public final TextView infoLabel;
 
   @NonNull
   public final PreviewView previewView;
 
   @NonNull
   public final Button scanButtonFalcon;
+
+  @NonNull
+  public final TextView scanFalconLabel;
 
   @NonNull
   public final TextView scanStatus;
@@ -50,23 +52,42 @@ public final class ActivityWeightingBinding implements ViewBinding {
   public final EditText targetWeightInput;
 
   @NonNull
+  public final EditText targetWeightTolerance;
+
+  @NonNull
+  public final CheckBox tickCheckBox;
+
+  @NonNull
+  public final TextView unitLabel;
+
+  @NonNull
+  public final Spinner unitSpinner;
+
+  @NonNull
   public final EditText weightInput;
 
-  private ActivityWeightingBinding(@NonNull ConstraintLayout rootView, @NonNull TextView Spacing,
-      @NonNull TextView chooseWeightLabel, @NonNull TextView extractionMethodLabel,
-      @NonNull Button flashlightButton, @NonNull PreviewView previewView,
-      @NonNull Button scanButtonFalcon, @NonNull TextView scanStatus, @NonNull Button submitButton,
-      @NonNull EditText targetWeightInput, @NonNull EditText weightInput) {
+  private ActivityWeightingBinding(@NonNull ConstraintLayout rootView,
+      @NonNull TextView chooseWeightLabel, @NonNull Button flashlightButton,
+      @NonNull TextView infoLabel, @NonNull PreviewView previewView,
+      @NonNull Button scanButtonFalcon, @NonNull TextView scanFalconLabel,
+      @NonNull TextView scanStatus, @NonNull Button submitButton,
+      @NonNull EditText targetWeightInput, @NonNull EditText targetWeightTolerance,
+      @NonNull CheckBox tickCheckBox, @NonNull TextView unitLabel, @NonNull Spinner unitSpinner,
+      @NonNull EditText weightInput) {
     this.rootView = rootView;
-    this.Spacing = Spacing;
     this.chooseWeightLabel = chooseWeightLabel;
-    this.extractionMethodLabel = extractionMethodLabel;
     this.flashlightButton = flashlightButton;
+    this.infoLabel = infoLabel;
     this.previewView = previewView;
     this.scanButtonFalcon = scanButtonFalcon;
+    this.scanFalconLabel = scanFalconLabel;
     this.scanStatus = scanStatus;
     this.submitButton = submitButton;
     this.targetWeightInput = targetWeightInput;
+    this.targetWeightTolerance = targetWeightTolerance;
+    this.tickCheckBox = tickCheckBox;
+    this.unitLabel = unitLabel;
+    this.unitSpinner = unitSpinner;
     this.weightInput = weightInput;
   }
 
@@ -97,27 +118,21 @@ public final class ActivityWeightingBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.Spacing;
-      TextView Spacing = ViewBindings.findChildViewById(rootView, id);
-      if (Spacing == null) {
-        break missingId;
-      }
-
       id = R.id.chooseWeightLabel;
       TextView chooseWeightLabel = ViewBindings.findChildViewById(rootView, id);
       if (chooseWeightLabel == null) {
         break missingId;
       }
 
-      id = R.id.extractionMethodLabel;
-      TextView extractionMethodLabel = ViewBindings.findChildViewById(rootView, id);
-      if (extractionMethodLabel == null) {
-        break missingId;
-      }
-
       id = R.id.flashlightButton;
       Button flashlightButton = ViewBindings.findChildViewById(rootView, id);
       if (flashlightButton == null) {
+        break missingId;
+      }
+
+      id = R.id.infoLabel;
+      TextView infoLabel = ViewBindings.findChildViewById(rootView, id);
+      if (infoLabel == null) {
         break missingId;
       }
 
@@ -130,6 +145,12 @@ public final class ActivityWeightingBinding implements ViewBinding {
       id = R.id.scanButtonFalcon;
       Button scanButtonFalcon = ViewBindings.findChildViewById(rootView, id);
       if (scanButtonFalcon == null) {
+        break missingId;
+      }
+
+      id = R.id.scanFalconLabel;
+      TextView scanFalconLabel = ViewBindings.findChildViewById(rootView, id);
+      if (scanFalconLabel == null) {
         break missingId;
       }
 
@@ -151,15 +172,40 @@ public final class ActivityWeightingBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.targetWeightTolerance;
+      EditText targetWeightTolerance = ViewBindings.findChildViewById(rootView, id);
+      if (targetWeightTolerance == null) {
+        break missingId;
+      }
+
+      id = R.id.tickCheckBox;
+      CheckBox tickCheckBox = ViewBindings.findChildViewById(rootView, id);
+      if (tickCheckBox == null) {
+        break missingId;
+      }
+
+      id = R.id.unitLabel;
+      TextView unitLabel = ViewBindings.findChildViewById(rootView, id);
+      if (unitLabel == null) {
+        break missingId;
+      }
+
+      id = R.id.unitSpinner;
+      Spinner unitSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (unitSpinner == null) {
+        break missingId;
+      }
+
       id = R.id.weightInput;
       EditText weightInput = ViewBindings.findChildViewById(rootView, id);
       if (weightInput == null) {
         break missingId;
       }
 
-      return new ActivityWeightingBinding((ConstraintLayout) rootView, Spacing, chooseWeightLabel,
-          extractionMethodLabel, flashlightButton, previewView, scanButtonFalcon, scanStatus,
-          submitButton, targetWeightInput, weightInput);
+      return new ActivityWeightingBinding((ConstraintLayout) rootView, chooseWeightLabel,
+          flashlightButton, infoLabel, previewView, scanButtonFalcon, scanFalconLabel, scanStatus,
+          submitButton, targetWeightInput, targetWeightTolerance, tickCheckBox, unitLabel,
+          unitSpinner, weightInput);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

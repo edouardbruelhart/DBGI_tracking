@@ -32,6 +32,7 @@ id extractionMethodSpinner
 id findButton
 id flashlightButton
 id ignoreButton
+id infoLabel
 id infoPrinter
 id informationLabel
 id injectionInformation
@@ -62,6 +63,7 @@ id scanButtonExtractLabel
 id scanButtonFalcon
 id scanButtonRack
 id scanButtonSignaling
+id scanFalconLabel
 id scanSignaling
 id scanSignalingLabel
 id scanStatus
@@ -70,8 +72,12 @@ id solventVolume
 id solventVolumeLabel
 id submitButton
 id targetWeightInput
+id targetWeightTolerance
 id textFalcon
 id textRack
+id tickCheckBox
+id unitLabel
+id unitSpinner
 id usernameEditText
 id warningMessage
 id weightInput

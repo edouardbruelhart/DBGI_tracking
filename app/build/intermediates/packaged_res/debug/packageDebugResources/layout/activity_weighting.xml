@@ -6,16 +6,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/Spacing"
+    <Spinner
+        android:id="@+id/unitSpinner"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:text=""
-        android:textSize="20sp"
-        android:gravity="center_horizontal"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:minHeight="32dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/unitLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/tickCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set a weight constraint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/unitSpinner"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <TextView
+        android:id="@+id/infoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/unitSpinner"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <TextView
@@ -28,26 +63,40 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Spacing"
+        app:layout_constraintTop_toBottomOf="@id/tickCheckBox"
         android:layout_marginTop="16dp"
         tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/targetWeightInput"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="sample's weight"
         android:inputType="number"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/targetWeightTolerance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chooseWeightLabel"
         tools:ignore="HardcodedText,MissingConstraints"
-        android:autofillHints="" />
+        android:autofillHints="50" />
+
+    <EditText
+        android:id="@+id/targetWeightTolerance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="weight tolerance"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/targetWeightInput"
+        app:layout_constraintTop_toBottomOf="@id/chooseWeightLabel"
+        tools:ignore="HardcodedText,MissingConstraints"
+        android:autofillHints="2.5" />
 
     <TextView
-        android:id="@+id/extractionMethodLabel"
+        android:id="@+id/scanFalconLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -70,7 +119,7 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/extractionMethodLabel"
+        app:layout_constraintTop_toBottomOf="@id/scanFalconLabel"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <EditText
@@ -78,7 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Enter the weight (tolerance of 5%)"
+        android:hint="Enter the weight"
         android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:visibility="invisible"
